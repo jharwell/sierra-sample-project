@@ -1,0 +1,35 @@
+LN_foraging:
+  graphs:
+    - src_stem: collected-data
+      dest_stem: robot-counts
+      cols:
+        - walking
+        - resting
+      title: 'Robot Counts'
+      legend:
+        - 'Walking'
+        - 'Resting'
+
+      xlabel: 'Time'
+      ylabel: '\# Robots'
+
+    - src_stem: collected-data
+      dest_stem: food-counts
+      cols:
+        - collected_food
+      title: 'Collected Food Counts'
+      legend:
+        - ''
+
+      xlabel: 'Time'
+      ylabel: '\# Items'
+
+    - src_stem: collected-data
+      dest_stem: swarm-energy
+      cols:
+        - energy
+      title: 'Swarm Energy Over Time'
+      legend:
+        - ''
+
+      xlabel: 'Time'

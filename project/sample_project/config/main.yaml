@@ -1,0 +1,5 @@
+sim:
+  sim_metrics_leaf: 'output'
+  argos_frames_leaf: 'frames'
+
+perf: 'perf.yaml'

@@ -1,0 +1,14 @@
+foraging:
+  xml:
+    attr_change:
+      - ['.//loop_functions', 'label', 'foraging_loop_functions']
+      - ['.//qt-opengl/user_functions', 'label', 'foraging_qt_user_functions']
+
+  controllers:
+    - name: footbot_foraging
+      xml:
+        attr_change:
+          - ['.//controllers', '__controller__', 'footbot_foraging_controller']
+
+      graphs:
+        - LN_foraging
