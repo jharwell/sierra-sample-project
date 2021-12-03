@@ -20,11 +20,11 @@ import os
 # 3rd party packages
 
 # Project packages
-import sierra.core.generators.exp_generators as exp_generators
+from sierra.plugins.platform.argos.generators import platform_generators
 from sierra.core.xml import XMLLuigi
 
 
-class SimDefUniqueGenerator(exp_generators.SimDefUniqueGenerator):
+class ExpRunDefUniqueGenerator(platform_generators.PlatformExpRunDefUniqueGenerator):
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
 
@@ -35,9 +35,9 @@ class SimDefUniqueGenerator(exp_generators.SimDefUniqueGenerator):
     def _generate_output(self, exp_def: XMLLuigi):
         exp_def.attr_change(".//loop_functions/foraging",
                             "output_dir",
-                            os.path.join(self.exp_output_root, self.sim_output_dir, 'output'))
+                            os.path.join(self.exp_output_root, self.run_output_dir, 'output'))
 
 
 __api__ = [
-    'SimDefUniqueGenerator',
+    'PlatformExpRunDefUniqueGenerator',
 ]

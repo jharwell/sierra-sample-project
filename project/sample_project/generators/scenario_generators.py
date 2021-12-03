@@ -18,28 +18,27 @@
 import re
 
 # 3rd party packages
+from sierra.core.xml import XMLLuigi
+from sierra.plugins.platform.argos.generators import platform_generators
+from sierra.core import utils
 
 # Project packages
-from sierra.core.xml import XMLLuigi
-from sierra.core.generators.scenario_generator import ARGoSScenarioGenerator
 
 
-class ForagingScenarioGenerator(ARGoSScenarioGenerator):
+class ForagingScenarioGenerator(platform_generators.PlatformExpDefGenerator):
     def __init__(self, *args, **kwargs) -> None:
-        ARGoSScenarioGenerator.__init__(self, *args, **kwargs)
+        platform_generators.PlatformExpDefGenerator.__init__(self, *args, **kwargs)
 
     def generate(self) -> XMLLuigi:
         exp_def = super().generate()
 
-        # Generate and apply robot count definitions
-        self.generate_n_robots(exp_def)
-
         return exp_def
 
 
-# High/low block count scenarios are actually the same in this simple project; checking
-# it here and using it to choose which generator to use is shown as an example of what can be
-# done.
+# High/low block count scenarios are actually the same in this simple project;
+# checking it here and using it to choose which generator to use is shown as an
+# example of what can be done.
+
 
 class LowBlockCountGenerator(ForagingScenarioGenerator):
     pass

@@ -19,6 +19,7 @@ Command line parsing and validation for the :xref:`TITAN` project.
 
 # Core packages
 import typing as tp
+import argparse
 
 # 3rd party packages
 
@@ -27,11 +28,11 @@ import sierra.core.cmdline as cmd
 
 
 class Cmdline(cmd.CoreCmdline):
-    def __init__(self, bootstrap, stages: tp.List[int], for_sphinx: bool):
-        super().__init__(bootstrap, stages)
+    def __init__(self, parents: tp.List[argparse.ArgumentParser], stages: tp.List[int]):
+        super().__init__(parents=parents, stages=stages)
 
-    def init_multistage(self, for_sphinx: bool):
-        super().init_multistage(for_sphinx)
+    def init_multistage(self):
+        super().init_multistage()
 
         self.multistage.add_argument("--scenario",
                                      help="""
