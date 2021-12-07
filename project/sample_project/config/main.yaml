@@ -1,4 +1,0 @@
-run:
-  run_metrics_leaf: 'output'
-
-perf: 'perf.yaml'

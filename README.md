@@ -1,2 +1,5 @@
 # sierra-sample-project
-Sample project to illustrate how to use SIERRA with ARGoS
+Sample project SIERRA projects to illustrate how to use SIERRA with:
+
+- ARGoS
+- ROS/Gazebo

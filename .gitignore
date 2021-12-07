@@ -169,3 +169,9 @@ ENV/
 # pytype
 .pytype
 
+# ROS
+.catkin_tools/
+build/
+devel/
+install/
+logs/
