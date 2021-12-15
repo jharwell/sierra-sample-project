@@ -33,6 +33,8 @@ set(CMAKE_AUTOMOC OFF)
 target_include_directories(argos_project PUBLIC
   ${CMAKE_SOURCE_DIR}/include
   ${ARGOS_INSTALL_DIR}/include
+  /usr/include/lua5.3
+  /usr/include/lua5.2
   )
 
 target_link_libraries(argos_project
