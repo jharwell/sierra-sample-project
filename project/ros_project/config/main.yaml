@@ -4,7 +4,7 @@ sierra:
 
   perf: 'perf.yaml'
 
-rosgazebo:
+ros:
   robots:
     turtlebot3:
       pkg: "turtlebot3_gazebo"
