@@ -15,7 +15,7 @@
 #  SIERRA.  If not, see <http://www.gnu.org/licenses/
 #
 """
-Command line parsing and validation for ROS/Gazebo-based sample project.
+Command line parsing and validation for ROS+Gazebo-based sample project.
 """
 
 # Core packages
@@ -46,18 +46,15 @@ class Cmdline(cmd.CoreCmdline):
 
                                      Valid scenarios:
 
-                                     - ``HouseWorld``
+                                     - ``HouseWorld.AxBxC``
 
                                  """ + self.stage_usage_doc([1, 2, 3, 4]))
 
         self.multistage.add_argument("--controller",
+                                     choices=['turtlebot3_sim.wander'],
                                      help="""
 
                                      Which controller robots should run.
-
-                                     Valid controllers:
-
-                                     - ``turtlebot3.wander``
 
                                  """ + self.stage_usage_doc([1, 2, 3, 4]))
 
