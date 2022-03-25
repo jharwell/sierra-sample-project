@@ -24,7 +24,7 @@
   <controllers>
 
     <footbot_foraging_controller id="ffc"
-                                 library="build/libsample_project">
+                                 library="libargos_project">
       <actuators>
         <differential_steering implementation="default" />
         <leds implementation="default" medium="leds" />
@@ -42,6 +42,7 @@
         <wheel_turning hard_turn_angle_threshold="90"
                        soft_turn_angle_threshold="70"
                        no_turn_angle_threshold="10"
+
                        max_speed="10" />
         <state initial_rest_to_explore_prob="0.1"
                initial_explore_to_rest_prob="0.1"
@@ -63,7 +64,7 @@
   <!-- ****************** -->
   <!-- * Loop functions * -->
   <!-- ****************** -->
-  <loop_functions library="build/libsample_project"
+  <loop_functions library="libargos_project"
                   label="foraging_loop_functions">
     <foraging items="15"
               radius="0.1"

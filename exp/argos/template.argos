@@ -24,7 +24,7 @@
   <controllers>
 
     <__CONTROLLER__ id="ffc"
-                    library="build/libsample_project">
+                    library="argos/build/libargos_project">
       <actuators>
         <differential_steering implementation="default" />
         <leds implementation="default" medium="leds" />
@@ -63,7 +63,7 @@
   <!-- ****************** -->
   <!-- * Loop functions * -->
   <!-- ****************** -->
-  <loop_functions library="build/libsample_project"
+  <loop_functions library="argos/build/libargos_project"
                   label="foraging_loop_functions">
     <foraging items="15"
               radius="0.1"
