@@ -2,5 +2,5 @@
 Sample project SIERRA projects to illustrate how to use SIERRA with:
 
 - ARGoS
-- ROS+Gazebo
-- ROS+Real robot
+
+- ROS1+Gazebo

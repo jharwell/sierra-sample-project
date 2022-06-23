@@ -15,23 +15,29 @@
 #  SIERRA.  If not, see <http://www.gnu.org/licenses/
 
 # Core packages
-import os
+import re
 
 # 3rd party packages
+from sierra.core.xml import XMLLuigi
+from sierra.plugins.platform.ros1gazebo.generators import platform_generators
+from sierra.core import utils
 
 # Project packages
-from sierra.plugins.platform.rosgazebo.generators import platform_generators
-from sierra.core.xml import XMLLuigi
 
 
-class ExpRunDefUniqueGenerator(platform_generators.PlatformExpRunDefUniqueGenerator):
+class HouseWorldScenarioGenerator(platform_generators.PlatformExpDefGenerator):
     def __init__(self, *args, **kwargs) -> None:
-        super().__init__(*args, **kwargs)
+        platform_generators.PlatformExpDefGenerator.__init__(self, *args, **kwargs)
 
-    def generate(self, exp_def: XMLLuigi):
-        super().generate(exp_def)
+    def generate(self) -> XMLLuigi:
+        exp_def = super().generate()
+
+        return exp_def
 
 
-__api__ = [
-    'PlatformExpRunDefUniqueGenerator',
-]
+def gen_generator_name(scenario_name: str) -> str:
+    res = re.search('HouseWorld', scenario_name)
+    assert res is not None, "Bad scenario name in {0}".format(scenario_name)
+    scenario = res.group(0)
+
+    return scenario + 'ScenarioGenerator'

@@ -51,7 +51,7 @@ class Cmdline(cmd.CoreCmdline):
                                  """ + self.stage_usage_doc([1, 2, 3, 4]))
 
         self.multistage.add_argument("--controller",
-                                     choices=['turtlebot3_sim.wander'],
+                                     choices=['turtlebot3.wander'],
                                      help="""
 
                                      Which controller robots should run.
