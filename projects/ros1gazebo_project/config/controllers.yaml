@@ -1,4 +1,4 @@
-turtlebot3_sim:
+turtlebot3:
   controllers:
     - name: wander
       xml:

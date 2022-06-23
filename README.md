@@ -1,6 +1,7 @@
-# sierra-sample-project
-Sample project SIERRA projects to illustrate how to use SIERRA with:
+# SIERRA sample project
+
+Contains sample SIERRA projects to illustrate how to use SIERRA with:
 
 - ARGoS
-- ROS+Gazebo
-- ROS+Real robot
+
+- ROS1+Gazebo

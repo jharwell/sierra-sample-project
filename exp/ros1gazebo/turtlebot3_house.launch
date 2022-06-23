@@ -11,5 +11,5 @@
     </include>
   </master>
   <robot>
-    </robot>
+  </robot>
 </ros-configuration>
