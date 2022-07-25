@@ -18,18 +18,19 @@
 import re
 
 # 3rd party packages
-from sierra.core.xml import XMLLuigi
+from sierra.core.experiment import definition
 from sierra.plugins.platform.ros1gazebo.generators import platform_generators
-from sierra.core import utils
 
 # Project packages
 
 
 class HouseWorldScenarioGenerator(platform_generators.PlatformExpDefGenerator):
     def __init__(self, *args, **kwargs) -> None:
-        platform_generators.PlatformExpDefGenerator.__init__(self, *args, **kwargs)
+        platform_generators.PlatformExpDefGenerator.__init__(self,
+                                                             *args,
+                                                             **kwargs)
 
-    def generate(self) -> XMLLuigi:
+    def generate(self) -> definition.XMLExpDef:
         exp_def = super().generate()
 
         return exp_def
@@ -37,7 +38,7 @@ class HouseWorldScenarioGenerator(platform_generators.PlatformExpDefGenerator):
 
 def gen_generator_name(scenario_name: str) -> str:
     res = re.search('HouseWorld', scenario_name)
-    assert res is not None, "Bad scenario name in {0}".format(scenario_name)
+    assert res is not None, f"Bad scenario name in {scenario_name}"
     scenario = res.group(0)
 
     return scenario + 'ScenarioGenerator'

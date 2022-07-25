@@ -18,7 +18,7 @@
 import re
 
 # 3rd party packages
-from sierra.core.xml import XMLLuigi
+from sierra.core.experiment import definition
 from sierra.plugins.platform.argos.generators import platform_generators
 from sierra.core import utils
 
@@ -29,7 +29,7 @@ class ForagingScenarioGenerator(platform_generators.PlatformExpDefGenerator):
     def __init__(self, *args, **kwargs) -> None:
         platform_generators.PlatformExpDefGenerator.__init__(self, *args, **kwargs)
 
-    def generate(self) -> XMLLuigi:
+    def generate(self) -> definition.XMLExpDef:
         exp_def = super().generate()
 
         return exp_def

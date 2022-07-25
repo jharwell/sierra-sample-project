@@ -21,18 +21,18 @@ import os
 
 # Project packages
 from sierra.plugins.platform.argos.generators import platform_generators
-from sierra.core.xml import XMLLuigi
+from sierra.core.experiment import definition
 
 
 class ExpRunDefUniqueGenerator(platform_generators.PlatformExpRunDefUniqueGenerator):
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
 
-    def generate(self, exp_def: XMLLuigi):
+    def generate(self, exp_def: definition.XMLExpDef):
         super().generate(exp_def)
         self._generate_output(exp_def)
 
-    def _generate_output(self, exp_def: XMLLuigi):
+    def _generate_output(self, exp_def: definition.XMLExpDef):
         exp_def.attr_change(".//loop_functions/foraging",
                             "output_dir",
                             os.path.join(self.run_output_path,
