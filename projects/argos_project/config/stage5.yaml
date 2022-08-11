@@ -1,0 +1,15 @@
+intra_scenario:
+  graphs:
+    # Food counts
+    - src_stem: food-counts
+      dest_stem: cc-food-counts
+      title: 'Collected Food Counts'
+      label: 'A clever label with LaTeX! $P(\mathcal{N})$'
+      include_exp: '0:'
+
+    # Energy
+    - src_stem: swarm-energy
+      dest_stem: cc-swarm-energy
+      title: 'Swarm Energy'
+      label: 'Another clever label'
+      include_exp: '1:'

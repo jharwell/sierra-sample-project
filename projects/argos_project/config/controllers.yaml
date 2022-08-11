@@ -1,14 +1,33 @@
+# Arbitrary key. Any controllers which have this key will have the XML
+# modifications inside it applied.
 foraging:
   xml:
+    # List of XML attribute changes will be applied to ALL experiments involving
+    # ANY controllers in this category.
     attr_change:
       - ['.//loop_functions', 'label', 'foraging_loop_functions']
       - ['.//qt-opengl/user_functions', 'label', 'foraging_qt_user_functions']
 
+  # This key has entries for all the controllers for the project. If a
+  # controller name matches here, then the resulting XML modifications (adding,
+  # removing tags, changing attributes) will be applied ONLY to experiments
+  # using that controller.
   controllers:
     - name: footbot_foraging
       xml:
         tag_change:
           - ['.//controllers', '__CONTROLLER__', 'footbot_foraging_controller']
+
+      # This key has a list of keys in the intra/inter experiment graph YAML
+      # files, setting which graphs should be generated for this controller.
+      graphs:
+        - LN_foraging
+
+    - name: footbot_foraging_slow
+      xml:
+        tag_change:
+          - ['.//controllers', '__CONTROLLER__', 'footbot_foraging_controller']
+          - ['.//params/wheel_turning', 'max_speed', '5']
 
       graphs:
         - LN_foraging

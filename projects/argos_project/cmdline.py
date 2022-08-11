@@ -46,12 +46,16 @@ class Cmdline(cmd.CoreCmdline):
 
                                      Valid scenarios:
 
-                                     - ``LowBlockCount``
-                                     - ``HighBlockCount`
+                                     - ``LowBlockCount.AxBxC``
+                                     - ``HighBlockCount.AxBxC`
+
+                                     where A,B,C are the arena dimensions.
 
                                  """ + self.stage_usage_doc([1, 2, 3, 4]))
 
         self.multistage.add_argument("--controller",
+                                     choices=['foraging.footbot_foraging',
+                                              'foraging.footbot_foraging_slow'],
                                      help="""
 
                                      Which controller robots should run.
@@ -59,6 +63,8 @@ class Cmdline(cmd.CoreCmdline):
                                      Valid controllers:
 
                                      - ``foraging.footbot_foraging``
+
+                                     - ``foraging.footbot_foraging_slow``
 
                                  """ + self.stage_usage_doc([1, 2, 3, 4]))
 
