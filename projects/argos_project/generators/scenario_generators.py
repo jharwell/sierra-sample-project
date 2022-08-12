@@ -20,6 +20,7 @@ import re
 # 3rd party packages
 from sierra.core.experiment import definition
 from sierra.plugins.platform.argos.generators import platform_generators
+from sierra.plugins.platform.argos.variables import arena_shape
 from sierra.core import utils
 
 # Project packages
@@ -27,11 +28,23 @@ from sierra.core import utils
 
 class ForagingScenarioGenerator(platform_generators.PlatformExpDefGenerator):
     def __init__(self, *args, **kwargs) -> None:
-        platform_generators.PlatformExpDefGenerator.__init__(self, *args, **kwargs)
+        platform_generators.PlatformExpDefGenerator.__init__(self,
+                                                             *args,
+                                                             **kwargs)
 
     def generate(self) -> definition.XMLExpDef:
         exp_def = super().generate()
 
+        # Generate physics engine definitions.
+        self.generate_physics(exp_def,
+                              self.cmdopts,
+                              self.cmdopts['physics_engine_type2D'],
+                              self.cmdopts['physics_n_engines'],
+                              [self.spec.arena_dim])
+
+        # Generate arena shap definitions
+        arena = arena_shape.ArenaShape([self.spec.arena_dim])
+        self.generate_arena_shape(exp_def, arena)
         return exp_def
 
 
@@ -50,7 +63,7 @@ class HighBlockCountGenerator(ForagingScenarioGenerator):
 
 def gen_generator_name(scenario_name: str) -> str:
     res = re.search('LowBlockCount|HighBlockCount', scenario_name)
-    assert res is not None, "Bad scenario name in {0}".format(scenario_name)
+    assert res is not None, f"Bad scenario name in {scenario_name}"
     scenario = res.group(0)
 
     return scenario + 'Generator'
