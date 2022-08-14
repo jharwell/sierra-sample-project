@@ -1,4 +1,4 @@
-# Copyright 2021 John Harwell, All rights reserved.
+# Copyright 2022 John Harwell, All rights reserved.
 #
 #  This file is part of SIERRA.
 #
@@ -15,7 +15,7 @@
 #  SIERRA.  If not, see <http://www.gnu.org/licenses/
 #
 """
-Command line parsing and validation for ROS+Gazebo-based sample project.
+Command line parsing and validation for ROS1+robot based sample project.
 """
 
 # Core packages
@@ -46,7 +46,7 @@ class Cmdline(cmd.CoreCmdline):
 
                                      Valid scenarios:
 
-                                     - ``HouseWorld.AxBxC``
+                                     - ``OutdoorWorld.AxBxC``
 
                                  """ + self.stage_usage_doc([1, 2, 3, 4]))
 
@@ -54,7 +54,7 @@ class Cmdline(cmd.CoreCmdline):
                                      choices=['turtlebot3.wander'],
                                      help="""
 
-                                     Which controller robots should run.
+                                     Which controller real robots should run.
 
                                  """ + self.stage_usage_doc([1, 2, 3, 4]))
 
