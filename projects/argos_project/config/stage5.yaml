@@ -5,12 +5,13 @@ intra_scenario:
     # If you are using bivariate batch criteria, use this one (the # at the end
     # is needed to trigger generation from specific heatmap in the temporal
     # sequence). See SIERRA examples.
-    # - src_stem: food-counts_249
-    #   dest_stem: cc-food-counts
-    #   title: 'Collected Food Counts'
-    #   label: 'A clever label with LaTeX! $P(\mathcal{N})$'
-    #   include_exp: '0:'
+    - src_stem: food-counts_249
+      dest_stem: cc-food-counts
+      title: 'Collected Food Counts'
+      label: 'A clever label with LaTeX! $P(\mathcal{N})$'
+      include_exp: '0:'
 
+    # If you are using univariate batch criteria, use this one.
     - src_stem: food-counts
       dest_stem: cc-food-counts
       title: 'Collected Food Counts'
@@ -22,12 +23,13 @@ intra_scenario:
     # If you are using bivariate batch criteria, use this one (the # at the end
     # is needed to trigger generation from specific heatmap in the temporal
     # sequence). See SIERRA examples.
-    # - src_stem: swarm-energy_249
-    #   dest_stem: cc-swarm-energy
-    #   title: 'Swarm Energy'
-    #   label: 'Another clever label'
-    #   include_exp: '1:'
+    - src_stem: swarm-energy_249
+      dest_stem: cc-swarm-energy
+      title: 'Swarm Energy'
+      label: 'Another clever label'
+      include_exp: '1:'
 
+    # If you are using univariate batch criteria, use this one.
     - src_stem: swarm-energy
       dest_stem: cc-swarm-energy
       title: 'Swarm Energy'
