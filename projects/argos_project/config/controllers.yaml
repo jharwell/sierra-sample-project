@@ -22,6 +22,7 @@ foraging:
       # files, setting which graphs should be generated for this controller.
       graphs:
         - LN_foraging
+        - HM_foraging
 
     - name: footbot_foraging_slow
       xml:
@@ -31,3 +32,4 @@ foraging:
 
       graphs:
         - LN_foraging
+        - HM_foraging
