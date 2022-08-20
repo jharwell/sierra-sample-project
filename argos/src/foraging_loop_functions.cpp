@@ -8,8 +8,8 @@
 /****************************************/
 
 CForagingLoopFunctions::CForagingLoopFunctions() :
-   m_cForagingArenaSideX(-0.9f, 1.7f),
-   m_cForagingArenaSideY(-1.7f, 1.7f),
+   m_cForagingArenaSideX(1.6f, 4.2f),
+   m_cForagingArenaSideY(0.8f, 4.2f),
    m_pcFloor(NULL),
    m_pcRNG(NULL),
    m_unCollectedFood(0),
@@ -92,7 +92,7 @@ void CForagingLoopFunctions::Destroy() {
 /****************************************/
 
 CColor CForagingLoopFunctions::GetFloorColor(const CVector2& c_position_on_plane) {
-   if(c_position_on_plane.GetX() < -1.0f) {
+   if(c_position_on_plane.GetX() < 1.0f) {
       return CColor::GRAY50;
    }
    for(UInt32 i = 0; i < m_cFoodPos.size(); ++i) {
@@ -136,7 +136,7 @@ void CForagingLoopFunctions::PreStep() {
       /* The foot-bot has a food item */
       if(sFoodData.HasFoodItem) {
          /* Check whether the foot-bot is in the nest */
-         if(cPos.GetX() < -1.0f) {
+         if(cPos.GetX() < 1.5f) {
             /* Place a new food item on the ground */
             m_cFoodPos[sFoodData.FoodItemIdx].Set(m_pcRNG->Uniform(m_cForagingArenaSideX),
                                                   m_pcRNG->Uniform(m_cForagingArenaSideY));
@@ -154,7 +154,7 @@ void CForagingLoopFunctions::PreStep() {
       else {
          /* The foot-bot has no food item */
          /* Check whether the foot-bot is out of the nest */
-         if(cPos.GetX() > -1.0f) {
+         if(cPos.GetX() > 1.5f) {
             /* Check whether the foot-bot is on a food item */
             bool bDone = false;
             for(size_t i = 0; i < m_cFoodPos.size() && !bDone; ++i) {
@@ -176,7 +176,7 @@ void CForagingLoopFunctions::PreStep() {
    /* Update energy expediture due to walking robots */
    m_nEnergy -= unWalkingFBs * m_unEnergyPerWalkingRobot;
    /* Output stuff to file */
-   if ((GetSpace().GetSimulationClock() % 1000) == 0) {
+   if ((GetSpace().GetSimulationClock() % 100) == 0) {
      m_cOutput << GetSpace().GetSimulationClock() << ";"
                << unWalkingFBs << ";"
                << unRestingFBs << ";"

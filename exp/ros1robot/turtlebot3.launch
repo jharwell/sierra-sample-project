@@ -1,0 +1,19 @@
+<ros-configuration>
+  <master>
+  </master>
+
+  <robot>
+  </robot>
+
+<params>
+    <controllers>
+      <__CONTROLLER__>
+        <rng seed="123"/>
+        <output
+            output_parent="output"
+            output_leaf="__current_date__"
+            />
+      </__CONTROLLER__>
+    </controllers>
+  </params>
+</ros-configuration>

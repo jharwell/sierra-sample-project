@@ -1,0 +1,14 @@
+sierra:
+  run:
+    run_metrics_leaf: 'output'
+
+  perf: 'perf.yaml'
+
+ros:
+  robots:
+    turtlebot3:
+      prefix: "tb3_"
+      # Change this to the setup script which should be run on each
+      # robot, if needed. Should be something that sets up ROS environment, if
+      # that is not already in the .bashrc, for whatever reason.
+      setup_script: "$HOME/.bashrc"

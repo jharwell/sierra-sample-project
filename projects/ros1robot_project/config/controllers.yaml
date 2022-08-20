@@ -1,0 +1,16 @@
+turtlebot3:
+  controllers:
+    - name: wander
+      xml:
+        # Generally, you want to do the following on each real robot:
+        # 1. Bringup core robot functions.
+        # 2. Start main controller node on each robot.
+        # 3. Start master node on ROS master.
+        #
+        # In this example project we only do #1 because code to do #2/#3 is not
+        # implemented yet.
+        tag_add:
+          - ["./robot/group/[@ns='__UUID__']", 'include', "{'file': '$(find turtlebot3_bringup)/launch/turtlebot3_robot.launch'}"]
+
+        tag_change:
+            - ['.//controllers', '__CONTROLLER__', 'wander_controller']

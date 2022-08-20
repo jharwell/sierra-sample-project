@@ -21,14 +21,14 @@ import os
 
 # Project packages
 from sierra.plugins.platform.ros1gazebo.generators import platform_generators
-from sierra.core.xml import XMLLuigi
+from sierra.core.experiment import definition
 
 
 class ExpRunDefUniqueGenerator(platform_generators.PlatformExpRunDefUniqueGenerator):
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
 
-    def generate(self, exp_def: XMLLuigi):
+    def generate(self, exp_def: definition.XMLExpDef):
         super().generate(exp_def)
 
 

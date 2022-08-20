@@ -15,30 +15,30 @@
 #  SIERRA.  If not, see <http://www.gnu.org/licenses/
 
 # Core packages
-import os
+import re
 
 # 3rd party packages
+from sierra.core.experiment import definition
+from sierra.plugins.platform.ros1robot.generators import platform_generators
 
 # Project packages
-from sierra.plugins.platform.argos.generators import platform_generators
-from sierra.core.experiment import definition
 
 
-class ExpRunDefUniqueGenerator(platform_generators.PlatformExpRunDefUniqueGenerator):
+class OutdoorWorldScenarioGenerator(platform_generators.PlatformExpDefGenerator):
     def __init__(self, *args, **kwargs) -> None:
-        super().__init__(*args, **kwargs)
+        platform_generators.PlatformExpDefGenerator.__init__(self,
+                                                             *args,
+                                                             **kwargs)
 
-    def generate(self, exp_def: definition.XMLExpDef):
-        super().generate(exp_def)
-        self._generate_output(exp_def)
+    def generate(self) -> definition.XMLExpDef:
+        exp_def = super().generate()
 
-    def _generate_output(self, exp_def: definition.XMLExpDef):
-        exp_def.attr_change(".//loop_functions/foraging",
-                            "output_dir",
-                            os.path.join(self.run_output_path,
-                                         'output'))
+        return exp_def
 
 
-__api__ = [
-    'PlatformExpRunDefUniqueGenerator',
-]
+def gen_generator_name(scenario_name: str) -> str:
+    res = re.search('OutdoorWorld', scenario_name)
+    assert res is not None, f"Bad scenario name in {scenario_name}"
+    scenario = res.group(0)
+
+    return scenario + 'ScenarioGenerator'
