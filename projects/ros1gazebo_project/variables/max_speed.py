@@ -69,20 +69,22 @@ class MaxRobotSpeed(bc.UnivarBatchCriteria):
 
         return self.attr_changes
 
-    def gen_exp_names(self, cmdopts: types.Cmdopts) -> tp.List[str]:
+    def gen_exp_names(self) -> tp.List[str]:
         changes = self.gen_attr_changelist()
         return ['exp' + str(x) for x in range(0, len(changes))]
 
     def graph_xticks(self,
                      cmdopts: types.Cmdopts,
+                     batch_output_root: pathlib.Path,
                      exp_names: tp.Optional[tp.List[str]] = None) -> tp.List[float]:
         if exp_names is None:
-            exp_names = self.gen_exp_names(cmdopts)
+            exp_names = self.gen_exp_names()
 
         return list(map(float, range(0, len(exp_names))))
 
     def graph_xticklabels(self,
                           cmdopts: types.Cmdopts,
+                          batch_output_root: pathlib.Path,
                           exp_names: tp.Optional[tp.List[str]] = None) -> tp.List[str]:
         return [str(s) for s in self.speeds]
 
@@ -149,6 +151,7 @@ class Parser():
 def factory(cli_arg: str,
             main_config: types.YAMLDict,
             cmdopts: types.Cmdopts,
+            batch_input_root: pathlib.Path,
             **kwargs):
     """
     Factory to create ``MaxRobotSpeed`` derived classes from the command line
@@ -163,7 +166,7 @@ def factory(cli_arg: str,
         MaxRobotSpeed.__init__(self,
                                cli_arg,
                                main_config,
-                               cmdopts['batch_input_root'],
+                               batch_input_root,
                                speeds)
 
     return type(cli_arg,
