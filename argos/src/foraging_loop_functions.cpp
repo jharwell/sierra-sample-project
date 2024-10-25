@@ -45,11 +45,12 @@ void CForagingLoopFunctions::Init(TConfigurationNode& t_node) {
       GetNodeAttribute(tForaging, "output_dir", m_cOutputPath);
       /* Create output directory */
       std::filesystem::create_directories(m_cOutputPath);
+      /* Create floor state output directory */
+      std::filesystem::create_directories(m_cOutputPath / "floor-state");
       /* Get the output file name from XML */
       GetNodeAttribute(tForaging, "datafile", strFile);
-      m_cOutputPath /= strFile;
       /* Open the file, erasing its contents */
-      m_cOutput.open(m_cOutputPath, std::ios_base::trunc | std::ios_base::out);
+      m_cOutput.open(m_cOutputPath / strFile, std::ios_base::trunc | std::ios_base::out);
       m_cOutput << "clock;walking;resting;collected_food;energy" << std::endl;
       /* Get energy gain per item collected */
       GetNodeAttribute(tForaging, "energy_per_item", m_unEnergyPerFoodItem);
@@ -183,6 +184,26 @@ void CForagingLoopFunctions::PreStep() {
                << m_unCollectedFood << ";"
                << m_nEnergy << std::endl;
    }
+   /*
+    * Output floor color as a randomly scaled single scalar to file every
+    * timestep (as an example).
+    */
+   std::ofstream floor_state;
+
+   floor_state.open(m_cOutputPath / "floor-state" / ("floor-state-" + std::to_string(GetSpace().GetSimulationClock()) + ".csv"),
+                    std::ios_base::trunc | std::ios_base::out);
+
+   for (size_t i = 0; i < GetSpace().GetArenaSize().GetX(); ++i) {
+     for (size_t j = 0; j < GetSpace().GetArenaSize().GetY(); ++j) {
+       floor_state << CVector2(i, j).Length() * (random() % 10);
+       if (j < GetSpace().GetArenaSize().GetY() - 1) {
+         floor_state << ";";
+       }
+     } /* for(j..) */
+     floor_state << std::endl;
+   } /* for(i..) */
+   floor_state.close();
+
 }
 
 /****************************************/
