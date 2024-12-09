@@ -28,11 +28,11 @@ class ExpRunDefUniqueGenerator(platform_generators.PlatformExpRunDefUniqueGenera
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
 
-    def generate(self, exp_def: definition.XMLExpDef):
+    def generate(self, exp_def: definition.BaseExpDef):
         super().generate(exp_def)
         self._generate_output(exp_def)
 
-    def _generate_output(self, exp_def: definition.XMLExpDef):
+    def _generate_output(self, exp_def: definition.BaseExpDef):
         exp_def.attr_change(".//loop_functions/foraging",
                             "output_dir",
                             os.path.join(self.run_output_path,

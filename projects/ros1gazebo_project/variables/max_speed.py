@@ -30,7 +30,7 @@ import pathlib
 # 3rd party packages
 import implements
 import numpy as np
-from sierra.core.experiment import xml
+from sierra.core.experiment import definition
 from sierra.core import types
 import sierra.core.variables.batch_criteria as bc
 
@@ -59,11 +59,11 @@ class MaxRobotSpeed(bc.UnivarBatchCriteria):
         self.speeds = speeds
         self.attr_changes = []  # type: tp.List
 
-    def gen_attr_changelist(self) -> tp.List[xml.AttrChange]:
+    def gen_attr_changelist(self) -> tp.List[definition.AttrChange]:
         if not self.attr_changes:
-            chgs = [xml.AttrChangeSet(xml.AttrChange(".//params/speed",
-                                                     "max",
-                                                     str(s)))
+            chgs = [definition.AttrChangeSet(definition.AttrChange(".//params/speed",
+                                                                   "max",
+                                                                   str(s)))
                     for s in self.speeds]
             self.attr_changes = chgs
 

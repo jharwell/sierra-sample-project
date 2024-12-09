@@ -21,7 +21,6 @@ import re
 from sierra.core.experiment import definition
 from sierra.plugins.platform.argos.generators import platform_generators
 from sierra.plugins.platform.argos.variables import arena_shape
-from sierra.core import utils
 
 # Project packages
 
@@ -32,7 +31,7 @@ class ForagingScenarioGenerator(platform_generators.PlatformExpDefGenerator):
                                                              *args,
                                                              **kwargs)
 
-    def generate(self) -> definition.XMLExpDef:
+    def generate(self) -> definition.BaseExpDef:
         exp_def = super().generate()
 
         # Generate physics engine definitions.

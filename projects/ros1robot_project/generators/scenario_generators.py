@@ -30,7 +30,7 @@ class OutdoorWorldScenarioGenerator(platform_generators.PlatformExpDefGenerator)
                                                              *args,
                                                              **kwargs)
 
-    def generate(self) -> definition.XMLExpDef:
+    def generate(self) -> definition.BaseExpDef:
         exp_def = super().generate()
 
         return exp_def

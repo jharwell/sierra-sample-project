@@ -28,7 +28,7 @@ class ExpRunDefUniqueGenerator(platform_generators.PlatformExpRunDefUniqueGenera
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
 
-    def generate(self, exp_def: definition.XMLExpDef):
+    def generate(self, exp_def: definition.BaseExpDef):
         super().generate(exp_def)
 
 

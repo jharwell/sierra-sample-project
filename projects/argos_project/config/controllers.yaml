@@ -15,7 +15,7 @@ foraging:
   controllers:
     - name: footbot_foraging
       xml:
-        tag_change:
+        element_change:
           - ['.//controllers', '__CONTROLLER__', 'footbot_foraging_controller']
 
       # This key has a list of keys in the intra/inter experiment graph YAML
@@ -26,7 +26,7 @@ foraging:
 
     - name: footbot_foraging_slow
       xml:
-        tag_change:
+        element_change:
           - ['.//controllers', '__CONTROLLER__', 'footbot_foraging_controller']
           - ['.//params/wheel_turning', 'max_speed', '5']
 
