@@ -46,25 +46,20 @@ class Cmdline(cmd.CoreCmdline):
 
                                      Valid scenarios:
 
-                                     - ``LowBlockCount.AxBxC``
-                                     - ``HighBlockCount.AxBxC`
-
-                                     where A,B,C are the arena dimensions.
+                                     - ``gulf-invasion``
+                                     - ``mountain``
 
                                  """ + self.stage_usage_doc([1, 2, 3, 4]))
 
         self.multistage.add_argument("--controller",
-                                     choices=['foraging.footbot_foraging',
-                                              'foraging.footbot_foraging_slow'],
+                                     choices=['default-controller'],
                                      help="""
 
-                                     Which controller robots should run.
+                                     Which controller agents should run.
 
                                      Valid controllers:
 
-                                     - ``foraging.footbot_foraging``
-
-                                     - ``foraging.footbot_foraging_slow``
+                                     - ``default-controller_foraging``
 
                                  """ + self.stage_usage_doc([1, 2, 3, 4]))
 
@@ -75,3 +70,7 @@ class Cmdline(cmd.CoreCmdline):
             'controller': cli_args.controller,
         }
         cmdopts.update(updates)
+
+
+class CmdlineValidator(cmd.CoreCmdlineValidator):
+    pass

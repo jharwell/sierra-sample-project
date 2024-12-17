@@ -26,6 +26,7 @@ import argparse
 
 # Project packages
 import sierra.core.cmdline as cmd
+from sierra.core import types
 
 
 class Cmdline(cmd.CoreCmdline):
@@ -59,13 +60,9 @@ class Cmdline(cmd.CoreCmdline):
                                  """ + self.stage_usage_doc([1, 2, 3, 4]))
 
     @staticmethod
-    def cmdopts_update(cli_args, cmdopts: tp.Dict[str, str]):
+    def cmdopts_update(args: argparse.Namespace, cmdopts: types.Cmdopts):
         updates = {
-            'scenario': cli_args.scenario,
-            'controller': cli_args.controller,
+            'scenario': args.scenario,
+            'controller': args.controller,
         }
         cmdopts.update(updates)
-
-
-class CmdlineValidator(cmd.CoreCmdlineValidator):
-    pass

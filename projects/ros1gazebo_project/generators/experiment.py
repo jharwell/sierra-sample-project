@@ -15,23 +15,18 @@
 #  SIERRA.  If not, see <http://www.gnu.org/licenses/
 
 # Core packages
-import os
 
 # 3rd party packages
 
 # Project packages
-from sierra.plugins.platform.ros1robot.generators import platform_generators
+from sierra.plugins.platform.ros1gazebo.generators import platform
 from sierra.core.experiment import definition
 
 
-class ExpRunDefUniqueGenerator(platform_generators.PlatformExpRunDefUniqueGenerator):
-    def __init__(self, *args, **kwargs) -> None:
-        super().__init__(*args, **kwargs)
-
-    def generate(self, exp_def: definition.BaseExpDef):
-        super().generate(exp_def)
+def for_single_exp_run(*args, **kwargs) -> definition.BaseExpDef:
+    return platform.for_single_exp_run(*args, **kwargs)
 
 
 __api__ = [
-    'PlatformExpRunDefUniqueGenerator',
+    'for_single_exp_run',
 ]
