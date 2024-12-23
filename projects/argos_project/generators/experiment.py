@@ -52,5 +52,5 @@ def _for_single_exp_generate_output(exp_def: definition.BaseExpDef,
 
 
 __api__ = [
-    'for_single_exp',
+    'for_single_exp_run',
 ]

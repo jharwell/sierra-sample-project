@@ -27,6 +27,11 @@ def for_single_exp_run(*args, **kwargs) -> definition.BaseExpDef:
     return platform.for_single_exp_run(*args, **kwargs)
 
 
+def for_all_exp(*args, **kwargs) -> definition.BaseExpDef:
+    return platform.for_all_exp(*args, **kwargs)
+
+
 __api__ = [
     'for_single_exp_run',
+    'for_all_exp',
 ]

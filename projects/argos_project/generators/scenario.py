@@ -17,54 +17,39 @@
 # Core packages
 import re
 import typing as tp
-import argparse
-import logging
 import pathlib
 
 # 3rd party packages
 
 # Project packages
 from sierra.core.experiment import definition, spec
-from sierra.plugins.platform.argos.generators import platform
-from sierra.plugins.platform.argos.variables import arena_shape
 from sierra.core import types
+from sierra.plugins.platform.argos.variables import arena_shape
+from sierra.plugins.platform.argos.generators import platform
 
 
-class ScenarioGeneratorParser:
-    def __init__(self) -> None:
-        self.scenario = None
-        self.logger = logging.getLogger(__name__)
+def to_dict(scenario: str) -> tp.Dict[str, tp.Any]:
+    x, y, z = scenario.split('+')[0].split('.')[1].split('x')
+    count_type = scenario.split('.')[0]
 
-    def to_scenario_name(self, args: argparse.Namespace) -> tp.Optional[str]:
-        # Stage 5
-        if args.scenario is None:
-            return None
+    return {
+        'arena_x': int(x),
+        'arena_y': int(y),
+        'arena_z': int(z),
+        'scenario_tag': count_type
+    }
 
-        # Scenario specified on cmdline
-        self.logger.info("Parse scenario generator from cmdline specification '%s'",
-                         args.scenario)
 
-        res1 = re.search('LowBlockCount|HighBlockCount', args.scenario)
-        assert res1 is not None, \
-            "FATAL: Bad block count specification in '{0}'".format(args.scenario)
-        res2 = re.search('[0-9]+x[0-9]+x[0-9]+', args.scenario)
+def to_generator_name(scenario: str) -> str:
+    res = re.search('LowBlockCount|HighBlockCount', scenario)
+    assert res is not None, f"Bad scenario name in {scenario}"
+    scenario = res.group(0)
 
-        assert res2 is not None, \
-            "FATAL: Bad arena_dim specification in '{0}'".format(args.scenario)
-
-        self.scenario = res1.group(0) + "." + res2.group(0)
-        return self.scenario
-
-    def to_dict(self, scenario: str) -> tp.Dict[str, tp.Any]:
-        x, y, z = scenario.split('+')[0].split('.')[1].split('x')
-        count_type = scenario.split('.')[0]
-
-        return {
-            'arena_x': int(x),
-            'arena_y': int(y),
-            'arena_z': int(z),
-            'scenario_tag': count_type
-        }
+    mapping = {
+        'LowBlockCount': 'low_block_count_foraging',
+        'HighBlockCount': 'high_block_count_foraging'
+    }
+    return mapping[scenario]
 
 
 def for_all_foraging_exp(spec: spec.ExperimentSpec,
@@ -89,10 +74,10 @@ def for_all_foraging_exp(spec: spec.ExperimentSpec,
     platform.generate_arena_shape(exp_def, spec, arena)
     return exp_def
 
-
 # High/low block count scenarios are actually the same in this simple project;
 # checking it here and using it to choose which generator to use is shown as an
 # example of what can be done.
+
 
 def low_block_count_foraging(*args, **kwargs) -> definition.BaseExpDef:
     return for_all_foraging_exp(*args, **kwargs)
@@ -100,15 +85,3 @@ def low_block_count_foraging(*args, **kwargs) -> definition.BaseExpDef:
 
 def high_block_count_foraging(*args, **kwargs) -> definition.BaseExpDef:
     return for_all_foraging_exp(*args, **kwargs)
-
-
-def gen_generator_name(scenario_name: str) -> str:
-    res = re.search('LowBlockCount|HighBlockCount', scenario_name)
-    assert res is not None, f"Bad scenario name in {scenario_name}"
-    scenario = res.group(0)
-
-    mapping = {
-        'LowBlockCount': 'low_block_count_foraging',
-        'HighBlockCount': 'high_block_count_foraging'
-    }
-    return mapping[scenario]
