@@ -16,29 +16,26 @@
 
 # Core packages
 import os
+import pathlib
 
 # 3rd party packages
 
 # Project packages
-from sierra.plugins.platform.argos.generators import platform_generators
 from sierra.core.experiment import definition
+from sierra.core import types
 
 
-class ExpRunDefUniqueGenerator(platform_generators.PlatformExpRunDefUniqueGenerator):
-    def __init__(self, *args, **kwargs) -> None:
-        super().__init__(*args, **kwargs)
+def for_single_exp_run(
+        exp_def: definition.BaseExpDef,
+        run_num: int,
+        run_output_path: pathlib.Path,
+        launch_stem_path: pathlib.Path,
+        random_seed: int,
+        cmdopts: types.Cmdopts) -> definition.BaseExpDef:
 
-    def generate(self, exp_def: definition.BaseExpDef):
-        super().generate(exp_def)
-        self._generate_output(exp_def)
-
-    def _generate_output(self, exp_def: definition.BaseExpDef):
-        exp_def.attr_change(".//loop_functions/foraging",
-                            "output_dir",
-                            os.path.join(self.run_output_path,
-                                         'output'))
+    return exp_def
 
 
 __api__ = [
-    'PlatformExpRunDefUniqueGenerator',
+    'for_single_exp_run',
 ]

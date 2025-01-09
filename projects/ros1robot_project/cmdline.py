@@ -59,10 +59,9 @@ class Cmdline(cmd.CoreCmdline):
 
                                  """ + self.stage_usage_doc([1, 2, 3, 4]))
 
-    @staticmethod
-    def cmdopts_update(args: argparse.Namespace, cmdopts: types.Cmdopts):
-        updates = {
-            'scenario': args.scenario,
-            'controller': args.controller,
-        }
-        cmdopts.update(updates)
+
+def to_cmdopts(args: argparse.Namespace) -> types.Cmdopts:
+    return {
+        'scenario': args.scenario,
+        'controller': args.controller,
+    }

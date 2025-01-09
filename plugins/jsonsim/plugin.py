@@ -1,0 +1,177 @@
+#
+# Copyright 2024 John Harwell, All rights reserved.
+#
+# SPDX-License Identifier: MIT
+#
+
+# Core packages
+import typing as tp
+import argparse
+import logging
+import pathlib
+import psutil
+
+# 3rd party packages
+import implements
+
+# Project packages
+from sierra.core.experiment import bindings, definition
+from sierra.core.variables import batch_criteria as bc
+from sierra.core import hpc, types, utils
+
+_logger = logging.getLogger(__name__)
+
+
+@implements.implements(bindings.IExpShellCmdsGenerator)
+class ExpShellCmdsGenerator():
+    """A class that conforms to
+    :class:`~sierra.core.experiment.bindings.IExpShellCmdsGenerator`.
+    """
+
+    def __init__(self,
+                 cmdopts: types.Cmdopts,
+                 exp_num: int) -> None:
+        pass
+
+    def pre_exp_cmds(self) -> tp.List[types.ShellCmdSpec]:
+        return []
+
+    def exec_exp_cmds(self, exec_opts: types.StrDict) -> tp.List[types.ShellCmdSpec]:
+        return []
+
+    def post_exp_cmds(self) -> tp.List[types.ShellCmdSpec]:
+        return []
+
+
+@implements.implements(bindings.IExpRunShellCmdsGenerator)
+class ExpRunShellCmdsGenerator():
+    """A class that conforms to
+    :class:`~sierra.core.experiment.bindings.IExpRunShellCmdsGenerator`.
+    """
+
+    def __init__(self,
+                 cmdopts: types.Cmdopts,
+                 criteria: bc.BatchCriteria,
+                 n_agents: int,
+                 exp_num: int) -> None:
+        pass
+
+    def pre_run_cmds(self,
+                     host: str,
+                     input_fpath: pathlib.Path,
+                     run_num: int) -> tp.List[types.ShellCmdSpec]:
+        return []
+
+    def exec_run_cmds(self,
+                      host: str,
+                      input_fpath: pathlib.Path,
+                      run_num: int) -> tp.List[types.ShellCmdSpec]:
+        return []
+
+    def post_run_cmds(self, host: str) -> tp.List[types.ShellCmdSpec]:
+        return []
+
+
+@implements.implements(bindings.IExpConfigurer)
+class ExpConfigurer():
+    def __init__(self, cmdopts: types.Cmdopts) -> None:
+        self.cmdopts = cmdopts
+
+    def for_exp_run(self,
+                    exp_input_root: pathlib.Path,
+                    run_output_root: pathlib.Path) -> None:
+        pass
+
+    def for_exp(self, exp_input_root: pathlib.Path) -> None:
+        pass
+
+    def cmdfile_paradigm(self) -> str:
+        return 'per-exp'
+
+
+def cmdline_parser() -> argparse.ArgumentParser:
+    """
+    Get a cmdline parser supporting the platform. The returned parser
+    should extend :class:`~sierra.core.cmdline.BaseCmdline`.
+
+    This example extends :class:`~sierra.core.cmdline.BaseCmdline` with:
+
+    - :class:`~sierra.core.hpc.cmdline.HPCCmdline` (HPC common)
+    - :class:`~cmd.PlatformCmdline` (platform specifics)
+
+    assuming this platform can run on HPC environments.
+    """
+    # Initialize all stages and return the initialized
+    # parser to SIERRA for use.
+    return hpc.cmdline.HPCCmdline([-1, 1, 2, 3, 4, 5]).parser
+
+
+def population_size_from_pickle(exp_def: tp.Union[definition.AttrChangeSet,
+                                                  definition.ElementAddList],
+                                main_config: types.YAMLDict,
+                                cmdopts: types.Cmdopts) -> int:
+    """
+    Given an experiment definition, main configuration, and cmdopts,
+    get the # agents in the experiment.Size can be obtained from added
+    tags or changed attributes; platform specific.
+
+    Arguments:
+
+        exp_def: *Part* of the pickled experiment definition object.
+
+        main_config: Main project configuration.
+
+        cmdopts: Dictionary of parsed cmdline options.
+
+  """
+    return 1
+
+
+def population_size_from_def(exp_def: definition.BaseExpDef,
+                             main_config: types.YAMLDict,
+                             cmdopts: types.Cmdopts) -> int:
+    """
+    Arguments:
+
+        exp_def: The *entire* experiment definition object.
+
+    """
+    return 1
+
+
+def cmdline_postparse_configure(execenv: str,
+                                args: argparse.Namespace) -> argparse.Namespace:
+    """
+    Configure cmdline args after parsing for the platform.
+
+    This sets arguments appropriately depending on what HPC environment s
+    selected with ``--exec-env``.
+
+    - hpc.local
+
+    """
+
+    # No configuration needed for stages 3-5
+    if not any(stage in args.pipeline for stage in [1, 2]):
+        return args
+
+    if execenv == 'hpc.local':
+        return _configure_hpc_local(args)
+
+    raise RuntimeError(f"'{execenv}' unsupported on ARGoS")
+
+
+def _configure_hpc_local(args: argparse.Namespace) -> argparse.Namespace:
+    _logger.debug("Configuring for LOCAL execution")
+
+    if args.exec_jobs_per_node is None:
+        parallel_jobs = int(psutil.cpu_count())
+
+        # Make sure we don't oversubscribe cores--each simulation needs at
+        # least 1 core.
+        args.exec_jobs_per_node = min(args.n_runs, parallel_jobs)
+
+    _logger.debug("Allocated %s parallel runs/node",
+                  args.exec_jobs_per_node)
+
+    return args

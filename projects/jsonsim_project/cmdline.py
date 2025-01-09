@@ -26,6 +26,7 @@ import argparse
 
 # Project packages
 import sierra.core.cmdline as cmd
+from sierra.core import types, hpc
 
 
 class Cmdline(cmd.CoreCmdline):
@@ -46,31 +47,32 @@ class Cmdline(cmd.CoreCmdline):
 
                                      Valid scenarios:
 
-                                     - ``gulf-invasion``
-                                     - ``mountain``
+                                     - ``scenario1``
+                                     - ``scenario2``
 
                                  """ + self.stage_usage_doc([1, 2, 3, 4]))
 
         self.multistage.add_argument("--controller",
-                                     choices=['default-controller'],
+                                     choices=['default.default'],
                                      help="""
 
                                      Which controller agents should run.
 
                                      Valid controllers:
 
-                                     - ``default-controller_foraging``
+                                     - ``default.default``
 
                                  """ + self.stage_usage_doc([1, 2, 3, 4]))
 
-    @staticmethod
-    def cmdopts_update(cli_args, cmdopts: tp.Dict[str, str]):
-        updates = {
-            'scenario': cli_args.scenario,
-            'controller': cli_args.controller,
-        }
-        cmdopts.update(updates)
 
+def to_cmdopts(args: argparse.Namespace) -> types.Cmdopts:
+    # This makes all HPC arguments available when using this platform
+    opts = hpc.cmdline.to_cmdopts(args)
 
-class CmdlineValidator(cmd.CoreCmdlineValidator):
-    pass
+    updates = {
+        'scenario': args.scenario,
+        'controller': args.controller,
+    }
+    opts |= updates
+
+    return opts

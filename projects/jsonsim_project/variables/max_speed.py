@@ -14,7 +14,7 @@
 #  You should have received a copy of the GNU General Public License along with
 #  SIERRA.  If not, see <http://www.gnu.org/licenses/
 
-"""Classes for the max robot speed batch criteria.
+"""Classes for the max agent speed batch criteria.
 
 Must be specified like <min>.<max>.C<Cardinality> on the
 cmdline.
@@ -38,8 +38,8 @@ import sierra.core.variables.batch_criteria as bc
 
 
 @implements.implements(bc.IConcreteBatchCriteria)
-class MaxRobotSpeed(bc.UnivarBatchCriteria):
-    """A univariate range specifiying the max robot speed. This class is a base
+class MaxAgentSpeed(bc.UnivarBatchCriteria):
+    """A univariate range specifiying the max agent speed. This class is a base
     class which should (almost) never be used on its own. Instead, the
     ``factory()`` function should be used to dynamically create derived classes
     expressing the user's desired types to disseminate.
@@ -61,7 +61,7 @@ class MaxRobotSpeed(bc.UnivarBatchCriteria):
 
     def gen_attr_changelist(self) -> tp.List[definition.AttrChange]:
         if not self.attr_changes:
-            chgs = [definition.AttrChangeSet(definition.AttrChange(".//wheel_turning",
+            chgs = [definition.AttrChangeSet(definition.AttrChange("afterburners",
                                                                    "max_speed",
                                                                    str(s)))
                     for s in self.speeds]
@@ -89,12 +89,12 @@ class MaxRobotSpeed(bc.UnivarBatchCriteria):
         return [str(s) for s in self.speeds]
 
     def graph_xlabel(self, cmdopts: types.Cmdopts) -> str:
-        return "Max robot speeds"
+        return "Max agent speeds"
 
 
 class Parser():
     """
-    Enforces the cmdline definition of the :class:`MaxRobotSpeed` batch
+    Enforces the cmdline definition of the :class:`MaxAgentSpeed` batch
     criteria.
     """
 
@@ -154,7 +154,7 @@ def factory(cli_arg: str,
             batch_input_root: pathlib.Path,
             **kwargs):
     """
-    Factory to create ``MaxRobotSpeed`` derived classes from the command line
+    Factory to create ``MaxAgentSpeed`` derived classes from the command line
             definition.
 
     """
@@ -163,17 +163,17 @@ def factory(cli_arg: str,
     speeds = parser.to_speeds(attr)
 
     def __init__(self) -> None:
-        MaxRobotSpeed.__init__(self,
+        MaxAgentSpeed.__init__(self,
                                cli_arg,
                                main_config,
                                batch_input_root,
                                speeds)
 
     return type(cli_arg,
-                (MaxRobotSpeed,),
+                (MaxAgentSpeed,),
                 {"__init__": __init__})
 
 
 __api__ = [
-    'MaxRobotSpeed'
+    'MaxAgentSpeed'
 ]
