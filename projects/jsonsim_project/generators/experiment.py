@@ -23,6 +23,7 @@ import pathlib
 # Project packages
 from sierra.core.experiment import definition
 from sierra.core import types
+from jsonsim.generators import platform
 
 
 def for_single_exp_run(
@@ -33,6 +34,12 @@ def for_single_exp_run(
         random_seed: int,
         cmdopts: types.Cmdopts) -> definition.BaseExpDef:
 
+    exp_def = platform.for_single_exp_run(exp_def,
+                                          run_num,
+                                          run_output_path,
+                                          launch_stem_path,
+                                          random_seed,
+                                          cmdopts)
     return exp_def
 
 

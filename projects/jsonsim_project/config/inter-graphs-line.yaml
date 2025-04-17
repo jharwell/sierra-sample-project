@@ -1,25 +1,13 @@
-LN_foraging:
+SLN_default:
   graphs:
-    - src_stem: collected-data
-      dest_stem: robot-counts-walking
-      col: walking
-      title: 'Robot Walking Counts'
+    - src_stem: output
+      dest_stem: random-noise-col1
+      col: col1
+      title: 'Random noise col1'
       xlabel: 'Time'
 
-    - src_stem: collected-data
-      dest_stem: robot-counts-resting
-      col: resting
-      title: 'Robot Resting Counts'
-      xlabel: 'Time'
-
-    - src_stem: collected-data
-      dest_stem: food-counts
-      col: collected_food
-      title: 'Collected Food Counts'
-      xlabel: 'Time'
-
-    - src_stem: collected-data
-      dest_stem: swarm-energy
-      col: energy
-      title: 'Swarm Energy Over Time'
+    - src_stem: output
+      dest_stem: random-noise-col2
+      col: col2
+      title: 'Random noise col2'
       xlabel: 'Time'

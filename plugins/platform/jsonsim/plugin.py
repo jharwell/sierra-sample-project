@@ -17,7 +17,8 @@ import implements
 # Project packages
 from sierra.core.experiment import bindings, definition
 from sierra.core.variables import batch_criteria as bc
-from sierra.core import hpc, types, utils
+from sierra.core import hpc, types
+from jsonsim import cmdline as cmdline
 
 _logger = logging.getLogger(__name__)
 
@@ -54,6 +55,7 @@ class ExpRunShellCmdsGenerator():
                  criteria: bc.BatchCriteria,
                  n_agents: int,
                  exp_num: int) -> None:
+        self.executable_path = cmdopts["executable_path"]
         pass
 
     def pre_run_cmds(self,
@@ -66,7 +68,13 @@ class ExpRunShellCmdsGenerator():
                       host: str,
                       input_fpath: pathlib.Path,
                       run_num: int) -> tp.List[types.ShellCmdSpec]:
-        return []
+        # Change this to match
+        return [
+            types.ShellCmdSpec(
+                cmd=f"python3 {self.executable_path} --config {input_fpath}.json",
+                shell=True,
+                wait=True)
+        ]
 
     def post_run_cmds(self, host: str) -> tp.List[types.ShellCmdSpec]:
         return []
@@ -103,7 +111,10 @@ def cmdline_parser() -> argparse.ArgumentParser:
     """
     # Initialize all stages and return the initialized
     # parser to SIERRA for use.
-    return hpc.cmdline.HPCCmdline([-1, 1, 2, 3, 4, 5]).parser
+
+    parser = hpc.cmdline.HPCCmdline([-1, 1, 2, 3, 4, 5]).parser
+    return cmdline.PlatformCmdline(parents=[parser],
+                                   stages=[-1, 1, 2, 3, 4, 5]).parser
 
 
 def population_size_from_pickle(exp_def: tp.Union[definition.AttrChangeSet,

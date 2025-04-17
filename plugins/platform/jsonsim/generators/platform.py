@@ -86,4 +86,7 @@ def for_single_exp_run(
 
         cmdopts: Dictionary containing parsed cmdline options.
     """
+    expdef.attr_change("$",
+                       "output_root",
+                       str(run_output_path / "output"))
     return expdef

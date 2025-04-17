@@ -1,35 +1,14 @@
-LN_foraging:
+LN_default:
   graphs:
-    - src_stem: collected-data
-      dest_stem: robot-counts
+    - src_stem: output
+      dest_stem: random-noise
       cols:
-        - walking
-        - resting
-      title: 'Robot Counts'
+        - col1
+        - col2
+      title: 'Random noise'
       legend:
-        - 'Walking'
-        - 'Resting'
+        - 'One column'
+        - 'Two column'
 
       xlabel: 'Time'
-      ylabel: '\# Robots'
-
-    - src_stem: collected-data
-      dest_stem: food-counts
-      cols:
-        - collected_food
-      title: 'Collected Food Counts'
-      legend:
-        - ''
-
-      xlabel: 'Time'
-      ylabel: '\# Items'
-
-    - src_stem: collected-data
-      dest_stem: swarm-energy
-      cols:
-        - energy
-      title: 'Swarm Energy Over Time'
-      legend:
-        - ''
-
-      xlabel: 'Time'
+      ylabel: 'Drunkenness'

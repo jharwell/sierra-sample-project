@@ -16,5 +16,4 @@ default:
       # This key has a list of keys in the intra/inter experiment graph YAML
       # files, setting which graphs should be generated for this controller.
       graphs:
-        - LN_foraging
-        - HM_foraging
+        - SLN_default
