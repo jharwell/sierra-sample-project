@@ -22,11 +22,12 @@ def main():
     parser.add_argument("--config", help="Configuration file for simulator.")
     args = parser.parse_args()
 
-    # Generate random data
-    data = np.random.rand(4, 4)
-    df = pd.DataFrame(data, columns=[f"col{i}" for i in range(1, 5)])
-
     config = json.load(open(args.config, 'r'))
+
+    # Generate random data
+    print(config)
+    data = np.random.rand(int(config["exp_setup"]["n_datapoints"]), 5)
+    df = pd.DataFrame(data, columns=[f"col{i}" for i in range(0, 5)])
 
     # Output to file. Semicolon separate is currently required by SIERRA.
     root = pathlib.Path(config['output_root'])

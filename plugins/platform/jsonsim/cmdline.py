@@ -34,7 +34,7 @@ class PlatformCmdline(cmd.BaseCmdline):
             self.parser = argparse.ArgumentParser(add_help=False,
                                                   allow_abbrev=False)
 
-        self.parser.add_argument("--exec-path",
+        self.parser.add_argument("--jsonsim-path",
                                  help="""
 
                                      The path to the JSONSIM executable
@@ -45,7 +45,35 @@ class PlatformCmdline(cmd.BaseCmdline):
                                      way to specify the path to avoid hardcoding
                                      it in plugin.py
 
-                                     """)
+                                     """,
+                                 required=True)
+
+        self.scaffold_cli()
+        self.init_cli(stages)
+
+    def scaffold_cli(self) -> None:
+        self.stage1_exp = self.parser.add_argument_group(
+            'Stage1: Experiment generation')
+
+    def init_cli(self, stages: tp.List[int]) -> None:
+        if 1 in stages:
+            self.init_stage1()
+
+    def init_stage1(self) -> None:
+        # Experiment options
+
+        self.stage1_exp.add_argument("--exp-setup",
+                                     help="""
+
+                                     Defines experiment run length, # of
+                                     datapoints to capture/capture interval for
+                                     each simulation. See
+                                     :ref:`usage/vars/expsetup` for a full
+                                     description.
+
+                            """ + self.stage_usage_doc([1]),
+                                     default="exp_setup.T10.K5.{0}".format(
+                                         config.kExperimentalRunData['n_datapoints_1D']))
 
 
 def to_cmdopts(args: argparse.Namespace) -> types.Cmdopts:
@@ -56,7 +84,8 @@ def to_cmdopts(args: argparse.Namespace) -> types.Cmdopts:
 
     self_updates = {
         # Stage 1
-        'executable_path': args.exec_path
+        'jsonsim_path': args.jsonsim_path,
+        'exp_setup': args.exp_setup
     }
 
     opts |= self_updates

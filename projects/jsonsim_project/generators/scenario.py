@@ -29,7 +29,7 @@ from jsonsim.generators import platform
 
 
 def to_dict(scenario: str) -> tp.Dict[str, tp.Any]:
-    x, y, z = scenario.split('+')[0].split('.')[1].split('x')
+    x, y, z = scenario.split('.')[1].split('x')
     count_type = scenario.split('.')[0]
 
     return {

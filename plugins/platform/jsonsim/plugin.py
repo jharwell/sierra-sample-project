@@ -55,7 +55,7 @@ class ExpRunShellCmdsGenerator():
                  criteria: bc.BatchCriteria,
                  n_agents: int,
                  exp_num: int) -> None:
-        self.executable_path = cmdopts["executable_path"]
+        self.executable_path = cmdopts["jsonsim_path"]
         pass
 
     def pre_run_cmds(self,

@@ -1,3 +1,10 @@
 {
+    "exp_setup" : {
+        "length": -1,
+        "n_datapoints": -1
+    },
+    "afterburners": {
+        "max_speed": 0
+    },
     "output_root": "foobar"
 }

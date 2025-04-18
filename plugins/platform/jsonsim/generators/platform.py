@@ -8,13 +8,16 @@
 import pathlib
 
 # 3rd party packages
+from sierra.core.experiment import definition
+from sierra.core import types
+import sierra.core.utils as scutils
+from sierra.core.experiment import spec
+from sierra.core import plugin_manager as pm
 
 # Project packages
 
-from sierra.core.experiment import definition
-from sierra.core import types
-from sierra.core.experiment import spec
-from sierra.core import plugin_manager as pm
+
+import jsonsim.variables.exp_setup as exp
 
 
 def for_all_exp(spec: spec.ExperimentSpec,
@@ -53,6 +56,13 @@ def for_all_exp(spec: spec.ExperimentSpec,
     # Optional, only needed if your platform supports nested
     # configuration files.
     expdef.flatten(["pathstring1", "pathstring2"])
+
+    setup = exp.factory(cmdopts["exp_setup"],
+                        )()
+    _, adds, chgs = scutils.apply_to_expdef(setup, expdef)
+
+    # Write setup info to file for later retrieval
+    scutils.pickle_modifications(adds, chgs, spec.exp_def_fpath)
 
     return expdef
 
