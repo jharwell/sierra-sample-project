@@ -177,7 +177,7 @@ void CForagingLoopFunctions::PreStep() {
    /* Update energy expediture due to walking robots */
    m_nEnergy -= unWalkingFBs * m_unEnergyPerWalkingRobot;
    /* Output stuff to file */
-   if ((GetSpace().GetSimulationClock() % 100) == 0) {
+   if ((GetSpace().GetSimulationClock() % 10) == 0) {
      m_cOutput << GetSpace().GetSimulationClock() << ";"
                << unWalkingFBs << ";"
                << unRestingFBs << ";"
