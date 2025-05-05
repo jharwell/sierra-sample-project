@@ -6,8 +6,14 @@ SLN_default:
       title: 'Random noise col1'
       xlabel: 'Time'
 
-    - src_stem: output
-      dest_stem: random-noise-col2
+    - src_stem: subdir1/subdir2/output
+      dest_stem: random-noise2-col2
+      col: col2
+      title: 'Random noise col2'
+      xlabel: 'Time'
+
+    - src_stem: subdir3/output
+      dest_stem: random-noise3-col2
       col: col2
       title: 'Random noise col2'
       xlabel: 'Time'

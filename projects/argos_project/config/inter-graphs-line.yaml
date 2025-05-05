@@ -23,3 +23,9 @@ LN_foraging:
       col: energy
       title: 'Swarm Energy Over Time'
       xlabel: 'Time'
+
+    - src_stem: collected-data
+      dest_stem: swarm-energy-summary
+      col: energy
+      title: 'Swarm Energy Over Time'
+      summary: True

@@ -11,4 +11,28 @@ LN_default:
         - 'Two column'
 
       xlabel: 'Time'
-      ylabel: 'Drunkenness'
+      ylabel: 'Fizziness'
+    - src_stem: subdir1/subdir2/output
+      dest_stem: random-noise2
+      cols:
+        - col1
+        - col2
+      title: 'Random noise'
+      legend:
+        - 'One column'
+        - 'Two column'
+
+      xlabel: 'Time'
+      ylabel: 'Fizziness'
+    - src_stem: subdir3/output
+      dest_stem: random-noise3
+      cols:
+        - col1
+        - col2
+      title: 'Random noise'
+      legend:
+        - 'One column'
+        - 'Two column'
+
+      xlabel: 'Time'
+      ylabel: 'Fizziness'

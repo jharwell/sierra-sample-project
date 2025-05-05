@@ -51,7 +51,7 @@ void CForagingLoopFunctions::Init(TConfigurationNode& t_node) {
       GetNodeAttribute(tForaging, "datafile", strFile);
       /* Open the file, erasing its contents */
       m_cOutput.open(m_cOutputPath / strFile, std::ios_base::trunc | std::ios_base::out);
-      m_cOutput << "clock;walking;resting;collected_food;energy" << std::endl;
+      m_cOutput << "clock,walking,resting,collected_food,energy" << std::endl;
       /* Get energy gain per item collected */
       GetNodeAttribute(tForaging, "energy_per_item", m_unEnergyPerFoodItem);
       /* Get energy loss per walking robot */
@@ -73,7 +73,7 @@ void CForagingLoopFunctions::Reset() {
    m_cOutput.close();
    /* Open the file, erasing its contents */
    m_cOutput.open(m_cOutputPath, std::ios_base::trunc | std::ios_base::out);
-   m_cOutput << "clock;walking;resting;collected_food;energy" << std::endl;
+   m_cOutput << "clock,walking,resting,collected_food,energy" << std::endl;
    /* Distribute uniformly the items in the environment */
    for(UInt32 i = 0; i < m_cFoodPos.size(); ++i) {
       m_cFoodPos[i].Set(m_pcRNG->Uniform(m_cForagingArenaSideX),
@@ -178,10 +178,10 @@ void CForagingLoopFunctions::PreStep() {
    m_nEnergy -= unWalkingFBs * m_unEnergyPerWalkingRobot;
    /* Output stuff to file */
    if ((GetSpace().GetSimulationClock() % 10) == 0) {
-     m_cOutput << GetSpace().GetSimulationClock() << ";"
-               << unWalkingFBs << ";"
-               << unRestingFBs << ";"
-               << m_unCollectedFood << ";"
+     m_cOutput << GetSpace().GetSimulationClock() << ","
+               << unWalkingFBs << ","
+               << unRestingFBs << ","
+               << m_unCollectedFood << ","
                << m_nEnergy << std::endl;
    }
    /*
@@ -197,7 +197,7 @@ void CForagingLoopFunctions::PreStep() {
      for (size_t j = 0; j < GetSpace().GetArenaSize().GetY(); ++j) {
        floor_state << CVector2(i, j).Length() * (random() % 10);
        if (j < GetSpace().GetArenaSize().GetY() - 1) {
-         floor_state << ";";
+         floor_state << ",";
        }
      } /* for(j..) */
      floor_state << std::endl;
