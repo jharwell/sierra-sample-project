@@ -1,6 +1,6 @@
 LN_default:
   graphs:
-    - src_stem: output
+    - src_stem: output1D
       dest_stem: random-noise
       cols:
         - col1
@@ -12,19 +12,15 @@ LN_default:
 
       xlabel: 'Time'
       ylabel: 'Fizziness'
-    - src_stem: subdir1/subdir2/output
-      dest_stem: random-noise2
-      cols:
-        - col1
-        - col2
-      title: 'Random noise'
-      legend:
-        - 'One column'
-        - 'Two column'
+      logyscale: true
 
+    - src_stem: subdir1/subdir2/output1D
+      dest_stem: random-noise2
+      title: 'Random noise'
       xlabel: 'Time'
       ylabel: 'Fizziness'
-    - src_stem: subdir3/output
+
+    - src_stem: subdir3/output1D
       dest_stem: random-noise3
       cols:
         - col1

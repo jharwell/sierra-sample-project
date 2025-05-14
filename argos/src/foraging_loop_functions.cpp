@@ -193,14 +193,12 @@ void CForagingLoopFunctions::PreStep() {
    floor_state.open(m_cOutputPath / "floor-state" / ("floor-state-" + std::to_string(GetSpace().GetSimulationClock()) + ".csv"),
                     std::ios_base::trunc | std::ios_base::out);
 
+   floor_state << "x,y,z" << std::endl;
    for (size_t i = 0; i < GetSpace().GetArenaSize().GetX(); ++i) {
      for (size_t j = 0; j < GetSpace().GetArenaSize().GetY(); ++j) {
-       floor_state << CVector2(i, j).Length() * (random() % 10);
-       if (j < GetSpace().GetArenaSize().GetY() - 1) {
-         floor_state << ",";
-       }
+       floor_state << i << ',' << j << ',';
+       floor_state << CVector2(i, j).Length() * (random() % 10) << std::endl;
      } /* for(j..) */
-     floor_state << std::endl;
    } /* for(i..) */
    floor_state.close();
 

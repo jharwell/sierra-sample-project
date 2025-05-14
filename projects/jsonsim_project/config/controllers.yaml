@@ -9,11 +9,9 @@ default:
   # experiments using that controller.
   controllers:
     - name: default
-      json:
-        element_change:
-          - ['.//controllers', '__CONTROLLER__', 'footbot_foraging_controller']
-
       # This key has a list of keys in the intra/inter experiment graph YAML
       # files, setting which graphs should be generated for this controller.
       graphs:
+        - LN_default
+        - HM_default
         - SLN_default

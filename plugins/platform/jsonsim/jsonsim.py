@@ -20,13 +20,25 @@ def main():
     parser = argparse.ArgumentParser(
         description="Example JSON-driven simulator which generates random data.")
     parser.add_argument("--config", help="Configuration file for simulator.")
+
     args = parser.parse_args()
 
     config = json.load(open(args.config, 'r'))
 
-    # Generate random data
-    data = np.random.rand(int(config["exp_setup"]["n_datapoints"]), 5)
-    df = pd.DataFrame(data, columns=[f"col{i}" for i in range(0, 5)])
+    # Generate random 1D data
+    data_1D = np.random.rand(int(config["exp_setup"]["n_datapoints"]), 5)
+    df1D = pd.DataFrame(data_1D, columns=[f"col{i}" for i in range(0, 5)])
+
+    data2D = []
+    for i in range(0, 8):
+        for j in range(0, 6):
+            data2D.append({
+                'x': i,
+                'y': j,
+                'z': np.random.rand(1)[0],
+            })
+
+    df2D = pd.DataFrame(data2D)
 
     # Output to file. Semicolon separate is currently required by SIERRA.
     root = pathlib.Path(config['output_root'])
@@ -37,9 +49,12 @@ def main():
     subdir1.mkdir(parents=True, exist_ok=True)
     subdir2.mkdir(parents=True, exist_ok=True)
 
-    df.to_csv(root / 'output.csv', index=False, sep=',')
-    df.to_csv(subdir1 / 'output.csv', index=False, sep=',')
-    df.to_csv(subdir2 / 'output.csv', index=False, sep=',')
+    df1D.to_csv(root / 'output1D.csv', index=False)
+    df1D.to_csv(subdir1 / 'output1D.csv', index=False)
+    df1D.to_csv(subdir2 / 'output1D.csv', index=False)
+    df2D.to_csv(root / 'output2D.csv', index=False)
+    df2D.to_csv(subdir1 / 'output2D.csv', index=False)
+    df2D.to_csv(subdir2 / 'output2D.csv', index=False)
 
 
 if __name__ == "__main__":

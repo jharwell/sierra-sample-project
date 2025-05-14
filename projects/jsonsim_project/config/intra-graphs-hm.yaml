@@ -1,4 +1,12 @@
-HM_floor:
+HM_default:
   graphs:
-    - src_stem: floor-state
-      title: 'Floor State'
+    - src_stem: output2D
+      dest_stem: output2D-1
+      title: '2D Fizziness'
+      xlabel: 'bubbles'
+      ylabel: 'liquid'
+      zlabel: 'carbonation'
+
+    - src_stem: subdir3/output2D
+      dest_stem: output2D-2
+      title: '2D Fizziness'

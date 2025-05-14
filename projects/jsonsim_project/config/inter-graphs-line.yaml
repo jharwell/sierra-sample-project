@@ -17,3 +17,5 @@ SLN_default:
       col: col2
       title: 'Random noise col2'
       xlabel: 'Time'
+      ylabel: "Noisiness"
+      summary: True
