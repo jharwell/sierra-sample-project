@@ -14,4 +14,3 @@ default:
       graphs:
         - LN_default
         - HM_default
-        - SLN_default

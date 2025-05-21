@@ -1,0 +1,108 @@
+intra-exp:
+  HM_floor:
+    - src_stem: floor-state
+      title: 'Floor State'
+      type: 'heatmap'
+
+  LN_foraging:
+    - src_stem: collected-data
+      dest_stem: robot-counts
+      cols:
+        - walking
+        - resting
+      title: 'Robot Counts'
+      legend:
+        - 'Walking'
+        - 'Resting'
+
+      xlabel: 'Time'
+      ylabel: '\# Robots'
+      type: 'stacked_line'
+
+    - src_stem: collected-data
+      dest_stem: food-counts
+      cols:
+        - collected_food
+      title: 'Collected Food Counts'
+      legend:
+        - ''
+
+      xlabel: 'Time'
+      ylabel: '\# Items'
+      type: 'stacked_line'
+
+    - src_stem: collected-data
+      dest_stem: swarm-energy
+      cols:
+        - energy
+      title: 'Swarm Energy Over Time'
+      legend:
+        - ''
+
+      xlabel: 'Time'
+      type: 'stacked_line'
+
+inter-exp:
+  HM_foraging:
+    - src_stem: collected-data
+      dest_stem: robot-counts-walking
+      col: walking
+      title: 'Robot Walking Counts'
+      xlabel: 'Time'
+      type: 'heatmap'
+
+    - src_stem: collected-data
+      dest_stem: robot-counts-resting
+      col: resting
+      title: 'Robot Resting Counts'
+      xlabel: 'Time'
+      type: 'heatmap'
+
+    - src_stem: collected-data
+      dest_stem: food-counts
+      col: collected_food
+      title: 'Collected Food Counts'
+      xlabel: 'Time'
+      type: 'heatmap'
+
+    - src_stem: collected-data
+      dest_stem: swarm-energy
+      col: energy
+      title: 'Swarm Energy Over Time'
+      xlabel: 'Time'
+      type: 'heatmap'
+
+  LN_foraging:
+    - src_stem: collected-data
+      dest_stem: robot-counts-walking
+      col: walking
+      title: 'Robot Walking Counts'
+      xlabel: 'Time'
+      type: 'stacked_line'
+
+    - src_stem: collected-data
+      dest_stem: robot-counts-resting
+      col: resting
+      title: 'Robot Resting Counts'
+      xlabel: 'Time'
+      type: 'stacked_line'
+
+    - src_stem: collected-data
+      dest_stem: food-counts
+      col: collected_food
+      title: 'Collected Food Counts'
+      xlabel: 'Time'
+      type: 'stacked_line'
+
+    - src_stem: collected-data
+      dest_stem: swarm-energy
+      col: energy
+      title: 'Swarm Energy Over Time'
+      xlabel: 'Time'
+      type: 'stacked_line'
+
+    - src_stem: collected-data
+      dest_stem: swarm-energy-summary
+      col: energy
+      title: 'Swarm Energy Over Time'
+      type: 'summary_line'
