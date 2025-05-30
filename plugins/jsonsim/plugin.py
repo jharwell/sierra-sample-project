@@ -17,8 +17,10 @@ import implements
 # Project packages
 from sierra.core.experiment import bindings, definition
 from sierra.core.variables import batch_criteria as bc
-from sierra.core import hpc, types
-from jsonsim import cmdline as cmdline
+from sierra.core import types
+from sierra.plugins.execenv import hpc
+
+from plugins.jsonsim import cmdline
 
 _logger = logging.getLogger(__name__)
 
@@ -93,27 +95,27 @@ class ExpConfigurer():
     def for_exp(self, exp_input_root: pathlib.Path) -> None:
         pass
 
-    def cmdfile_paradigm(self) -> str:
+    def parallelism_paradigm(self) -> str:
         return 'per-exp'
 
 
 def cmdline_parser() -> argparse.ArgumentParser:
     """
-    Get a cmdline parser supporting the platform. The returned parser
+    Get a cmdline parser supporting the engine. The returned parser
     should extend :class:`~sierra.core.cmdline.BaseCmdline`.
 
     This example extends :class:`~sierra.core.cmdline.BaseCmdline` with:
 
     - :class:`~sierra.core.hpc.cmdline.HPCCmdline` (HPC common)
-    - :class:`~cmd.PlatformCmdline` (platform specifics)
+    - :class:`~cmd.EngineCmdline` (engine specifics)
 
-    assuming this platform can run on HPC environments.
+    assuming this engine can run on HPC environments.
     """
     # Initialize all stages and return the initialized
     # parser to SIERRA for use.
 
     parser = hpc.cmdline.HPCCmdline([-1, 1, 2, 3, 4, 5]).parser
-    return cmdline.PlatformCmdline(parents=[parser],
+    return cmdline.EngineCmdline(parents=[parser],
                                    stages=[-1, 1, 2, 3, 4, 5]).parser
 
 
@@ -124,7 +126,7 @@ def population_size_from_pickle(exp_def: tp.Union[definition.AttrChangeSet,
     """
     Given an experiment definition, main configuration, and cmdopts,
     get the # agents in the experiment.Size can be obtained from added
-    tags or changed attributes; platform specific.
+    tags or changed attributes; engine specific.
 
     Arguments:
 
@@ -153,7 +155,7 @@ def population_size_from_def(exp_def: definition.BaseExpDef,
 def cmdline_postparse_configure(execenv: str,
                                 args: argparse.Namespace) -> argparse.Namespace:
     """
-    Configure cmdline args after parsing for the platform.
+    Configure cmdline args after parsing for the engine.
 
     This sets arguments appropriately depending on what HPC environment s
     selected with ``--exec-env``.

@@ -13,11 +13,11 @@ import argparse
 # 3rd party packages
 
 # Project packages
-from sierra.core import types, config, hpc
+from sierra.core import types, config
 import sierra.core.cmdline as cmd
+from sierra.plugins.execenv import hpc
 
-
-class PlatformCmdline(cmd.BaseCmdline):
+class EngineCmdline(cmd.BaseCmdline):
     """Defines extensions to :class:`~sierra.core.cmdline.CoreCmdline` for JSONSIM.
 
     """
@@ -81,7 +81,7 @@ def to_cmdopts(args: argparse.Namespace) -> types.Cmdopts:
 
     """
     opts = hpc.cmdline.to_cmdopts(args)
-
+    print("HERE")
     self_updates = {
         # Stage 1
         'jsonsim_path': args.jsonsim_path,

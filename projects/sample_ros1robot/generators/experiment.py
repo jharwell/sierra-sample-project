@@ -19,16 +19,16 @@
 # 3rd party packages
 
 # Project packages
-from sierra.plugins.platform.ros1robot.generators import platform
+from sierra.plugins.engine.ros1robot.generators import engine
 from sierra.core.experiment import definition
 
 
 def for_single_exp_run(*args, **kwargs) -> definition.BaseExpDef:
-    return platform.for_single_exp_run(*args, **kwargs)
+    return engine.for_single_exp_run(*args, **kwargs)
 
 
 def for_all_exp(*args, **kwargs) -> definition.BaseExpDef:
-    return platform.for_all_exp(*args, **kwargs)
+    return engine.for_all_exp(*args, **kwargs)
 
 
 __api__ = [

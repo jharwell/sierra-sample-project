@@ -20,7 +20,7 @@ import typing as tp
 
 # 3rd party packages
 from sierra.core.experiment import definition
-from sierra.plugins.platform.ros1gazebo.generators import platform
+from sierra.plugins.engine.ros1gazebo.generators import engine
 
 # Project packages
 
@@ -38,7 +38,7 @@ def to_dict(scenario: str) -> tp.Dict[str, tp.Any]:
 
 
 def houseworld_all_exp(*args, **kwargs) -> definition.BaseExpDef:
-    return platform.for_all_exp(*args, **kwargs)
+    return engine.for_all_exp(*args, **kwargs)
 
 
 def to_generator_name(scenario: str) -> str:

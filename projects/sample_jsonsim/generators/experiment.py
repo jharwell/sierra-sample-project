@@ -15,23 +15,34 @@
 #  SIERRA.  If not, see <http://www.gnu.org/licenses/
 
 # Core packages
+import os
+import pathlib
 
 # 3rd party packages
 
 # Project packages
-from sierra.plugins.platform.ros1gazebo.generators import platform
 from sierra.core.experiment import definition
+from sierra.core import types
+from plugins.jsonsim.generators import engine
 
 
-def for_single_exp_run(*args, **kwargs) -> definition.BaseExpDef:
-    return platform.for_single_exp_run(*args, **kwargs)
+def for_single_exp_run(
+        exp_def: definition.BaseExpDef,
+        run_num: int,
+        run_output_path: pathlib.Path,
+        launch_stem_path: pathlib.Path,
+        random_seed: int,
+        cmdopts: types.Cmdopts) -> definition.BaseExpDef:
 
-
-def for_all_exp(*args, **kwargs) -> definition.BaseExpDef:
-    return platform.for_all_exp(*args, **kwargs)
+    exp_def = engine.for_single_exp_run(exp_def,
+                                          run_num,
+                                          run_output_path,
+                                          launch_stem_path,
+                                          random_seed,
+                                          cmdopts)
+    return exp_def
 
 
 __api__ = [
     'for_single_exp_run',
-    'for_all_exp',
 ]

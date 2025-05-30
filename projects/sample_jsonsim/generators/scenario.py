@@ -25,7 +25,7 @@ import pathlib
 from sierra.core.experiment import definition, spec
 from sierra.core import types
 
-from jsonsim.generators import platform
+from plugins.jsonsim.generators import engine
 
 
 def to_dict(scenario: str) -> tp.Dict[str, tp.Any]:
@@ -56,7 +56,7 @@ def for_all_pewpew(spec: spec.ExperimentSpec,
                    controller: str,
                    cmdopts: types.Cmdopts,
                    expdef_template_fpath: pathlib.Path) -> definition.BaseExpDef:
-    exp_def = platform.for_all_exp(spec,
+    exp_def = engine.for_all_exp(spec,
                                    controller,
                                    cmdopts,
                                    expdef_template_fpath)

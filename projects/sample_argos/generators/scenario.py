@@ -24,8 +24,8 @@ import pathlib
 # Project packages
 from sierra.core.experiment import definition, spec
 from sierra.core import types
-from sierra.plugins.platform.argos.variables import arena_shape
-from sierra.plugins.platform.argos.generators import platform
+from sierra.plugins.engine.argos.variables import arena_shape
+from sierra.plugins.engine.argos.generators import engine
 
 
 def to_dict(scenario: str) -> tp.Dict[str, tp.Any]:
@@ -56,13 +56,13 @@ def for_all_foraging_exp(spec: spec.ExperimentSpec,
                          controller: str,
                          cmdopts: types.Cmdopts,
                          expdef_template_fpath: pathlib.Path) -> definition.BaseExpDef:
-    exp_def = platform.for_all_exp(spec,
+    exp_def = engine.for_all_exp(spec,
                                    controller,
                                    cmdopts,
                                    expdef_template_fpath)
 
     # Generate physics engine definitions.
-    platform.generate_physics(exp_def,
+    engine.generate_physics(exp_def,
                               spec,
                               cmdopts,
                               cmdopts['physics_engine_type2D'],
@@ -71,7 +71,7 @@ def for_all_foraging_exp(spec: spec.ExperimentSpec,
 
     # Generate arena shap definitions
     arena = arena_shape.ArenaShape([spec.arena_dim])
-    platform.generate_arena_shape(exp_def, spec, arena)
+    engine.generate_arena_shape(exp_def, spec, arena)
     return exp_def
 
 # High/low block count scenarios are actually the same in this simple project;

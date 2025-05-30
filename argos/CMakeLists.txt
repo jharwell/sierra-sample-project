@@ -79,23 +79,24 @@ endif()
 # Libraries
 # ##############################################################################
 add_library(
-  argos_project SHARED ${CMAKE_SOURCE_DIR}/src/footbot_foraging.cpp
-                       ${CMAKE_SOURCE_DIR}/src/foraging_loop_functions.cpp)
+  projects.sample_argos SHARED
+  ${CMAKE_SOURCE_DIR}/src/footbot_foraging.cpp
+  ${CMAKE_SOURCE_DIR}/src/foraging_loop_functions.cpp)
 
 if(Qt6_FOUND OR Qt5_FOUND)
-  target_sources(argos_project
+  target_sources(projects.sample_argos
                  PUBLIC ${CMAKE_SOURCE_DIR}/src/foraging_qt_user_functions.cpp)
 endif()
 
 # Setup C++ library compilation and linking
 target_include_directories(
-  argos_project
+  projects.sample_argos
   PUBLIC ${CMAKE_SOURCE_DIR}/include ${ARGOS_INSTALL_DIR}/include
          ${LUA_INCLUDE_DIR} ${SAMPLE_QT_INCLUDE_DIRS}
          ${SAMPLE_OPENGL_INCLUDE_DIRS})
 
 target_link_libraries(
-  argos_project
+  projects.sample_argos
   argos3core_simulator
   argos3plugin_simulator_dynamics2d
   argos3plugin_simulator_entities
@@ -105,9 +106,9 @@ target_link_libraries(
   ${SAMPLE_OPENGL_LIBRARIES})
 
 if(Qt6_FOUND OR Qt5_FOUND)
-  target_link_libraries(argos_project argos3plugin_simulator_qtopengl
+  target_link_libraries(projects.sample_argos argos3plugin_simulator_qtopengl
                         ${SAMPLE_QT_LIBRARIES})
 endif()
 
-target_link_directories(argos_project PUBLIC ${CMAKE_BINARY_DIR}
+target_link_directories(projects.sample_argos PUBLIC ${CMAKE_BINARY_DIR}
                         ${ARGOS_INSTALL_DIR}/lib/argos3)

@@ -26,7 +26,8 @@ import argparse
 
 # Project packages
 import sierra.core.cmdline as cmd
-from sierra.core import types, hpc
+from sierra.core import types
+from sierra.plugins.execenv import hpc
 
 
 class Cmdline(cmd.CoreCmdline):
@@ -66,7 +67,7 @@ class Cmdline(cmd.CoreCmdline):
 
 
 def to_cmdopts(args: argparse.Namespace) -> types.Cmdopts:
-    # This makes all HPC arguments available when using this platform
+    # This makes all HPC arguments available when using this engine
     opts = hpc.cmdline.to_cmdopts(args)
 
     updates = {

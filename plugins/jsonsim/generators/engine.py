@@ -17,7 +17,7 @@ from sierra.core import plugin_manager as pm
 # Project packages
 
 
-import jsonsim.variables.exp_setup as exp
+import plugins.jsonsim.variables.exp_setup as exp
 
 
 def for_all_exp(spec: spec.ExperimentSpec,

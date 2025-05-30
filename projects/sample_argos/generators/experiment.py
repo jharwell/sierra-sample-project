@@ -21,9 +21,9 @@ import pathlib
 # 3rd party packages
 
 # Project packages
+from sierra.plugins.engine.argos.generators import engine
 from sierra.core.experiment import definition
 from sierra.core import types
-from jsonsim.generators import platform
 
 
 def for_single_exp_run(
@@ -34,13 +34,21 @@ def for_single_exp_run(
         random_seed: int,
         cmdopts: types.Cmdopts) -> definition.BaseExpDef:
 
-    exp_def = platform.for_single_exp_run(exp_def,
+    exp_def = engine.for_single_exp_run(exp_def,
                                           run_num,
                                           run_output_path,
                                           launch_stem_path,
                                           random_seed,
                                           cmdopts)
-    return exp_def
+    _for_single_exp_generate_output(exp_def, run_output_path)
+
+
+def _for_single_exp_generate_output(exp_def: definition.BaseExpDef,
+                                    run_output_path: pathlib.Path):
+    exp_def.attr_change(".//loop_functions/foraging",
+                        "output_dir",
+                        os.path.join(run_output_path,
+                                     'output'))
 
 
 __api__ = [

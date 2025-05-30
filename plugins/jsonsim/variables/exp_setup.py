@@ -2,7 +2,7 @@
 #
 #  SPDX-License-Identifier: MIT
 
-"""Classes for the ``--exp-setup`` cmdline option for the JSONSIM platform.
+"""Classes for the ``--exp-setup`` cmdline option for the JSONSIM engine.
 
 """
 
