@@ -1,9 +1,4 @@
 intra-exp:
-  HM_floor:
-    - src_stem: floor-state
-      title: 'Floor State'
-      type: 'heatmap'
-
   LN_foraging:
     - src_stem: collected-data
       dest_stem: robot-counts
@@ -106,3 +101,8 @@ inter-exp:
       col: energy
       title: 'Swarm Energy Over Time'
       type: 'summary_line'
+
+imagize:
+    - src_stem: floor-state
+      title: 'Floor State'
+      type: 'heatmap'

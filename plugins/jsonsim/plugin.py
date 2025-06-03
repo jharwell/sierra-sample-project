@@ -70,7 +70,6 @@ class ExpRunShellCmdsGenerator():
                       host: str,
                       input_fpath: pathlib.Path,
                       run_num: int) -> tp.List[types.ShellCmdSpec]:
-        # Change this to match
         return [
             types.ShellCmdSpec(
                 cmd=f"python3 {self.executable_path} --config {input_fpath}.json",
@@ -78,7 +77,7 @@ class ExpRunShellCmdsGenerator():
                 wait=True)
         ]
 
-    def post_run_cmds(self, host: str) -> tp.List[types.ShellCmdSpec]:
+    def post_run_cmds(self, host: str, run_output_root: pathlib.Path) -> tp.List[types.ShellCmdSpec]:
         return []
 
 

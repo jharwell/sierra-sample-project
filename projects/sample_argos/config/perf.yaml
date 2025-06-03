@@ -1,3 +1,4 @@
 perf:
-  intra_perf_csv: 'collected-data.csv'
-  intra_perf_col: 'collected_food'
+  - file: 'collected-data.csv'
+    cols:
+      - 'collected_food'
