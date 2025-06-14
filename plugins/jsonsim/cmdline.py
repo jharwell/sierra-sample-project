@@ -81,7 +81,6 @@ def to_cmdopts(args: argparse.Namespace) -> types.Cmdopts:
 
     """
     opts = hpc.cmdline.to_cmdopts(args)
-    print("HERE")
     self_updates = {
         # Stage 1
         'jsonsim_path': args.jsonsim_path,
