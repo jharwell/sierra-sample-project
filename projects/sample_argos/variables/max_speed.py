@@ -31,13 +31,14 @@ import pathlib
 import implements
 import numpy as np
 from sierra.core.experiment import definition
-from sierra.core import types
 import sierra.core.variables.batch_criteria as bc
+from sierra.core import types
+from sierra.core.graphs import bcbridge
 
 # Project packages
 
 
-@implements.implements(bc.IConcreteBatchCriteria)
+@implements.implements(bcbridge.IGraphable)
 class MaxRobotSpeed(bc.UnivarBatchCriteria):
     """A univariate range specifiying the max robot speed. This class is a base
     class which should (almost) never be used on its own. Instead, the
@@ -73,23 +74,23 @@ class MaxRobotSpeed(bc.UnivarBatchCriteria):
         changes = self.gen_attr_changelist()
         return ['exp' + str(x) for x in range(0, len(changes))]
 
-    def graph_xticks(self,
-                     cmdopts: types.Cmdopts,
-                     batch_output_root: pathlib.Path,
-                     exp_names: tp.Optional[tp.List[str]] = None) -> tp.List[float]:
-        if exp_names is None:
-            exp_names = self.gen_exp_names()
 
-        return list(map(float, range(0, len(exp_names))))
+    def graph_info(
+        self,
+        cmdopts: types.Cmdopts,
+        batch_output_root: tp.Optional[pathlib.Path] = None,
+        exp_names: tp.Optional[tp.List[str]] = None,
+    ) -> bcbridge.GraphInfo:
+        info = bcbridge.GraphInfo(
+            cmdopts,
+            batch_output_root,
+            exp_names if exp_names else self.gen_exp_names(),
+        )
 
-    def graph_xticklabels(self,
-                          cmdopts: types.Cmdopts,
-                          batch_output_root: pathlib.Path,
-                          exp_names: tp.Optional[tp.List[str]] = None) -> tp.List[str]:
-        return [str(s) for s in self.speeds]
-
-    def graph_xlabel(self, cmdopts: types.Cmdopts) -> str:
-        return "Max robot speeds"
+        info.xticks = list(map(float, range(0, len(info.exp_names))))
+        info.xticklabels = [str(s) for s in self.speeds]
+        info.xlabel = "Max robot speeds"
+        return info
 
 
 class Parser():

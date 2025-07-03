@@ -16,7 +16,7 @@ import implements
 from sierra.core.variables.base_variable import IBaseVariable
 from sierra.core.experiment import definition
 from sierra.core import config
-from sierra.core.variables.exp_setup import Parser
+from sierra.core.variables import exp_setup
 
 
 @implements.implements(IBaseVariable)
@@ -72,10 +72,9 @@ def factory(arg: str) -> ExpSetup:
        arg: The value of ``--exp-setup``.
 
     """
-    parser = Parser({'n_secs_per_run': config.kROS['n_secs_per_run'],
+    attr = exp_setup.parse(arg, {'n_secs_per_run': config.kROS['n_secs_per_run'],
                     'n_ticks_per_sec': config.kROS['n_ticks_per_sec'],
                      'n_datapoints': config.kExperimentalRunData['n_datapoints_1D']})
-    attr = parser(arg)
 
     def __init__(self: ExpSetup) -> None:
         ExpSetup.__init__(self,

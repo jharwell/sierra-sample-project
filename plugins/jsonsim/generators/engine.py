@@ -12,12 +12,12 @@ from sierra.core.experiment import definition
 from sierra.core import types
 import sierra.core.utils as scutils
 from sierra.core.experiment import spec
-from sierra.core import plugin_manager as pm
+from sierra.core import plugin as pm
 
 # Project packages
 
 
-import plugins.jsonsim.variables.exp_setup as exp
+from plugins.jsonsim.variables import exp_setup
 
 
 def for_all_exp(spec: spec.ExperimentSpec,
@@ -57,7 +57,7 @@ def for_all_exp(spec: spec.ExperimentSpec,
     # configuration files.
     expdef.flatten(["pathstring1", "pathstring2"])
 
-    setup = exp.factory(cmdopts["exp_setup"],
+    setup = exp_setup.factory(cmdopts["exp_setup"],
                         )()
     _, adds, chgs = scutils.apply_to_expdef(setup, expdef)
 
