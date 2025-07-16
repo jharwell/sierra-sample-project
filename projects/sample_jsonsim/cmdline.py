@@ -54,7 +54,7 @@ class Cmdline(cmd.CoreCmdline):
                                  """ + self.stage_usage_doc([1, 2, 3, 4]))
 
         self.multistage.add_argument("--controller",
-                                     choices=['default.default'],
+                                     choices=['default.default', "default.default2"],
                                      help="""
 
                                      Which controller agents should run.
@@ -62,6 +62,8 @@ class Cmdline(cmd.CoreCmdline):
                                      Valid controllers:
 
                                      - ``default.default``
+
+                                     - ``default.default2``
 
                                  """ + self.stage_usage_doc([1, 2, 3, 4]))
 

@@ -6,5 +6,9 @@
     "afterburners": {
         "max_speed": 0
     },
+    "fuel": {
+        "level": 1.0,
+        "type": "nuclear"
+    },
     "output_root": "foobar"
 }

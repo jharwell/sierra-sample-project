@@ -1,15 +1,15 @@
-intra_scenario:
+inter-controller:
   graphs:
     # Food counts
 
     # If you are using bivariate batch criteria, use this one (the # at the end
     # is needed to trigger generation from specific heatmap in the temporal
     # sequence). See SIERRA examples.
-    - src_stem: food-counts_10
-      dest_stem: cc-food-counts
-      title: 'Collected Food Counts'
-      label: 'A clever label with LaTeX! $P(\mathcal{N})$'
-      include_exp: '0:'
+    # - src_stem: food-counts_10
+    #   dest_stem: cc-food-counts
+    #   title: 'Collected Food Counts'
+    #   label: 'A clever label with LaTeX! $P(\mathcal{N})$'
+    #   include_exp: '0:'
 
     # If you are using univariate batch criteria, use this one.
     - src_stem: food-counts
@@ -23,20 +23,20 @@ intra_scenario:
     # If you are using bivariate batch criteria, use this one (the # at the end
     # is needed to trigger generation from specific heatmap in the temporal
     # sequence). See SIERRA examples.
-    - src_stem: swarm-energy_10
-      dest_stem: cc-swarm-energy
-      title: 'Swarm Energy'
-      label: 'Another clever label'
-      include_exp: '1:'
+    # - src_stem: swarm-energy_10
+    #   dest_stem: cc-swarm-energy
+    #   title: 'Swarm Energy'
+    #   label: 'Another clever label'
+    #   include_exp: '1:'
 
     # If you are using univariate batch criteria, use this one.
     - src_stem: swarm-energy
       dest_stem: cc-swarm-energy
       title: 'Swarm Energy'
       label: 'Another clever label'
-      include_exp: '1:'
+      include_exp: '0:'
 
-inter_scenario:
+inter-scenario:
   graphs:
     # Food counts
     - src_stem: food-counts

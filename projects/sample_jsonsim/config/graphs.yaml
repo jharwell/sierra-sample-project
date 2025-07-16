@@ -22,6 +22,29 @@ inter-exp:
       ylabel: "Noisiness"
       type: 'summary_line'
 
+  HM_bivar:
+    - src_stem: output1D
+      dest_stem: bivar-random-noise-col1
+      col: col1
+      title: 'Random noise col1'
+      xlabel: 'Time'
+      type: 'heatmap'
+
+    - src_stem: subdir1/subdir2/output1D
+      dest_stem: bivar-random-noise2-col2
+      col: col2
+      title: 'Random noise col2'
+      xlabel: 'Time'
+      type: 'heatmap'
+
+    - src_stem: subdir3/output1D
+      dest_stem: bivar-random-noise3-col2
+      col: col2
+      title: 'Random noise col2'
+      xlabel: 'Time'
+      ylabel: "Noisiness"
+      type: 'heatmap'
+
 intra-exp:
   LN_default:
     - src_stem: output1D

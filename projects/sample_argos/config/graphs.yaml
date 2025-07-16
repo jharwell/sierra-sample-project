@@ -40,31 +40,27 @@ intra-exp:
 inter-exp:
   HM_foraging:
     - src_stem: collected-data
-      dest_stem: robot-counts-walking
+      dest_stem: robot-counts-walking2
       col: walking
       title: 'Robot Walking Counts'
-      xlabel: 'Time'
       type: 'heatmap'
 
     - src_stem: collected-data
-      dest_stem: robot-counts-resting
+      dest_stem: robot-counts-resting2
       col: resting
       title: 'Robot Resting Counts'
-      xlabel: 'Time'
       type: 'heatmap'
 
     - src_stem: collected-data
-      dest_stem: food-counts
+      dest_stem: food-counts2
       col: collected_food
       title: 'Collected Food Counts'
-      xlabel: 'Time'
       type: 'heatmap'
 
     - src_stem: collected-data
-      dest_stem: swarm-energy
+      dest_stem: swarm-energy2
       col: energy
       title: 'Swarm Energy Over Time'
-      xlabel: 'Time'
       type: 'heatmap'
 
   LN_foraging:

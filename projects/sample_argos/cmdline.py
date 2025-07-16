@@ -56,7 +56,9 @@ class Cmdline(cmd.CoreCmdline):
 
         self.multistage.add_argument("--controller",
                                      choices=['foraging.footbot_foraging',
-                                              'foraging.footbot_foraging_slow'],
+                                              'foraging.footbot_foraging_slow',
+                                              'foraging.footbot_foraging2',
+                                              'foraging.footbot_foraging_slow2'],
                                      help="""
 
                                      Which controller robots should run.
@@ -66,6 +68,10 @@ class Cmdline(cmd.CoreCmdline):
                                      - ``foraging.footbot_foraging``
 
                                      - ``foraging.footbot_foraging_slow``
+
+                                     - ``foraging.footbot_foraging2``
+
+                                     - ``foraging.footbot_foraging_slow2``
 
                                  """ + self.stage_usage_doc([1, 2, 3, 4]))
 

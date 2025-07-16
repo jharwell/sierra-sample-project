@@ -22,9 +22,28 @@ foraging:
       # files, setting which graphs should be generated for this controller.
       graphs:
         - LN_foraging
-        - HM_foraging
 
     - name: footbot_foraging_slow
+      xml:
+        element_change:
+          - ['.//controllers', '__CONTROLLER__', 'footbot_foraging_controller']
+          - ['.//params/wheel_turning', 'max_speed', '5']
+
+      graphs:
+        - LN_foraging
+
+    - name: footbot_foraging2
+      xml:
+        element_change:
+          - ['.//controllers', '__CONTROLLER__', 'footbot_foraging_controller']
+
+      # This key has a list of keys in the intra/inter experiment graph YAML
+      # files, setting which graphs should be generated for this controller.
+      graphs:
+        - LN_foraging
+        - HM_foraging
+
+    - name: footbot_foraging_slow2
       xml:
         element_change:
           - ['.//controllers', '__CONTROLLER__', 'footbot_foraging_controller']
