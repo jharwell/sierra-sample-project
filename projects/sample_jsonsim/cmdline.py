@@ -25,21 +25,17 @@ import argparse
 # 3rd party packages
 
 # Project packages
-import sierra.core.cmdline as cmd
 from sierra.core import types
-from sierra.plugins.execenv import hpc
+from sierra.plugins import PluginCmdline
 
-
-class Cmdline(cmd.CoreCmdline):
-    def __init__(self,
-                 parents: tp.List[argparse.ArgumentParser],
-                 stages: tp.List[int]):
-        super().__init__(parents=parents, stages=stages)
-
-    def init_multistage(self):
-        super().init_multistage()
-
-        self.multistage.add_argument("--scenario",
+def build(
+    parents: tp.List[argparse.ArgumentParser], stages: tp.List[int]
+) -> PluginCmdline:
+    """
+    Get a cmdline for the JSONSIM sample project.
+    """
+    cmdline = PluginCmdline(parents, stages)
+    cmdline.multistage.add_argument("--scenario",
                                      help="""
 
                                      Which scenario the swarm comprised of
@@ -51,9 +47,9 @@ class Cmdline(cmd.CoreCmdline):
                                      - ``scenario1``
                                      - ``scenario2``
 
-                                 """ + self.stage_usage_doc([1, 2, 3, 4]))
+                                 """ + cmdline.stage_usage_doc([1, 2, 3, 4]))
 
-        self.multistage.add_argument("--controller",
+    cmdline.multistage.add_argument("--controller",
                                      choices=['default.default', "default.default2"],
                                      help="""
 
@@ -65,17 +61,12 @@ class Cmdline(cmd.CoreCmdline):
 
                                      - ``default.default2``
 
-                                 """ + self.stage_usage_doc([1, 2, 3, 4]))
+                                 """ + cmdline.stage_usage_doc([1, 2, 3, 4]))
 
+    return cmdline
 
 def to_cmdopts(args: argparse.Namespace) -> types.Cmdopts:
-    # This makes all HPC arguments available when using this engine
-    opts = hpc.cmdline.to_cmdopts(args)
-
-    updates = {
+    return {
         'scenario': args.scenario,
         'controller': args.controller,
     }
-    opts |= updates
-
-    return opts

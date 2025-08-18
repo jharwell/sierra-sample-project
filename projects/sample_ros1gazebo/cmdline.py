@@ -25,40 +25,37 @@ import argparse
 # 3rd party packages
 
 # Project packages
-import sierra.core.cmdline as cmd
 from sierra.core import types
+from sierra.plugins import PluginCmdline
 
-
-class Cmdline(cmd.CoreCmdline):
-    def __init__(self,
-                 parents: tp.List[argparse.ArgumentParser],
-                 stages: tp.List[int]):
-        super().__init__(parents=parents, stages=stages)
-
-    def init_multistage(self):
-        super().init_multistage()
-
-        self.multistage.add_argument("--scenario",
+def build(
+    parents: tp.List[argparse.ArgumentParser], stages: tp.List[int]
+) -> PluginCmdline:
+    """
+    Get a cmdline for the ROS1+Gazebo sample project.
+    """
+    cmdline = PluginCmdline(parents, stages)
+    cmdline.multistage.add_argument("--scenario",
                                      help="""
+                                          Which scenario the system comprised of
+                                          robots running the controller
+                                          specified via ``--controller`` should
+                                          be run in.
 
-                                     Which scenario the system comprised of
-                                     robots running the controller specified via
-                                     ``--controller`` should be run in.
+                                          Valid scenarios:
 
-                                     Valid scenarios:
+                                              - ``HouseWorld.AxBxC``
+                                          """ + cmdline.stage_usage_doc([1, 2, 3, 4]))
 
-                                     - ``HouseWorld.AxBxC``
-
-                                 """ + self.stage_usage_doc([1, 2, 3, 4]))
-
-        self.multistage.add_argument("--controller",
+    cmdline.multistage.add_argument("--controller",
                                      choices=['turtlebot3.wander'],
                                      help="""
 
                                      Which controller robots should run.
 
-                                 """ + self.stage_usage_doc([1, 2, 3, 4]))
+                                 """ + cmdline.stage_usage_doc([1, 2, 3, 4]))
 
+    return cmdline
 
 def to_cmdopts(args: argparse.Namespace) -> types.Cmdopts:
     return {
