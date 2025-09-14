@@ -2,14 +2,16 @@ inter-exp:
   LN_default:
     - src_stem: output1D
       dest_stem: random-noise-col1
-      col: col1
+      cols:
+        - col1
       title: 'Random noise col1'
       xlabel: 'Time'
       type: 'stacked_line'
 
     - src_stem: subdir1/subdir2/output1D
       dest_stem: random-noise2-col2
-      col: col2
+      cols:
+        - col2
       title: 'Random noise col2'
       xlabel: 'Time'
       type: 'stacked_line'

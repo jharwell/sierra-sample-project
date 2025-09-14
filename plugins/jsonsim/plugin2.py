@@ -162,7 +162,7 @@ def cmdline_postparse_configure(
     Configure cmdline args after parsing for the engine.
 
     This sets arguments appropriately depending on what environment
-    is selected with ``--exec-env``.
+    is selected with ``--execenv``.
 
     - hpc.local
 
