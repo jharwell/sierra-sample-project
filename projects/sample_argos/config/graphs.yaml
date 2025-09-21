@@ -103,9 +103,9 @@ inter-exp:
       type: 'summary_line'
 
 imagize:
-    - src_stem: floor-state
-      title: 'Floor State'
-      type: 'heatmap'
+  - src_stem: floor-state
+    title: 'Floor State'
+    type: 'heatmap'
 
 inter-controller:
   # Food counts

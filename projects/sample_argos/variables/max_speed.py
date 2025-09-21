@@ -47,33 +47,33 @@ class MaxRobotSpeed(bc.UnivarBatchCriteria):
 
     """
 
-    def __init__(self,
-                 cli_arg: str,
-                 main_config: types.YAMLDict,
-                 batch_input_root: pathlib.Path,
-                 speeds: tp.List[float]) -> None:
-        bc.UnivarBatchCriteria.__init__(self,
-                                        cli_arg,
-                                        main_config,
-                                        batch_input_root)
+    def __init__(
+        self,
+        cli_arg: str,
+        main_config: types.YAMLDict,
+        batch_input_root: pathlib.Path,
+        speeds: tp.List[float],
+    ) -> None:
+        bc.UnivarBatchCriteria.__init__(self, cli_arg, main_config, batch_input_root)
 
         self.speeds = speeds
         self.attr_changes = []  # type: tp.List
 
     def gen_attr_changelist(self) -> tp.List[definition.AttrChange]:
         if not self.attr_changes:
-            chgs = [definition.AttrChangeSet(definition.AttrChange(".//wheel_turning",
-                                                                   "max_speed",
-                                                                   str(s)))
-                    for s in self.speeds]
+            chgs = [
+                definition.AttrChangeSet(
+                    definition.AttrChange(".//wheel_turning", "max_speed", str(s))
+                )
+                for s in self.speeds
+            ]
             self.attr_changes = chgs
 
         return self.attr_changes
 
     def gen_exp_names(self) -> tp.List[str]:
         changes = self.gen_attr_changelist()
-        return ['exp' + str(x) for x in range(0, len(changes))]
-
+        return ["exp" + str(x) for x in range(0, len(changes))]
 
     def graph_info(
         self,
@@ -93,7 +93,7 @@ class MaxRobotSpeed(bc.UnivarBatchCriteria):
         return info
 
 
-class Parser():
+class Parser:
     """
     Enforces the cmdline definition of the :class:`MaxRobotSpeed` batch
     criteria.
@@ -105,38 +105,32 @@ class Parser():
             Dictionary with keys: min_speed, max_speed, cardinality
 
         """
-        ret = {
-            'min_speed': str(),
-            'max_speed': str(),
-            'cardinality': int()
-        }
+        ret = {"min_speed": str(), "max_speed": str(), "cardinality": int()}
 
-        sections = arg.split('.')
+        sections = arg.split(".")
 
         # remove batch criteria variable name, leaving only the spec
         sections = sections[1:]
-        assert len(sections) == 3, \
-            ("Spec must have 3 sections separated by '.'; "
-             f"have {len(sections)} from '{arg}'")
+        assert len(sections) == 3, (
+            "Spec must have 3 sections separated by '.'; "
+            f"have {len(sections)} from '{arg}'"
+        )
 
         # Parse min speed
         res = re.search("[0-9]+", sections[0])
-        assert res is not None, \
-            "Bad min speed in criteria section '{sections[0]}'"
-        ret['min'] = int(res.group(0))
+        assert res is not None, "Bad min speed in criteria section '{sections[0]}'"
+        ret["min"] = int(res.group(0))
 
         # Parse max speed
         res = re.search("[0-9]+", sections[1])
-        assert res is not None, \
-            "Bad max speed in criteria section '{sections[1]}'"
-        ret['max'] = int(res.group(0))
+        assert res is not None, "Bad max speed in criteria section '{sections[1]}'"
+        ret["max"] = int(res.group(0))
 
         # Parse cardinality
         res = re.search("C[0-9]+", sections[2])
-        assert res is not None, \
-            "Bad cardinality in criteria section '{sections[2]}'"
+        assert res is not None, "Bad cardinality in criteria section '{sections[2]}'"
 
-        ret['cardinality'] = int(res.group(0)[1:])
+        ret["cardinality"] = int(res.group(0)[1:])
 
         return ret
 
@@ -144,16 +138,16 @@ class Parser():
         """
         Generate the max speeds sizes for each experiment in a batch.
         """
-        return [x for x in np.linspace(attr['min'],
-                                       attr['max'],
-                                       attr['cardinality'])]
+        return [x for x in np.linspace(attr["min"], attr["max"], attr["cardinality"])]
 
 
-def factory(cli_arg: str,
-            main_config: types.YAMLDict,
-            cmdopts: types.Cmdopts,
-            batch_input_root: pathlib.Path,
-            **kwargs):
+def factory(
+    cli_arg: str,
+    main_config: types.YAMLDict,
+    cmdopts: types.Cmdopts,
+    batch_input_root: pathlib.Path,
+    **kwargs,
+):
     """
     Factory to create ``MaxRobotSpeed`` derived classes from the command line
             definition.
@@ -163,18 +157,7 @@ def factory(cli_arg: str,
     attr = parser(cli_arg)
     speeds = parser.to_speeds(attr)
 
-    def __init__(self) -> None:
-        MaxRobotSpeed.__init__(self,
-                               cli_arg,
-                               main_config,
-                               batch_input_root,
-                               speeds)
-
-    return type(cli_arg,
-                (MaxRobotSpeed,),
-                {"__init__": __init__})
+    return MaxRobotSpeed(cli_arg, main_config, batch_input_root, speeds)
 
 
-__api__ = [
-    'MaxRobotSpeed'
-]
+__api__ = ["MaxRobotSpeed"]
