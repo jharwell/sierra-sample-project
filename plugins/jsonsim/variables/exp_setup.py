@@ -2,9 +2,7 @@
 #
 #  SPDX-License-Identifier: MIT
 
-"""Classes for the ``--exp-setup`` cmdline option for the JSONSIM engine.
-
-"""
+"""Classes for the ``--exp-setup`` cmdline option for the JSONSIM engine."""
 
 # Core packages
 import typing as tp
@@ -20,7 +18,7 @@ from sierra.core.variables import exp_setup
 
 
 @implements.implements(IBaseVariable)
-class ExpSetup():
+class ExpSetup:
     """
     Defines the experimental setup for JSONSIM experiments.
 
@@ -33,9 +31,7 @@ class ExpSetup():
 
     """
 
-    def __init__(self,
-                 n_secs_per_run: int,
-                 n_datapoints: int) -> None:
+    def __init__(self, n_secs_per_run: int, n_datapoints: int) -> None:
         self.n_secs_per_run = n_secs_per_run
         self.n_datapoints = n_datapoints
 
@@ -44,12 +40,8 @@ class ExpSetup():
     def gen_attr_changelist(self) -> tp.List[definition.AttrChangeSet]:
         if not self.element_chgs:
             self.element_chgs = definition.AttrChangeSet(
-                definition.AttrChange("$.exp_setup",
-                                      "length",
-                                      self.n_secs_per_run),
-                definition.AttrChange("$.exp_setup",
-                                      "n_datapoints",
-                                      self.n_datapoints)
+                definition.AttrChange("$.exp_setup", "length", self.n_secs_per_run),
+                definition.AttrChange("$.exp_setup", "n_datapoints", self.n_datapoints),
             )
 
         return [self.element_chgs]
@@ -72,22 +64,18 @@ def factory(arg: str) -> ExpSetup:
        arg: The value of ``--exp-setup``.
 
     """
-    attr = exp_setup.parse(arg, {'n_secs_per_run': config.kROS['n_secs_per_run'],
-                    'n_ticks_per_sec': config.kROS['n_ticks_per_sec'],
-                     'n_datapoints': config.kExperimentalRunData['n_datapoints_1D']})
+    attr = exp_setup.parse(
+        arg,
+        {
+            "n_secs_per_run": config.kROS["n_secs_per_run"],
+            "n_ticks_per_sec": config.kROS["n_ticks_per_sec"],
+            "n_datapoints": 50,
+        },
+    )
 
-    def __init__(self: ExpSetup) -> None:
-        ExpSetup.__init__(self,
-                          attr["n_secs_per_run"],
-                          attr['n_datapoints'])
-
-    return type(attr['pretty_name'],
-                (ExpSetup,),
-                {"__init__": __init__})  # type: ignore
+    return ExpSetup(attr["n_secs_per_run"], attr["n_datapoints"])
 
 
 __all__ = [
-    'ExpSetup',
-
-
+    "ExpSetup",
 ]

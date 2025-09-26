@@ -20,10 +20,12 @@ from sierra.core import plugin as pm
 from plugins.jsonsim.variables import exp_setup
 
 
-def for_all_exp(spec: spec.ExperimentSpec,
-                controller: str,
-                cmdopts: types.Cmdopts,
-                expdef_template_fpath: pathlib.Path) -> definition.BaseExpDef:
+def for_all_exp(
+    spec: spec.ExperimentSpec,
+    controller: str,
+    cmdopts: types.Cmdopts,
+    expdef_template_fpath: pathlib.Path,
+) -> definition.BaseExpDef:
     """
     Create an experiment definition from the
     ``--expdef-template`` and generate expdef changes to input files
@@ -41,24 +43,27 @@ def for_all_exp(spec: spec.ExperimentSpec,
         exp_def_template_fpath: The path to ``--expdef-template``.
     """
     # Assuming simulator takes a single input file
-    wr_config = definition.WriterConfig([{'src_parent': None,
-                                          'src_tag': '$',
-                                          'opath_leaf': '.json',
-                                          'new_children': None,
-                                          'new_children_parent': None,
-                                          'rename_to': None
-                                          }])
-    module = pm.pipeline.get_plugin_module(cmdopts['expdef'])
+    wr_config = definition.WriterConfig(
+        [
+            {
+                "src_parent": None,
+                "src_tag": "$",
+                "opath_leaf": ".json",
+                "new_children": None,
+                "new_children_parent": None,
+                "rename_to": None,
+            }
+        ]
+    )
+    module = pm.pipeline.get_plugin_module(cmdopts["expdef"])
 
-    expdef = module.ExpDef(input_fpath=expdef_template_fpath,
-                           write_config=wr_config)
+    expdef = module.ExpDef(input_fpath=expdef_template_fpath, write_config=wr_config)
 
     # Optional, only needed if your platform supports nested
     # configuration files.
     expdef.flatten(["pathstring1", "pathstring2"])
 
-    setup = exp_setup.factory(cmdopts["exp_setup"],
-                        )()
+    setup = exp_setup.factory(cmdopts["exp_setup"])
     _, adds, chgs = scutils.apply_to_expdef(setup, expdef)
 
     # Write setup info to file for later retrieval
@@ -68,12 +73,13 @@ def for_all_exp(spec: spec.ExperimentSpec,
 
 
 def for_single_exp_run(
-        expdef: definition.BaseExpDef,
-        run_num: int,
-        run_output_path: pathlib.Path,
-        launch_stem_path: pathlib.Path,
-        random_seed: int,
-        cmdopts: types.Cmdopts) -> definition.BaseExpDef:
+    expdef: definition.BaseExpDef,
+    run_num: int,
+    run_output_path: pathlib.Path,
+    launch_stem_path: pathlib.Path,
+    random_seed: int,
+    cmdopts: types.Cmdopts,
+) -> definition.BaseExpDef:
     """
     Generate expdef changes unique to a experimental run within an
     experiment for the matrix platform.
@@ -96,7 +102,5 @@ def for_single_exp_run(
 
         cmdopts: Dictionary containing parsed cmdline options.
     """
-    expdef.attr_change("$",
-                       "output_root",
-                       str(run_output_path / "output"))
+    expdef.attr_change("$", "output_root", str(run_output_path / "output"))
     return expdef
