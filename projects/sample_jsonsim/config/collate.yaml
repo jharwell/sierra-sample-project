@@ -1,4 +1,4 @@
-perf:
+intra-exp:
   - file: 'output1D.csv'
     cols:
       - 'col1'

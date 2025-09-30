@@ -28,6 +28,7 @@ import argparse
 from sierra.core import types
 from sierra.plugins import PluginCmdline
 
+
 def build(
     parents: tp.List[argparse.ArgumentParser], stages: tp.List[int]
 ) -> PluginCmdline:
@@ -35,38 +36,52 @@ def build(
     Get a cmdline for the JSONSIM sample project.
     """
     cmdline = PluginCmdline(parents, stages)
-    cmdline.multistage.add_argument("--scenario",
-                                     help="""
+    cmdline.multistage.add_argument(
+        "--scenario",
+        help="""
+             Which scenario the swarm comprised of robots running the controller
+             specified via ``--controller`` should be run in.
 
-                                     Which scenario the swarm comprised of
-                                     robots running the controller specified via
-                                     ``--controller`` should be run in.
+             Valid scenarios:
 
-                                     Valid scenarios:
+                 - ``scenario1``
 
-                                     - ``scenario1``
-                                     - ``scenario2``
+                 - ``scenario2``
+             """
+        + cmdline.stage_usage_doc([1, 2, 3, 4]),
+    )
 
-                                 """ + cmdline.stage_usage_doc([1, 2, 3, 4]))
+    cmdline.multistage.add_argument(
+        "--controller",
+        choices=["default.default", "default.default2"],
+        help="""
+             Which controller agents should run.
 
-    cmdline.multistage.add_argument("--controller",
-                                     choices=['default.default', "default.default2"],
-                                     help="""
+             Valid controllers:
 
-                                     Which controller agents should run.
+                 - ``default.default``
 
-                                     Valid controllers:
+                 - ``default.default2``
+             """
+        + cmdline.stage_usage_doc([1, 2, 3, 4]),
+    )
 
-                                     - ``default.default``
-
-                                     - ``default.default2``
-
-                                 """ + cmdline.stage_usage_doc([1, 2, 3, 4]))
+    cmdline.stage2.add_argument(
+        "--gen-dist",
+        choices=["gaussian", "binomial"],
+        default="gaussian",
+        help="""
+             The distribution that generated data should conform to.
+             """
+        + cmdline.stage_usage_doc([2]),
+    )
 
     return cmdline
 
+
 def to_cmdopts(args: argparse.Namespace) -> types.Cmdopts:
     return {
-        'scenario': args.scenario,
-        'controller': args.controller,
+        "scenario": args.scenario,
+        "controller": args.controller,
+        "gen_dist": args.gen_dist,
     }

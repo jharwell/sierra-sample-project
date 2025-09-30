@@ -58,6 +58,8 @@ class ExpRunShellCmdsGenerator:
         exp_num: int,
     ) -> None:
         self.executable_path = cmdopts["jsonsim_path"]
+        self.gen_dist = cmdopts["gen_dist"]
+
         pass
 
     def pre_run_cmds(
@@ -68,9 +70,10 @@ class ExpRunShellCmdsGenerator:
     def exec_run_cmds(
         self, host: str, input_fpath: pathlib.Path, run_num: int
     ) -> tp.List[types.ShellCmdSpec]:
+        cmd = f"python3 {self.executable_path} --config {input_fpath}.json --distribution={self.gen_dist}"
         return [
             types.ShellCmdSpec(
-                cmd=f"python3 {self.executable_path} --config {input_fpath}.json",
+                cmd=cmd,
                 shell=True,
                 wait=True,
             )
@@ -199,6 +202,7 @@ def _configure_prefectserver_local(args: argparse.Namespace) -> argparse.Namespa
     _logger.debug("Allocated %s parallel runs/node", args.exec_jobs_per_node)
 
     return args
+
 
 def _configure_hpc_local(args: argparse.Namespace) -> argparse.Namespace:
     _logger.debug("Configuring for HPC local execution")

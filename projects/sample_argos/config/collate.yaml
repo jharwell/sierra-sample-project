@@ -1,4 +1,4 @@
-perf:
+intra-exp:
   - file: 'collected-data.csv'
     cols:
       - 'collected_food'
