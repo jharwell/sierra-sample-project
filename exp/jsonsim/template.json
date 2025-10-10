@@ -1,0 +1,14 @@
+{
+    "exp_setup" : {
+        "length": -1,
+        "n_datapoints": -1
+    },
+    "afterburners": {
+        "max_speed": 0
+    },
+    "fuel": {
+        "level": 1.0,
+        "type": "nuclear"
+    },
+    "output_root": "foobar"
+}

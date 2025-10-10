@@ -1,0 +1,24 @@
+# Arbitrary key. Any controllers which have this key will have the XML
+# modifications inside it applied.
+default:
+  json:
+
+  # This key has entries for all the controllers for the project. If a
+  # controller name matches here, then the resulting expdef modifications
+  # (adding, removing tags, changing attributes) will be applied ONLY to
+  # experiments using that controller.
+  controllers:
+    - name: default
+      # This key has a list of keys in the intra/inter experiment graph YAML
+      # files, setting which graphs should be generated for this controller.
+      graphs:
+        - LN_default
+        - HM_default
+
+    - name: default2
+      # This key has a list of keys in the intra/inter experiment graph YAML
+      # files, setting which graphs should be generated for this controller.
+      graphs:
+        - LN_default
+        - HM_default
+        - HM_bivar

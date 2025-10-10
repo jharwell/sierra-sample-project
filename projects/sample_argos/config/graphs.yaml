@@ -1,0 +1,158 @@
+intra-exp:
+  LN_foraging:
+    - src_stem: collected-data
+      dest_stem: robot-counts
+      cols:
+        - walking
+        - resting
+      title: 'Robot Counts'
+      legend:
+        - 'Walking'
+        - 'Resting'
+
+      xlabel: 'Time'
+      ylabel: '\# Robots'
+      type: 'stacked_line'
+
+    - src_stem: collected-data
+      dest_stem: food-counts
+      cols:
+        - collected_food
+      title: 'Collected Food Counts'
+      legend:
+        - ''
+
+      xlabel: 'Time'
+      ylabel: '\# Items'
+      type: 'stacked_line'
+
+    - src_stem: collected-data
+      dest_stem: swarm-energy
+      cols:
+        - energy
+      title: 'Swarm Energy Over Time'
+      legend:
+        - ''
+
+      xlabel: 'Time'
+      type: 'stacked_line'
+
+inter-exp:
+  HM_foraging:
+    - src_stem: collected-data
+      dest_stem: robot-counts-walking2
+      col: walking
+      title: 'Robot Walking Counts'
+      type: 'heatmap'
+
+    - src_stem: collected-data
+      dest_stem: robot-counts-resting2
+      col: resting
+      title: 'Robot Resting Counts'
+      type: 'heatmap'
+
+    - src_stem: collected-data
+      dest_stem: food-counts2
+      col: collected_food
+      title: 'Collected Food Counts'
+      type: 'heatmap'
+
+    - src_stem: collected-data
+      dest_stem: swarm-energy2
+      col: energy
+      title: 'Swarm Energy Over Time'
+      type: 'heatmap'
+
+  LN_foraging:
+    - src_stem: collected-data
+      dest_stem: robot-counts-walking
+      cols:
+        - walking
+      title: 'Robot Walking Counts'
+      xlabel: 'Time'
+      type: 'stacked_line'
+
+    - src_stem: collected-data
+      dest_stem: robot-counts-resting
+      cols:
+        - resting
+      title: 'Robot Resting Counts'
+      xlabel: 'Time'
+      type: 'stacked_line'
+
+    - src_stem: collected-data
+      dest_stem: food-counts
+      cols:
+        - collected_food
+      title: 'Collected Food Counts'
+      xlabel: 'Time'
+      type: 'stacked_line'
+
+    - src_stem: collected-data
+      dest_stem: swarm-energy
+      cols:
+        - energy
+      title: 'Swarm Energy Over Time'
+      xlabel: 'Time'
+      type: 'stacked_line'
+
+    - src_stem: collected-data
+      dest_stem: swarm-energy-summary
+      col: energy
+      title: 'Swarm Energy Over Time'
+      type: 'summary_line'
+
+imagize:
+  - src_stem: floor-state
+    title: 'Floor State'
+    type: 'heatmap'
+
+inter-controller:
+  # Food counts
+
+  # If you are using bivariate batch criteria, use this one (the # at the end
+  # is needed to trigger generation from specific heatmap in the temporal
+  # sequence). See SIERRA examples.
+  # - src_stem: food-counts_10
+  #   dest_stem: cc-food-counts
+  #   title: 'Collected Food Counts'
+  #   label: 'A clever label with LaTeX! $P(\mathcal{N})$'
+  #   include_exp: '0:'
+
+  # If you are using univariate batch criteria, use this one.
+  - src_stem: food-counts
+    dest_stem: cc-food-counts
+    title: 'Collected Food Counts'
+    label: 'A clever label with LaTeX! $P(\mathcal{N})$'
+    include_exp: '0:'
+
+  # Energy
+
+  # If you are using bivariate batch criteria, use this one (the # at the end
+  # is needed to trigger generation from specific heatmap in the temporal
+  # sequence). See SIERRA examples.
+  # - src_stem: swarm-energy_10
+  #   dest_stem: cc-swarm-energy
+  #   title: 'Swarm Energy'
+  #   label: 'Another clever label'
+  #   include_exp: '1:'
+
+  # If you are using univariate batch criteria, use this one.
+  - src_stem: swarm-energy
+    dest_stem: cc-swarm-energy
+    title: 'Swarm Energy'
+    label: 'Another clever label'
+    include_exp: '0:'
+
+inter-scenario:
+  # Food counts
+  - src_stem: food-counts
+    dest_stem: sc-food-counts
+    title: 'Collected Food Counts'
+    label: 'A clever label with LaTeX! $P(\mathcal{N})$'
+
+  # Energy
+  - src_stem: swarm-energy
+    dest_stem: sc-swarm-energy
+    title: 'Swarm Energy'
+    label: 'Another clever label'

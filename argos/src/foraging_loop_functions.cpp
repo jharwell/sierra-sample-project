@@ -45,12 +45,13 @@ void CForagingLoopFunctions::Init(TConfigurationNode& t_node) {
       GetNodeAttribute(tForaging, "output_dir", m_cOutputPath);
       /* Create output directory */
       std::filesystem::create_directories(m_cOutputPath);
+      /* Create floor state output directory */
+      std::filesystem::create_directories(m_cOutputPath / "floor-state");
       /* Get the output file name from XML */
       GetNodeAttribute(tForaging, "datafile", strFile);
-      m_cOutputPath /= strFile;
       /* Open the file, erasing its contents */
-      m_cOutput.open(m_cOutputPath, std::ios_base::trunc | std::ios_base::out);
-      m_cOutput << "clock;walking;resting;collected_food;energy" << std::endl;
+      m_cOutput.open(m_cOutputPath / strFile, std::ios_base::trunc | std::ios_base::out);
+      m_cOutput << "clock,walking,resting,collected_food,energy" << std::endl;
       /* Get energy gain per item collected */
       GetNodeAttribute(tForaging, "energy_per_item", m_unEnergyPerFoodItem);
       /* Get energy loss per walking robot */
@@ -72,7 +73,7 @@ void CForagingLoopFunctions::Reset() {
    m_cOutput.close();
    /* Open the file, erasing its contents */
    m_cOutput.open(m_cOutputPath, std::ios_base::trunc | std::ios_base::out);
-   m_cOutput << "clock;walking;resting;collected_food;energy" << std::endl;
+   m_cOutput << "clock,walking,resting,collected_food,energy" << std::endl;
    /* Distribute uniformly the items in the environment */
    for(UInt32 i = 0; i < m_cFoodPos.size(); ++i) {
       m_cFoodPos[i].Set(m_pcRNG->Uniform(m_cForagingArenaSideX),
@@ -176,13 +177,31 @@ void CForagingLoopFunctions::PreStep() {
    /* Update energy expediture due to walking robots */
    m_nEnergy -= unWalkingFBs * m_unEnergyPerWalkingRobot;
    /* Output stuff to file */
-   if ((GetSpace().GetSimulationClock() % 100) == 0) {
-     m_cOutput << GetSpace().GetSimulationClock() << ";"
-               << unWalkingFBs << ";"
-               << unRestingFBs << ";"
-               << m_unCollectedFood << ";"
+   if ((GetSpace().GetSimulationClock() % 10) == 0) {
+     m_cOutput << GetSpace().GetSimulationClock() << ","
+               << unWalkingFBs << ","
+               << unRestingFBs << ","
+               << m_unCollectedFood << ","
                << m_nEnergy << std::endl;
    }
+   /*
+    * Output floor color as a randomly scaled single scalar to file every
+    * timestep (as an example).
+    */
+   std::ofstream floor_state;
+
+   floor_state.open(m_cOutputPath / "floor-state" / ("floor-state-" + std::to_string(GetSpace().GetSimulationClock()) + ".csv"),
+                    std::ios_base::trunc | std::ios_base::out);
+
+   floor_state << "x,y,z" << std::endl;
+   for (size_t i = 0; i < GetSpace().GetArenaSize().GetX(); ++i) {
+     for (size_t j = 0; j < GetSpace().GetArenaSize().GetY(); ++j) {
+       floor_state << i << ',' << j << ',';
+       floor_state << CVector2(i, j).Length() * (random() % 10) << std::endl;
+     } /* for(j..) */
+   } /* for(i..) */
+   floor_state.close();
+
 }
 
 /****************************************/
