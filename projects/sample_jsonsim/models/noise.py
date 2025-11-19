@@ -29,7 +29,7 @@ class NoisyModel:
         exp_num: int,
         cmdopts: types.Cmdopts,
         pathset: exproot.PathSet,
-    ) -> tp.List[pd.DataFrame]:
+    ) -> list[pd.DataFrame]:
         data = np.random.normal(loc=0, scale=1, size=(50, 1)) * 80
         return [pd.DataFrame(data, columns=["model"])]
 
@@ -52,7 +52,7 @@ class LessNoisyModel:
         criteria: bc.XVarBatchCriteria,
         cmdopts: types.Cmdopts,
         pathset: batchroot.PathSet,
-    ) -> tp.List[pd.DataFrame]:
+    ) -> list[pd.DataFrame]:
         exp_dirnames = criteria.gen_exp_names()
         data = np.random.normal(loc=0, scale=0.01, size=(len(exp_dirnames))) * 80
 

@@ -1,0 +1,13 @@
+config:
+  exp_setup:
+    length: -1
+    n_datapoints: -1
+
+  noise:
+    floor: -1
+    type: foobar
+
+  tolerance:
+    value: 14
+
+  output_root: fizzbuzz

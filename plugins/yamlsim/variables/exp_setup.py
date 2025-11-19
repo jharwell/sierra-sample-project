@@ -2,7 +2,7 @@
 #
 #  SPDX-License-Identifier: MIT
 
-"""Classes for the ``--exp-setup`` cmdline option for the JSONSIM engine."""
+"""Classes for the ``--exp-setup`` cmdline option for the YAMLSIM engine."""
 
 # Core packages
 import typing as tp
@@ -20,14 +20,11 @@ from sierra.core.variables import exp_setup
 @implements.implements(IBaseVariable)
 class ExpSetup:
     """
-    Defines the experimental setup for JSONSIM experiments.
+    Defines the experimental setup for YAMLSIM experiments.
 
     Attributes:
         n_secs_per_run: The :term:`Experimental Run` duration in seconds, NOT
                         :term:`Ticks <Tick>` or timesteps.
-
-        n_datapoints: How many datapoints to capture during the experimental
-                      run.
 
     """
 
@@ -40,8 +37,8 @@ class ExpSetup:
     def gen_attr_changelist(self) -> list[definition.AttrChangeSet]:
         if not self.element_chgs:
             self.element_chgs = definition.AttrChangeSet(
-                definition.AttrChange("$.exp_setup", "length", self.n_secs_per_run),
-                definition.AttrChange("$.exp_setup", "n_datapoints", self.n_datapoints),
+                definition.AttrChange("/config/exp_setup", "length", self.n_secs_per_run),
+                definition.AttrChange("/config/exp_setup", "n_datapoints", self.n_datapoints),
             )
 
         return [self.element_chgs]

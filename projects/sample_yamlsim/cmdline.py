@@ -1,9 +1,8 @@
-# Copyright 2021 John Harwell, All rights reserved.
+# Copyright 2025 John Harwell, All rights reserved.
 #
 #  SPDX-License-Identifier: MIT
-#
 """
-Command line parsing and validation for the the sample ARGoS-based project.
+Command line parsing and validation for the the sample YAML-based project.
 """
 
 # Core packages
@@ -21,7 +20,7 @@ def build(
     parents: list[argparse.ArgumentParser], stages: list[int]
 ) -> PluginCmdline:
     """
-    Get a cmdline for the JSONSIM sample project.
+    Get a cmdline for the YAMLSIM sample project.
     """
     cmdline = PluginCmdline(parents, stages)
     cmdline.multistage.add_argument(
@@ -54,16 +53,6 @@ def build(
         + cmdline.stage_usage_doc([1, 2, 3, 4]),
     )
 
-    cmdline.stage2.add_argument(
-        "--gen-dist",
-        choices=["gaussian", "binomial"],
-        default="gaussian",
-        help="""
-             The distribution that generated data should conform to.
-             """
-        + cmdline.stage_usage_doc([2]),
-    )
-
     return cmdline
 
 
@@ -71,5 +60,4 @@ def to_cmdopts(args: argparse.Namespace) -> types.Cmdopts:
     return {
         "scenario": args.scenario,
         "controller": args.controller,
-        "gen_dist": args.gen_dist,
     }

@@ -1,5 +1,5 @@
 #
-# Copyright 2024 John Harwell, All rights reserved.
+# Copyright 2025 John Harwell, All rights reserved.
 #
 # SPDX-License Identifier: MIT
 #
@@ -20,7 +20,7 @@ from sierra.core.variables import batch_criteria as bc
 from sierra.core import types
 from sierra.plugins.execenv import hpc
 from sierra.plugins.execenv import prefectserver
-from plugins.jsonsim import cmdline
+from plugins.yamlsim import cmdline
 
 _logger = logging.getLogger(__name__)
 
@@ -57,8 +57,7 @@ class ExpRunShellCmdsGenerator:
         exp_num: int,
         n_agents: tp.Optional[int],
     ) -> None:
-        self.executable_path = cmdopts["jsonsim_path"]
-        self.gen_dist = cmdopts["gen_dist"]
+        self.executable_path = cmdopts["yamlsim_path"]
 
         pass
 
@@ -70,7 +69,7 @@ class ExpRunShellCmdsGenerator:
     def exec_run_cmds(
         self, host: str, input_fpath: pathlib.Path, run_num: int
     ) -> list[types.ShellCmdSpec]:
-        cmd = f"python3 {self.executable_path} --config {input_fpath}.json --distribution={self.gen_dist}"
+        cmd = f"python3 {self.executable_path} --config {input_fpath}.yaml"
         return [
             types.ShellCmdSpec(
                 cmd=cmd,
@@ -129,7 +128,7 @@ def cmdline_postparse_configure(
     elif execenv == "prefectserver.dockerremote":
         return args
 
-    _logger.warning(f"'{execenv}' unsupported on JSONSIM--may crash unexpectedly!")
+    _logger.warning(f"'{execenv}' unsupported on YAMLSIM--may crash unexpectedly!")
     return args
 
 

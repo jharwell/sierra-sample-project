@@ -1,9 +1,9 @@
-# Copyright 2021 John Harwell, All rights reserved.
+# Copyright 2025 John Harwell, All rights reserved.
 #
 #  SPDX-License-Identifier: MIT
 #
 """
-Command line parsing and validation for the JSONSIM engine.
+Command line parsing and validation for the YAMLSIM engine.
 """
 
 # Core packages
@@ -18,16 +18,16 @@ from sierra.plugins import PluginCmdline
 
 
 def build(
-    parents: list[argparse.ArgumentParser], stages: list[int]
+    parents: tp.List[argparse.ArgumentParser], stages: tp.List[int]
 ) -> PluginCmdline:
     """
-    Get a cmdline parser supporting the JSONSIM engine.
+    Get a cmdline parser supporting the YAMLSIM engine.
     """
     cmdline = PluginCmdline(parents, stages)
     cmdline.stage1.add_argument(
-        "--jsonsim-path",
+        "--yamlsim-path",
         help="""
-             The path to the JSONSIM executable script.  Since the script is
+             The path to the yamlsim executable script.  Since the script is
              part of this sample repo and not actually installed anywhere, and
              THIS sample repo isn't installed anywhere either, this is the best
              way to specify the path to avoid hardcoding it in plugin.py
@@ -49,9 +49,9 @@ def build(
 
 
 def to_cmdopts(args: argparse.Namespace) -> types.Cmdopts:
-    """Update cmdopts with JSONSIM-specific cmdline options."""
+    """Update cmdopts with YAMLSIM-specific cmdline options."""
     return {
         # Stage 1
-        "jsonsim_path": args.jsonsim_path,
+        "yamlsim_path": args.yamlsim_path,
         "exp_setup": args.exp_setup,
     }

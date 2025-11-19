@@ -3,16 +3,14 @@
 #  SPDX-License-Identifier: MIT
 
 # Core packages
-import os
 import pathlib
 
 # 3rd party packages
 
 # Project packages
-from sierra.plugins.engine.argos.generators import engine
 from sierra.core.experiment import definition
 from sierra.core import types
-
+from plugins.yamlsim.generators import engine
 
 def for_single_exp_run(
         exp_def: definition.BaseExpDef,
@@ -28,15 +26,7 @@ def for_single_exp_run(
                                           launch_stem_path,
                                           random_seed,
                                           cmdopts)
-    _for_single_exp_generate_output(exp_def, run_output_path)
-
-
-def _for_single_exp_generate_output(exp_def: definition.BaseExpDef,
-                                    run_output_path: pathlib.Path):
-    exp_def.attr_change(".//loop_functions/foraging",
-                        "output_dir",
-                        os.path.join(run_output_path,
-                                     'output'))
+    return exp_def
 
 
 __api__ = [
