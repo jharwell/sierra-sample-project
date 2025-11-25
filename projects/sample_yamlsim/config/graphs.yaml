@@ -98,3 +98,8 @@ intra-exp:
       dest_stem: output2D-2
       title: '2D Fizziness'
       type: 'heatmap'
+
+imagize:
+  - src_stem: output/erdos_renyi
+    type: "network"
+    title: "Example graph"

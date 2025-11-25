@@ -34,17 +34,6 @@ def build(
              """,
         required=True,
     )
-
-    cmdline.stage1.add_argument(
-        "--exp-setup",
-        help="""
-             Defines experiment run length, # of datapoints to capture/capture
-             interval for each simulation.  See :ref:`usage/vars/expsetup` for a
-             full description.
-             """
-        + cmdline.stage_usage_doc([1]),
-        default="exp_setup.T10.K5",
-    )
     return cmdline
 
 
@@ -53,5 +42,4 @@ def to_cmdopts(args: argparse.Namespace) -> types.Cmdopts:
     return {
         # Stage 1
         "yamlsim_path": args.yamlsim_path,
-        "exp_setup": args.exp_setup,
     }

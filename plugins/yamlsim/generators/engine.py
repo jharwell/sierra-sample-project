@@ -15,7 +15,6 @@ from sierra.core.experiment import spec
 from sierra.core import plugin as pm
 
 # Project packages
-from plugins.yamlsim.variables import exp_setup
 
 
 def for_all_exp(
@@ -56,12 +55,6 @@ def for_all_exp(
     module = pm.pipeline.get_plugin_module(cmdopts["expdef"])
 
     expdef = module.ExpDef(input_fpath=expdef_template_fpath, write_config=wr_config)
-
-    setup = exp_setup.factory(cmdopts["exp_setup"])
-    _, adds, chgs = scutils.apply_to_expdef(setup, expdef)
-
-    # Write setup info to file for later retrieval
-    scutils.pickle_modifications(adds, chgs, spec.exp_def_fpath)
 
     return expdef
 
