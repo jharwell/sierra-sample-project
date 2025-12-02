@@ -29,32 +29,45 @@ def main():
 
     # Generate random 1D data
     data_1D = np.random.normal(loc=0, scale=0.5, size=(50, 5))
-
     df1D = pd.DataFrame(data_1D, columns=[f"col{i}" for i in range(0, 5)])
 
-    # Output to file
     root = pathlib.Path(config["output_root"])
-    subdir1 = root / "subdir1/subdir2"
-    subdir2 = root / "subdir3"
-
     root.mkdir(parents=True, exist_ok=True)
-    subdir1.mkdir(parents=True, exist_ok=True)
-    subdir2.mkdir(parents=True, exist_ok=True)
-
     df1D.to_csv(root / "output1D.csv", index=False)
-    df1D.to_csv(subdir1 / "output1D.csv", index=False)
-    df1D.to_csv(subdir2 / "output1D.csv", index=False)
 
-    # Create directory for output files if it doesn't exist
+    # Generate confusion matrix
+    classes = ['Class_0', 'Class_1', 'Class_2', 'Class_3', 'Class_4', 
+               'Class_5', 'Class_6', 'Class_7', 'Class_8', 'Class_9']
+
+    confusion_data = []
+    for actual_class in classes:
+        for predicted_class in classes:
+            # Generate higher counts for correct predictions (diagonal)
+            if actual_class == predicted_class:
+                count = np.random.randint(70, 95)
+            else:
+                count = np.random.randint(1, 10)
+
+            # Add rows for each occurrence
+            for _ in range(count):
+                confusion_data.append({
+                    'Actual_Class': actual_class,
+                    'Predicted_Class': predicted_class
+                })
+
+    confusion_df = pd.DataFrame(confusion_data)
+    confusion_df['Index'] = range(len(confusion_df))
+    confusion_df = confusion_df.set_index("Index")
+    confusion_df.to_csv(root / "confusion-matrix.csv")
+
+    # Generate graphs
     graph_dir = root / 'erdos_renyi'
     graph_dir.mkdir(exist_ok=True)
 
-    # Parameters
     start_nodes = 5  # Starting number of nodes
     num_graphs = 10  # Number of graphs to generate
     edge_probability = 0.3  # Probability of edge creation in random graph
 
-    # Generate graphs
     for i in range(num_graphs):
         num_nodes = start_nodes + i
 

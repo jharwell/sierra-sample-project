@@ -14,6 +14,7 @@ default:
       graphs:
         - LN_default
         - HM_default
+        - CM_default
 
     - name: default2
       # This key has a list of keys in the intra/inter experiment graph YAML
@@ -21,4 +22,5 @@ default:
       graphs:
         - LN_default
         - HM_default
+        - CM_default
         - HM_bivar
