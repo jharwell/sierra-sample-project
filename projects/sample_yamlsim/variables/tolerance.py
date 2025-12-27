@@ -2,20 +2,22 @@
 #
 #  SPDX-License-Identifier: MIT
 
-"""Classes for the max robot speed batch criteria.
+"""Classes for the tolerance batch criteria.
 
 Must be specified like <min>.<max>.C<Cardinality> on the
 cmdline.
 
-E.g., 1.9.C5 would give 5 experiments with max speeds of 1,3,5,7,9.
+E.g., 1.9.C5 would give 5 experiments with tolerances of 1,3,5,7,9.
 """
 
 # Core packages
 import typing as tp
+import re
 import pathlib
 
 # 3rd party packages
 import implements
+import numpy as np
 
 # Project packages
 from sierra.core.experiment import definition
@@ -24,9 +26,11 @@ import sierra.core.variables.batch_criteria as bc
 from sierra.core.graphs import bcbridge
 from sierra.core.variables import builtin
 
+
 @implements.implements(bcbridge.IGraphable)
-class MaxRobotSpeed(bc.UnivarBatchCriteria):
-    """A univariate range specifiying the max robot speed.
+class Tolerance(bc.UnivarBatchCriteria):
+    """A univariate range specifiying an arbitrary tolerance.
+
     """
 
     def __init__(
@@ -45,7 +49,7 @@ class MaxRobotSpeed(bc.UnivarBatchCriteria):
         if not self.attr_changes:
             chgs = [
                 definition.AttrChangeSet(
-                    definition.AttrChange(".//params/speed", "max", str(s))
+                    definition.AttrChange("/tolerance", "value", str(s))
                 )
                 for s in self.speeds
             ]
@@ -71,12 +75,12 @@ class MaxRobotSpeed(bc.UnivarBatchCriteria):
 
         info.xticks = list(map(float, range(0, len(info.exp_names))))
         info.xticklabels = [str(s) for s in self.speeds]
-        info.xlabel = "Max robot speeds"
+        info.xlabel = "Tolerances"
         return info
 
 
 def _parse(arg: str) -> list[float]:
-    """Generate the max agent speeds for each experiment in a batch."""
+    """Generate the tolerances for each experiment in a batch."""
 
     # remove batch criteria variable name, leaving only the spec
     sections = arg.split(".")[1:]
@@ -91,12 +95,12 @@ def factory(
     **kwargs,
 ):
     """
-    Factory to create :class:`MaxRobotSpeed` classes from the command line
+    Factory to create :class:`Tolerance` classes from the command line
     definition.
     """
-    speeds = _parse(cli_arg)
+    tolerances = _parse(cli_arg)
 
-    return MaxRobotSpeed(cli_arg, main_config, batch_input_root, speeds)
+    return Tolerance(cli_arg, main_config, batch_input_root, tolerances)
 
 
-__api__ = ["MaxRobotSpeed"]
+__api__ = ["Tolerance"]

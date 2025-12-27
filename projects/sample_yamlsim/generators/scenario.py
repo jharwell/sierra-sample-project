@@ -13,7 +13,7 @@ import pathlib
 from sierra.core.experiment import definition, spec
 from sierra.core import types
 
-from plugins.jsonsim.generators import engine
+from plugins.yamlsim.generators import engine
 
 
 def to_dict(scenario: str) -> tp.Dict[str, tp.Any]:
@@ -33,13 +33,13 @@ def to_generator_name(scenario: str) -> str:
     scenario = res.group(0)
 
     mapping = {
-        'scenario1': 'generate_pewpew1',
-        'scenario2': 'generate_pewpew2'
+        'scenario1': 'generate_fizzbuzz1',
+        'scenario2': 'generate_fizzbuzz22'
     }
     return mapping[scenario]
 
 
-def for_all_pewpew(spec: spec.ExperimentSpec,
+def for_all_fizzbuzz(spec: spec.ExperimentSpec,
                    controller: str,
                    cmdopts: types.Cmdopts,
                    expdef_template_fpath: pathlib.Path) -> definition.BaseExpDef:
@@ -51,9 +51,9 @@ def for_all_pewpew(spec: spec.ExperimentSpec,
     return exp_def
 
 
-def generate_pewpew1(*args, **kwargs) -> definition.BaseExpDef:
-    return for_all_pewpew(*args, **kwargs)
+def generate_fizzbuzz1(*args, **kwargs) -> definition.BaseExpDef:
+    return for_all_fizzbuzz(*args, **kwargs)
 
 
-def generate_pewpew2(*args, **kwargs) -> definition.BaseExpDef:
-    return for_all_pewpew(*args, **kwargs)
+def generate_fizzbuzz2(*args, **kwargs) -> definition.BaseExpDef:
+    return for_all_fizzbuzz(*args, **kwargs)

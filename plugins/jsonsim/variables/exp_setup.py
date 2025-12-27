@@ -37,7 +37,7 @@ class ExpSetup:
 
         self.element_chgs = None
 
-    def gen_attr_changelist(self) -> tp.List[definition.AttrChangeSet]:
+    def gen_attr_changelist(self) -> list[definition.AttrChangeSet]:
         if not self.element_chgs:
             self.element_chgs = definition.AttrChangeSet(
                 definition.AttrChange("$.exp_setup", "length", self.n_secs_per_run),
@@ -46,10 +46,10 @@ class ExpSetup:
 
         return [self.element_chgs]
 
-    def gen_tag_rmlist(self) -> tp.List[definition.ElementRmList]:
+    def gen_tag_rmlist(self) -> list[definition.ElementRmList]:
         return []
 
-    def gen_element_addlist(self) -> tp.List[definition.ElementAddList]:
+    def gen_element_addlist(self) -> list[definition.ElementAddList]:
         return []
 
     def gen_files(self) -> None:
@@ -67,8 +67,8 @@ def factory(arg: str) -> ExpSetup:
     attr = exp_setup.parse(
         arg,
         {
-            "n_secs_per_run": config.kROS["n_secs_per_run"],
-            "n_ticks_per_sec": config.kROS["n_ticks_per_sec"],
+            "n_secs_per_run": 100,
+            "n_ticks_per_sec": 2,
             "n_datapoints": 50,
         },
     )

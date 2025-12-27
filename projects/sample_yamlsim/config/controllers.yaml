@@ -1,19 +1,20 @@
-# Arbitrary category key. Any controllers with this category will have the JSON
+# Arbitrary key. Any controllers which have this key will have the YAML
 # modifications inside it applied.
 default:
-  json:
+  yaml:
 
-  # This key has entries for all the controllers for the project. If a
-  # controller name matches here, then the resulting expdef modifications
-  # (adding, removing tags, changing attributes) will be applied ONLY to
-  # experiments using that controller.
   controllers:
+    # This key has entries for all the controllers for the project. If a
+    # controller name matches here, then the resulting expdef modifications
+    # (adding, removing tags, changing attributes) will be applied ONLY to
+    # experiments using that controller.
     - name: default
       # This key has a list of keys in the intra/inter experiment graph YAML
       # files, setting which graphs should be generated for this controller.
       graphs:
         - LN_default
         - HM_default
+        - CM_default
 
     - name: default2
       # This key has a list of keys in the intra/inter experiment graph YAML
@@ -21,4 +22,5 @@ default:
       graphs:
         - LN_default
         - HM_default
+        - CM_default
         - HM_bivar

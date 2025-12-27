@@ -1,0 +1,8 @@
+intra-exp:
+  - file: 'output1D.csv'
+    cols:
+      - 'col1'
+      - 'col2'
+  - file: 'subdir1/subdir2/output1D.csv'
+    cols:
+      - 'col1'

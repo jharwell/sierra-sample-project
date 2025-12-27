@@ -3,7 +3,7 @@
 #  SPDX-License-Identifier: MIT
 #
 """
-Command line parsing and validation for the :term:`ARGoS`.
+Command line parsing and validation for the JSONSIM engine.
 """
 
 # Core packages
@@ -18,10 +18,10 @@ from sierra.plugins import PluginCmdline
 
 
 def build(
-    parents: tp.List[argparse.ArgumentParser], stages: tp.List[int]
+    parents: list[argparse.ArgumentParser], stages: list[int]
 ) -> PluginCmdline:
     """
-    Get a cmdline parser supporting the :term:`ARGoS` engine.
+    Get a cmdline parser supporting the JSONSIM engine.
     """
     cmdline = PluginCmdline(parents, stages)
     cmdline.stage1.add_argument(
@@ -43,7 +43,7 @@ def build(
              full description.
              """
         + cmdline.stage_usage_doc([1]),
-        default="exp_setup.T10.K5.N50",
+        default="exp_setup.T10.K5",
     )
     return cmdline
 

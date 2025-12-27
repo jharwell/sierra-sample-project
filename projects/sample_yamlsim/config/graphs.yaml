@@ -1,0 +1,48 @@
+inter-exp:
+  LN_default:
+    - src_stem: output1D
+      dest_stem: random-noise-col1
+      cols:
+        - col1
+      title: 'Random noise col1'
+      xlabel: 'Time'
+      type: 'stacked_line'
+
+  HM_bivar:
+    - src_stem: output1D
+      dest_stem: bivar-random-noise-col1
+      col: col1
+      title: 'Random noise col1'
+      xlabel: 'Time'
+      type: 'heatmap'
+
+intra-exp:
+  LN_default:
+    - src_stem: output1D
+      dest_stem: random-noise
+      cols:
+        - col1
+        - col2
+      title: 'Random noise'
+      legend:
+        - 'One column'
+        - 'Two column'
+
+      xlabel: 'Time'
+      ylabel: 'Fizziness'
+      logyscale: true
+      type: 'stacked_line'
+
+  CM_default:
+    - src_stem: confusion-matrix
+      dest_stem: confusion-matrix
+      type: "confusion_matrix"
+      title: "I'm A Little Confused"
+      truth_col: Actual_Class
+      predicted_col: Predicted_Class
+      xlabels_rotate: true
+
+imagize:
+  - src_stem: output/erdos_renyi
+    type: "network"
+    title: "Example graph"

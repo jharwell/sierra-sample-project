@@ -1,0 +1,3 @@
+sierra:
+  run:
+    run_metrics_leaf: 'output'

@@ -14,7 +14,7 @@ import typing as tp
 def sierra_plugin_type() -> str:
     return "model"
 
-def sierra_models(model_type: str) -> tp.List[str]:
+def sierra_models(model_type: str) -> list[str]:
     if model_type == "intra":
         return ["noise.NoisyModel"]
     if model_type == "inter":
