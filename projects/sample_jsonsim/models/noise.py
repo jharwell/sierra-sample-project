@@ -9,7 +9,7 @@ import typing as tp
 
 # 3rd party packages
 import implements
-import pandas as pd
+import polars as pl
 import numpy as np
 
 # Project packages
@@ -29,9 +29,9 @@ class NoisyModel:
         exp_num: int,
         cmdopts: types.Cmdopts,
         pathset: exproot.PathSet,
-    ) -> list[pd.DataFrame]:
+    ) -> list[pl.DataFrame]:
         data = np.random.normal(loc=0, scale=1, size=(50, 1)) * 80
-        return [pd.DataFrame(data, columns=["model"])]
+        return [pl.DataFrame(data, schema=["model"])]
 
     def should_run(
         self, criteria: bc.XVarBatchCriteria, cmdopts: types.Cmdopts, exp_num: int
@@ -52,12 +52,13 @@ class LessNoisyModel:
         criteria: bc.XVarBatchCriteria,
         cmdopts: types.Cmdopts,
         pathset: batchroot.PathSet,
-    ) -> list[pd.DataFrame]:
+    ) -> list[pl.DataFrame]:
         exp_dirnames = criteria.gen_exp_names()
-        data = np.random.normal(loc=0, scale=0.01, size=(len(exp_dirnames))) * 80
-
-        df = pd.DataFrame(data, index=exp_dirnames)
-        df.index.name = "Experiment ID"
+        data = np.random.normal(loc=0, scale=0.01, size=len(exp_dirnames)) * 80
+        df = pl.DataFrame({
+            "Experiment ID": exp_dirnames,
+            "col_0": data
+        })
         return [df]
 
     def should_run(
