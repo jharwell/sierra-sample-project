@@ -27,13 +27,14 @@ def main():
 
     config = json.load(open(args.config, "r"))
 
-    # Generate random 1D data
+    # Generate seeded random 1D data
+    rng = np.random.RandomState(42)
     if args.distribution == "gaussian":
-        data_1D = np.random.normal(
+        data_1D = rng.normal(
             loc=0, scale=0.5, size=(int(config["exp_setup"]["n_datapoints"]), 5)
         )
     elif args.distribution == "binomial":
-        data_1D = np.random.binomial(
+        data_1D = rng.binomial(
             n=int(config["exp_setup"]["n_datapoints"]) * 5,
             p=0.3,
             size=(int(config["exp_setup"]["n_datapoints"]), 5),
@@ -48,7 +49,7 @@ def main():
                 {
                     "x": i,
                     "y": j,
-                    "z": np.random.rand(1)[0],
+                    "z": rng.rand(1)[0],
                 }
             )
 

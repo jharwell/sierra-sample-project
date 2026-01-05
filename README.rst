@@ -32,31 +32,31 @@ respectively.
 Repo Structure
 ==============
 
-This repo is organized as follows:
+This repo is organized as follows::
 
-├── argos/
-│   ├── CMakeLists.txt
-│   ├── include
-│   └── src
-├── exp/
-│   ├── argos/
-│   ├── jsonsim/
-│   ├── ros1gazebo/
-│   ├── ros1robot/
-│   └── yamlsim/
-├── LICENSE.md
-├── plugins/
-│   ├── __init__.py
-│   ├── jsonsim/
-│   ├── __pycache__
-│   └── yamlsim/
-├── projects/
-│   ├── sample_argos/
-│   ├── sample_jsonsim/
-│   ├── sample_ros1gazebo/
-│   ├── sample_ros1robot/
-│   └── sample_yamlsim/
-└── README.rst
+  ├── argos/
+  │   ├── CMakeLists.txt
+  │   ├── include
+  │   └── src
+  ├── exp/
+  │   ├── argos/
+  │   ├── jsonsim/
+  │   ├── ros1gazebo/
+  │   ├── ros1robot/
+  │   └── yamlsim/
+  ├── LICENSE.md
+  ├── plugins/
+  │   ├── __init__.py
+  │   ├── jsonsim/
+  │   ├── __pycache__
+  │   └── yamlsim/
+  ├── projects/
+  │   ├── sample_argos/
+  │   ├── sample_jsonsim/
+  │   ├── sample_ros1gazebo/
+  │   ├── sample_ros1robot/
+  │   └── sample_yamlsim/
+  └── README.rst
 
 At the top level:
 
