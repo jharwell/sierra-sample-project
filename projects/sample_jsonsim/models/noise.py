@@ -8,7 +8,6 @@
 import typing as tp
 
 # 3rd party packages
-import implements
 import polars as pl
 import numpy as np
 
@@ -18,8 +17,7 @@ from sierra.core.variables import batch_criteria as bc
 from sierra.core import types, exproot, batchroot
 
 
-@implements.implements(IIntraExpModel1D)
-class NoisyModel:
+class NoisyModel(IIntraExpModel1D):
     def __init__(self, params: types.YAMLDict) -> None:
         pass
 
@@ -42,8 +40,7 @@ class NoisyModel:
         return "Noisy Model"
 
 
-@implements.implements(IInterExpModel1D)
-class LessNoisyModel:
+class LessNoisyModel(IInterExpModel1D):
     def __init__(self, params: types.YAMLDict) -> None:
         pass
 

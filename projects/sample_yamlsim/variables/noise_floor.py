@@ -16,7 +16,6 @@ import re
 import pathlib
 
 # 3rd party packages
-import implements
 import numpy as np
 
 # Project packages
@@ -27,8 +26,7 @@ from sierra.core.variables import builtin
 from sierra.core.graphs import bcbridge
 
 
-@implements.implements(bcbridge.IGraphable)
-class NoiseFloor(bc.UnivarBatchCriteria):
+class NoiseFloor(bc.UnivarBatchCriteria, bcbridge.IGraphable):
     """A univariate range specifiying the noise floor.
 
     """

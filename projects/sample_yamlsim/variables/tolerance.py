@@ -16,7 +16,6 @@ import re
 import pathlib
 
 # 3rd party packages
-import implements
 import numpy as np
 
 # Project packages
@@ -27,8 +26,7 @@ from sierra.core.graphs import bcbridge
 from sierra.core.variables import builtin
 
 
-@implements.implements(bcbridge.IGraphable)
-class Tolerance(bc.UnivarBatchCriteria):
+class Tolerance(bc.UnivarBatchCriteria,bcbridge.IGraphable):
     """A univariate range specifiying an arbitrary tolerance.
 
     """

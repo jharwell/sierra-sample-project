@@ -16,7 +16,6 @@ import re
 import pathlib
 
 # 3rd party packages
-import implements
 import numpy as np
 
 # Project packages
@@ -26,8 +25,7 @@ import sierra.core.variables.batch_criteria as bc
 from sierra.core.graphs import bcbridge
 from sierra.core.variables import builtin
 
-@implements.implements(bcbridge.IGraphable)
-class AgentFuel(bc.UnivarBatchCriteria):
+class AgentFuel(bc.UnivarBatchCriteria,bcbridge.IGraphable):
     """A univariate range specifiying the  agent fuel. 
 
     """

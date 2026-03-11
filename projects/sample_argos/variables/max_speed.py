@@ -16,7 +16,6 @@ import re
 import pathlib
 
 # 3rd party packages
-import implements
 import numpy as np
 
 # Project packages
@@ -26,8 +25,7 @@ from sierra.core import types
 from sierra.core.graphs import bcbridge
 from sierra.core.variables import builtin
 
-@implements.implements(bcbridge.IGraphable)
-class MaxRobotSpeed(bc.UnivarBatchCriteria):
+class MaxRobotSpeed(bc.UnivarBatchCriteria, bcbridge.IGraphable):
     """A univariate range specifiying the max robot speed. 
     """
 

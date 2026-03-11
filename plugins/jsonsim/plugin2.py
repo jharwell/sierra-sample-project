@@ -12,7 +12,6 @@ import pathlib
 import psutil
 
 # 3rd party packages
-import implements
 
 # Project packages
 from sierra.core.experiment import bindings, definition
@@ -25,8 +24,7 @@ from plugins.jsonsim import cmdline
 _logger = logging.getLogger(__name__)
 
 
-@implements.implements(bindings.IExpShellCmdsGenerator)
-class ExpShellCmdsGenerator:
+class ExpShellCmdsGenerator(bindings.IExpShellCmdsGenerator):
     """A class that conforms to
     :class:`~sierra.core.experiment.bindings.IExpShellCmdsGenerator`.
     """
@@ -44,8 +42,7 @@ class ExpShellCmdsGenerator:
         return []
 
 
-@implements.implements(bindings.IExpRunShellCmdsGenerator)
-class ExpRunShellCmdsGenerator:
+class ExpRunShellCmdsGenerator(bindings.IExpRunShellCmdsGenerator):
     """A class that conforms to
     :class:`~sierra.core.experiment.bindings.IExpRunShellCmdsGenerator`.
     """
@@ -85,8 +82,7 @@ class ExpRunShellCmdsGenerator:
         return []
 
 
-@implements.implements(bindings.IExpConfigurer)
-class ExpConfigurer:
+class ExpConfigurer(bindings.IExpConfigurer):
     def __init__(self, cmdopts: types.Cmdopts) -> None:
         self.cmdopts = cmdopts
 
