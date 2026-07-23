@@ -8,10 +8,19 @@ inter-exp:
       xlabel: 'Time'
       type: 'stacked_line'
 
+  HG_default:
+    - src_stem: output1D
+      dest_stem: random-noise-col1
+      cols:
+        - col1
+      title: 'Random noise col1'
+      xlabel: 'Time'
+      type: 'histogram'
+
   HM_bivar:
     - src_stem: output1D
       dest_stem: bivar-random-noise-col1
-      col: col1
+      z: col1
       title: 'Random noise col1'
       xlabel: 'Time'
       type: 'heatmap'
@@ -30,7 +39,7 @@ intra-exp:
 
       xlabel: 'Time'
       ylabel: 'Fizziness'
-      logyscale: true
+      logy: true
       type: 'stacked_line'
 
   CM_default:
@@ -41,6 +50,15 @@ intra-exp:
       truth_col: Actual_Class
       predicted_col: Predicted_Class
       xlabels_rotate: true
+
+  HG_default:
+    - src_stem: output1D
+      dest_stem: random-noise
+      cols:
+        - col1
+      title: 'Random noise col1'
+      xlabel: 'Time'
+      type: 'histogram'
 
 imagize:
   - src_stem: output/erdos_renyi

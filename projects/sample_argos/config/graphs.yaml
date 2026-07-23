@@ -41,25 +41,25 @@ inter-exp:
   HM_foraging:
     - src_stem: collected-data
       dest_stem: robot-counts-walking2
-      col: walking
+      z: walking
       title: 'Robot Walking Counts'
       type: 'heatmap'
 
     - src_stem: collected-data
       dest_stem: robot-counts-resting2
-      col: resting
+      z: resting
       title: 'Robot Resting Counts'
       type: 'heatmap'
 
     - src_stem: collected-data
       dest_stem: food-counts2
-      col: collected_food
+      z: collected_food
       title: 'Collected Food Counts'
       type: 'heatmap'
 
     - src_stem: collected-data
       dest_stem: swarm-energy2
-      col: energy
+      z: energy
       title: 'Swarm Energy Over Time'
       type: 'heatmap'
 
@@ -122,6 +122,7 @@ inter-controller:
   # If you are using univariate batch criteria, use this one.
   - src_stem: food-counts
     dest_stem: cc-food-counts
+    type: 'comparison_line'
     title: 'Collected Food Counts'
     label: 'A clever label with LaTeX! $P(\mathcal{N})$'
     include_exp: '0:'
@@ -132,6 +133,7 @@ inter-controller:
   # is needed to trigger generation from specific heatmap in the temporal
   # sequence). See SIERRA examples.
   # - src_stem: swarm-energy_10
+  #   type: 'heatmap'
   #   dest_stem: cc-swarm-energy
   #   title: 'Swarm Energy'
   #   label: 'Another clever label'
@@ -139,6 +141,7 @@ inter-controller:
 
   # If you are using univariate batch criteria, use this one.
   - src_stem: swarm-energy
+    type: 'comparison_line'
     dest_stem: cc-swarm-energy
     title: 'Swarm Energy'
     label: 'Another clever label'
@@ -148,11 +151,13 @@ inter-scenario:
   # Food counts
   - src_stem: food-counts
     dest_stem: sc-food-counts
+    type: 'comparison_line'
     title: 'Collected Food Counts'
     label: 'A clever label with LaTeX! $P(\mathcal{N})$'
 
   # Energy
   - src_stem: swarm-energy
     dest_stem: sc-swarm-energy
+    type: 'comparison_line'
     title: 'Swarm Energy'
     label: 'Another clever label'

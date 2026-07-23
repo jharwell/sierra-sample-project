@@ -27,8 +27,8 @@ def main():
 
     config = yaml.safe_load(open(args.config, "r"))
 
-    # Generate seeded random 1D data
-    rng = np.random.RandomState(42)
+    # Generate random 1D data
+    rng = np.random.RandomState()
     data_1D = rng.normal(loc=0, scale=0.5, size=(50, 5))
     df1D = pd.DataFrame(data_1D, columns=[f"col{i}" for i in range(0, 5)])
 
