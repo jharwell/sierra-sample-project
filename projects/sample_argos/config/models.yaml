@@ -1,0 +1,15 @@
+intra-exp:
+  - name: foraging.FoodModelIntra
+    targets:
+      - model
+    legend:
+      - Foraging Intra Model
+
+inter-exp:
+  - name: foraging.FoodModelInter
+    targets:
+      - food-counts
+      - swarm-energy
+    legend:
+      - Foraging Model Prediction (food)
+      - Foraging Model Prediction (energy)

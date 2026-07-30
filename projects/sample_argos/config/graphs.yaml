@@ -145,7 +145,7 @@ inter-controller:
     dest_stem: cc-swarm-energy
     title: 'Swarm Energy'
     label: 'Another clever label'
-    include_exp: '0:'
+    include_exp: '1:'
 
 inter-scenario:
   # Food counts
@@ -161,3 +161,4 @@ inter-scenario:
     type: 'comparison_line'
     title: 'Swarm Energy'
     label: 'Another clever label'
+    include_exp: '1:'
