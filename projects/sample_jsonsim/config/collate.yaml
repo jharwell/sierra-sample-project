@@ -1,8 +1,30 @@
-intra-exp:
-  - file: 'output1D.csv'
-    cols:
-      - 'col1'
-      - 'col2'
-  - file: 'subdir1/subdir2/output1D.csv'
-    cols:
-      - 'col1'
+# collate.yaml is a flat list of collation targets. Collation is
+# intra-experiment only (it lifts per-run raw data within an experiment, e.g. so
+# models can compute from the raw distribution rather than the summary
+# statistics), so there is no section wrapper.
+
+# Single-source spelling (the common case): collate specific columns from one
+# output file. 'output1D.csv' is rooted at the run output root.
+- file: 'output1D.csv'
+  cols:
+    - 'col1'
+    - 'col2'
+
+# A nested single source, named by its path relative to the output root.
+- file: 'subdir1/subdir2/output1D.csv'
+  cols:
+    - 'col1'
+
+# Multi-source spelling: assemble one collated target from columns pulled from
+# different files. 'col1' comes from the root output1D.csv; 'col1' from
+# subdir3/output1D.csv would collide, so it is renamed via 'as'. Both files
+# share a row axis, so the per-run horizontal join is well-defined.
+- name: 'combined'
+  sources:
+    - file: 'output1D.csv'
+      cols:
+        - 'col1'
+    - file: 'subdir3/output1D.csv'
+      cols:
+        - name: 'col1'
+          as: 'col1_subdir3'
