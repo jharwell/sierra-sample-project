@@ -1,7 +1,7 @@
 inter-exp:
   LN_default:
-    - src_stem: output1D
-      dest_stem: random-noise-col1
+    - src: output1D
+      dest: random-noise-col1
       cols:
         - col1
       title: 'Random noise col1'
@@ -9,8 +9,8 @@ inter-exp:
       type: 'stacked_line'
 
   HG_default:
-    - src_stem: output1D
-      dest_stem: random-noise-col1
+    - src: output1D
+      dest: random-noise-col1
       cols:
         - col1
       title: 'Random noise col1'
@@ -18,8 +18,8 @@ inter-exp:
       type: 'histogram'
 
   HM_bivar:
-    - src_stem: output1D
-      dest_stem: bivar-random-noise-col1
+    - src: output1D
+      dest: bivar-random-noise-col1
       z: col1
       title: 'Random noise col1'
       xlabel: 'Time'
@@ -27,8 +27,8 @@ inter-exp:
 
 intra-exp:
   LN_default:
-    - src_stem: output1D
-      dest_stem: random-noise
+    - src: output1D
+      dest: random-noise
       cols:
         - col1
         - col2
@@ -43,8 +43,8 @@ intra-exp:
       type: 'stacked_line'
 
   CM_default:
-    - src_stem: confusion-matrix
-      dest_stem: confusion-matrix
+    - src: confusion-matrix
+      dest: confusion-matrix
       type: "confusion_matrix"
       title: "I'm A Little Confused"
       truth_col: Actual_Class
@@ -52,8 +52,8 @@ intra-exp:
       xlabels_rotate: true
 
   HG_default:
-    - src_stem: output1D
-      dest_stem: random-noise
+    - src: output1D
+      dest: random-noise
       cols:
         - col1
       title: 'Random noise col1'
@@ -61,6 +61,6 @@ intra-exp:
       type: 'histogram'
 
 imagize:
-  - src_stem: output/erdos_renyi
+  - src: output/erdos_renyi
     type: "network"
     title: "Example graph"

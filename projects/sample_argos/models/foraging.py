@@ -57,8 +57,10 @@ class FoodModelInter(IInterExpModel1D):
     batch. This is the model whose output is collated by the compare plugin
     (into ``-cc-models/`` / ``-sc-models/``) and overlaid on the comparison
     graphs. It targets the ``food-counts`` and ``swarm-energy`` measures (see
-    ``config/models.yaml``), matching the ``src_stem`` of the inter-controller
-    and inter-scenario comparison graphs."""
+    ``config/models.yaml``), matching the ``src`` of the inter-controller and
+    inter-scenario comparison graphs.
+
+    """
 
     def __init__(self, params: types.YAMLDict) -> None:
         pass

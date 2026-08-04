@@ -1,7 +1,7 @@
 intra-exp:
   LN_foraging:
-    - src_stem: collected-data
-      dest_stem: robot-counts
+    - src: collected-data
+      dest: robot-counts
       cols:
         - walking
         - resting
@@ -14,8 +14,8 @@ intra-exp:
       ylabel: '\# Robots'
       type: 'stacked_line'
 
-    - src_stem: collected-data
-      dest_stem: food-counts
+    - src: collected-data
+      dest: food-counts
       cols:
         - collected_food
       title: 'Collected Food Counts'
@@ -26,8 +26,8 @@ intra-exp:
       ylabel: '\# Items'
       type: 'stacked_line'
 
-    - src_stem: collected-data
-      dest_stem: swarm-energy
+    - src: collected-data
+      dest: swarm-energy
       cols:
         - energy
       title: 'Swarm Energy Over Time'
@@ -39,71 +39,71 @@ intra-exp:
 
 inter-exp:
   HM_foraging:
-    - src_stem: collected-data
-      dest_stem: robot-counts-walking2
+    - src: collected-data
+      dest: robot-counts-walking2
       z: walking
       title: 'Robot Walking Counts'
       type: 'heatmap'
 
-    - src_stem: collected-data
-      dest_stem: robot-counts-resting2
+    - src: collected-data
+      dest: robot-counts-resting2
       z: resting
       title: 'Robot Resting Counts'
       type: 'heatmap'
 
-    - src_stem: collected-data
-      dest_stem: food-counts2
+    - src: collected-data
+      dest: food-counts2
       z: collected_food
       title: 'Collected Food Counts'
       type: 'heatmap'
 
-    - src_stem: collected-data
-      dest_stem: swarm-energy2
+    - src: collected-data
+      dest: swarm-energy2
       z: energy
       title: 'Swarm Energy Over Time'
       type: 'heatmap'
 
   LN_foraging:
-    - src_stem: collected-data
-      dest_stem: robot-counts-walking
+    - src: collected-data
+      dest: robot-counts-walking
       cols:
         - walking
       title: 'Robot Walking Counts'
       xlabel: 'Time'
       type: 'stacked_line'
 
-    - src_stem: collected-data
-      dest_stem: robot-counts-resting
+    - src: collected-data
+      dest: robot-counts-resting
       cols:
         - resting
       title: 'Robot Resting Counts'
       xlabel: 'Time'
       type: 'stacked_line'
 
-    - src_stem: collected-data
-      dest_stem: food-counts
+    - src: collected-data
+      dest: food-counts
       cols:
         - collected_food
       title: 'Collected Food Counts'
       xlabel: 'Time'
       type: 'stacked_line'
 
-    - src_stem: collected-data
-      dest_stem: swarm-energy
+    - src: collected-data
+      dest: swarm-energy
       cols:
         - energy
       title: 'Swarm Energy Over Time'
       xlabel: 'Time'
       type: 'stacked_line'
 
-    - src_stem: collected-data
-      dest_stem: swarm-energy-summary
+    - src: collected-data
+      dest: swarm-energy-summary
       col: energy
       title: 'Swarm Energy Over Time'
       type: 'summary_line'
 
 imagize:
-  - src_stem: floor-state
+  - src: floor-state
     title: 'Floor State'
     type: 'heatmap'
 
@@ -113,15 +113,15 @@ inter-controller:
   # If you are using bivariate batch criteria, use this one (the # at the end
   # is needed to trigger generation from specific heatmap in the temporal
   # sequence). See SIERRA examples.
-  # - src_stem: food-counts_10
-  #   dest_stem: cc-food-counts
+  # - src: food-counts_10
+  #   dest: cc-food-counts
   #   title: 'Collected Food Counts'
   #   label: 'A clever label with LaTeX! $P(\mathcal{N})$'
   #   include_exp: '0:'
 
   # If you are using univariate batch criteria, use this one.
-  - src_stem: food-counts
-    dest_stem: cc-food-counts
+  - src: food-counts
+    dest: cc-food-counts
     type: 'comparison_line'
     title: 'Collected Food Counts'
     label: 'A clever label with LaTeX! $P(\mathcal{N})$'
@@ -132,32 +132,32 @@ inter-controller:
   # If you are using bivariate batch criteria, use this one (the # at the end
   # is needed to trigger generation from specific heatmap in the temporal
   # sequence). See SIERRA examples.
-  # - src_stem: swarm-energy_10
+  # - src: swarm-energy_10
   #   type: 'heatmap'
-  #   dest_stem: cc-swarm-energy
+  #   dest: cc-swarm-energy
   #   title: 'Swarm Energy'
   #   label: 'Another clever label'
   #   include_exp: '1:'
 
   # If you are using univariate batch criteria, use this one.
-  - src_stem: swarm-energy
+  - src: swarm-energy
     type: 'comparison_line'
-    dest_stem: cc-swarm-energy
+    dest: cc-swarm-energy
     title: 'Swarm Energy'
     label: 'Another clever label'
     include_exp: '1:'
 
 inter-scenario:
   # Food counts
-  - src_stem: food-counts
-    dest_stem: sc-food-counts
+  - src: food-counts
+    dest: sc-food-counts
     type: 'comparison_line'
     title: 'Collected Food Counts'
     label: 'A clever label with LaTeX! $P(\mathcal{N})$'
 
   # Energy
-  - src_stem: swarm-energy
-    dest_stem: sc-swarm-energy
+  - src: swarm-energy
+    dest: sc-swarm-energy
     type: 'comparison_line'
     title: 'Swarm Energy'
     label: 'Another clever label'

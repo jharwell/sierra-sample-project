@@ -1,3 +1,3 @@
 - file: 'collected-data.csv'
   cols:
-  - 'collected_food'
+    - 'collected_food'
