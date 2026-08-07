@@ -44,6 +44,16 @@ inter-exp:
       ylabel: "Noisiness"
       type: 'heatmap'
 
+  SP_default:
+    - src: subdir3/output1D
+      dest: random-noise
+      xcol: col1
+      ycol: col2
+      title: 'Noise vs. noise'
+      type: 'scatterplot'
+      show_best_fit: true
+      best_fit_kind: linear
+
 intra-exp:
   LN_default:
     - src: output1D
@@ -114,3 +124,13 @@ intra-exp:
       dest: output2D-2
       title: '2D Fizziness'
       type: 'heatmap'
+
+  SP_default:
+    - src: subdir3/output1D
+      dest: random-noise
+      xcol: col1
+      ycol: col2
+      title: 'Noise vs. noise'
+      type: 'scatterplot'
+      show_best_fit: true
+      best_fit_kind: linear
