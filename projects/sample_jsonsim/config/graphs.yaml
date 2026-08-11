@@ -127,10 +127,17 @@ intra-exp:
 
   SP_default:
     - src: subdir3/output1D
-      dest: random-noise
+      dest: noise-vs-noise
       xcol: col1
       ycol: col2
       title: 'Noise vs. noise'
+      type: 'scatterplot'
+
+    - src: subdir3/output1D
+      dest: noise-vs-noise-fit
+      xcol: col1
+      ycol: col2
+      title: 'Noise vs. noise (with fit)'
       type: 'scatterplot'
       show_best_fit: true
       best_fit_kind: linear

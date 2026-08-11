@@ -10,12 +10,30 @@ inter-exp:
 
   HG_default:
     - src: output1D
-      dest: random-noise-col1
+      dest: random-noise-col1-overlay
       cols:
         - col1
       title: 'Random noise col1'
       xlabel: 'Time'
       type: 'histogram'
+
+    - src: output1D
+      dest: random-noise-col1-steps
+      cols:
+        - col1
+      title: 'Random noise col1'
+      xlabel: 'Time'
+      type: 'histogram'
+      kind: steps
+
+    - src: output1D
+      dest: random-noise-col1-facet
+      cols:
+        - col1
+      title: 'Random noise col1'
+      xlabel: 'Time'
+      type: 'histogram'
+      kind: facet
 
   HM_bivar:
     - src: output1D
@@ -53,12 +71,31 @@ intra-exp:
 
   HG_default:
     - src: output1D
-      dest: random-noise
+      dest: random-noise-overlay
       cols:
         - col1
       title: 'Random noise col1'
       xlabel: 'Time'
       type: 'histogram'
+      kind: overlay
+
+    - src: output1D
+      dest: random-noise-steps
+      cols:
+        - col1
+      title: 'Random noise col1'
+      xlabel: 'Time'
+      type: 'histogram'
+      kind: steps
+
+    - src: output1D
+      dest: random-noise-facet
+      cols:
+        - col1
+      title: 'Random noise col1'
+      xlabel: 'Time'
+      type: 'histogram'
+      kind: facet
 
 imagize:
   - src: output/erdos_renyi
