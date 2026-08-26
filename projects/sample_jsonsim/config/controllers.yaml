@@ -1,6 +1,6 @@
 # Arbitrary category key. Any controllers with this category will have the JSON
 # modifications inside it applied.
-default:
+signal:
   json:
 
   # This key has entries for all the controllers for the project. If a
@@ -8,7 +8,7 @@ default:
   # (adding, removing tags, changing attributes) will be applied ONLY to
   # experiments using that controller.
   controllers:
-    - name: default
+    - name: kalman
       # This key has a list of keys in the intra/inter experiment graph YAML
       # files, setting which graphs should be generated for this controller.
       graphs:
@@ -17,7 +17,22 @@ default:
         - HG_default
         - SP_default
 
-    - name: default2
+    - name: lowpass
+      # This key has a list of keys in the intra/inter experiment graph YAML
+      # files, setting which graphs should be generated for this controller.
+      graphs:
+        - LN_default
+        - HM_default
+
+    - name: bandpass
+      # This key has a list of keys in the intra/inter experiment graph YAML
+      # files, setting which graphs should be generated for this controller.
+      graphs:
+        - LN_default
+        - HM_default
+        - HM_bivar
+
+    - name: bandstop
       # This key has a list of keys in the intra/inter experiment graph YAML
       # files, setting which graphs should be generated for this controller.
       graphs:

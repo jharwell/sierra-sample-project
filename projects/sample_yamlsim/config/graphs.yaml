@@ -1,103 +1,117 @@
+# yamlsim graph configuration.
+#
+# Category suffixes select WHEN a category renders:
+#   *_default -> univariate batch criteria ; *_bivar -> bivariate.
+# Output files are type-prefixed by the generators:
+#   SLN- stacked_line  SM- summary_line  HM- heatmap  HG- histogram
+#   CM- confusion      NW- network (via imagize)
+
 inter-exp:
+  # Summary line: one datapoint per experiment.
   LN_default:
-    - src: output1D
-      dest: random-noise-col1
+    - src: signal-trace
+      dest: signal-summary
       cols:
-        - col1
-      title: 'Random noise col1'
+        - measured
+      title: 'Signal summary across batch'
       xlabel: 'Time'
       type: 'stacked_line'
 
+  # Histograms of the collated inter-exp signal, in all three render kinds.
   HG_default:
-    - src: output1D
-      dest: random-noise-col1-overlay
+    - src: signal-trace
+      dest: signal-hist-overlay
       cols:
-        - col1
-      title: 'Random noise col1'
-      xlabel: 'Time'
+        - measured
+      title: 'Measured signal distribution'
+      xlabel: 'Amplitude'
       type: 'histogram'
 
-    - src: output1D
-      dest: random-noise-col1-steps
+    - src: signal-trace
+      dest: signal-hist-steps
       cols:
-        - col1
-      title: 'Random noise col1'
-      xlabel: 'Time'
+        - measured
+      title: 'Measured signal distribution'
+      xlabel: 'Amplitude'
       type: 'histogram'
       kind: steps
 
-    - src: output1D
-      dest: random-noise-col1-facet
+    - src: signal-trace
+      dest: signal-hist-facet
       cols:
-        - col1
-      title: 'Random noise col1'
-      xlabel: 'Time'
+        - measured
+      title: 'Measured signal distribution'
+      xlabel: 'Amplitude'
       type: 'histogram'
       kind: facet
 
+  # Bivariate surface: heatmap over the 2D criteria grid.
   HM_bivar:
-    - src: output1D
-      dest: bivar-random-noise-col1
-      z: col1
-      title: 'Random noise col1'
-      xlabel: 'Time'
+    - src: signal-trace
+      dest: signal-surface
+      z: measured
+      title: 'Signal surface (2D criteria)'
+      xlabel: 'Criterion 1'
       type: 'heatmap'
 
 intra-exp:
+  # Time-series line graph: reference vs measured, with spread bands.
   LN_default:
-    - src: output1D
-      dest: random-noise
+    - src: signal-trace
+      dest: signal-intra
       cols:
-        - col1
-        - col2
-      title: 'Random noise'
+        - reference
+        - measured
+      title: 'Signal: reference vs measured'
       legend:
-        - 'One column'
-        - 'Two column'
-
+        - 'Reference (ideal)'
+        - 'Measured (noisy)'
       xlabel: 'Time'
-      ylabel: 'Fizziness'
+      ylabel: 'Amplitude'
       logy: true
       type: 'stacked_line'
 
+  # Confusion matrix (categorical showcase).
   CM_default:
-    - src: confusion-matrix
-      dest: confusion-matrix
+    - src: classification
+      dest: classification
       type: "confusion_matrix"
-      title: "I'm A Little Confused"
+      title: "Classification confusion matrix"
       truth_col: Actual_Class
       predicted_col: Predicted_Class
       xlabels_rotate: true
 
+  # Histograms of the measured channel, in all three kinds.
   HG_default:
-    - src: output1D
-      dest: random-noise-overlay
+    - src: signal-trace
+      dest: signal-hist-overlay
       cols:
-        - col1
-      title: 'Random noise col1'
-      xlabel: 'Time'
+        - measured
+      title: 'Measured signal distribution'
+      xlabel: 'Amplitude'
       type: 'histogram'
       kind: overlay
 
-    - src: output1D
-      dest: random-noise-steps
+    - src: signal-trace
+      dest: signal-hist-steps
       cols:
-        - col1
-      title: 'Random noise col1'
-      xlabel: 'Time'
+        - measured
+      title: 'Measured signal distribution'
+      xlabel: 'Amplitude'
       type: 'histogram'
       kind: steps
 
-    - src: output1D
-      dest: random-noise-facet
+    - src: signal-trace
+      dest: signal-hist-facet
       cols:
-        - col1
-      title: 'Random noise col1'
-      xlabel: 'Time'
+        - measured
+      title: 'Measured signal distribution'
+      xlabel: 'Amplitude'
       type: 'histogram'
       kind: facet
 
+# Imagize: plot a directory of graphml files as network diagrams.
 imagize:
-  - src: output/erdos_renyi
+  - src: output/networks
     type: "network"
-    title: "Example graph"
+    title: "Scale-free topology"

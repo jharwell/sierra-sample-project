@@ -3,6 +3,19 @@
 #
 # SPDX-License Identifier: MIT
 #
+"""Example YAML-driven simulator.
+
+Emulates a structured/categorical experiment. Emits:
+  * signal-trace.csv (root + nested sensor dir): deterministic reference signal
+    + noisy channels, for stacked_line + histogram graphs and collation.
+  * classification.csv: a story-telling confusion matrix (CM- graph).
+  * networks/*.graphml: a family of scale-free graphs plotted via the imagize
+    section (NW- graphs), one per generated topology.
+
+Determinism contract: signal-trace 'reference' and 'baseline' are pure functions
+of 'clock' (regression anchors); everything else is seeded per run so the set of
+runs is reproducible while each run differs (real conf95/bw/iqr spread bands).
+"""
 
 # Core packages
 import argparse
@@ -17,80 +30,104 @@ import networkx as nx
 # Project packages
 
 
+def _run_seed(config: dict) -> int:
+    for key in ("random_seed", "seed", "run_seed"):
+        if key in config:
+            return int(config[key])
+    return 7
+
+
+def _signal_trace(n, rng):
+    clock = np.arange(n)
+    t = clock / max(n - 1, 1) * 2.0 * np.pi
+    reference = np.sin(t)                                      # deterministic
+    baseline = np.cos(t)                                      # deterministic
+    measured = reference + rng.normal(0.0, 0.25, size=n)
+    drift = reference + np.linspace(0.0, 0.8, n) + rng.normal(0.0, 0.10, size=n)
+    raw = reference + rng.standard_t(df=3, size=n) * 0.20
+    return pd.DataFrame(
+        {
+            "clock": clock,
+            "reference": reference,
+            "measured": measured,
+            "drift": drift,
+            "baseline": baseline,
+            "raw": raw,
+        }
+    )
+
+
+def _classification(rng):
+    """Diagonal-dominant confusion matrix with SYSTEMATIC off-diagonal
+    confusions (0<->1, 3<->8), so the CM- heatmap tells a story."""
+    classes = [i for i in range(10)]
+    confused = {0: 1, 1: 0, 3: 8, 8: 3}
+    rows = []
+    for ai, actual in enumerate(classes):
+        for pi, predicted in enumerate(classes):
+            if ai == pi:
+                count = int(rng.randint(70, 95))
+            elif confused.get(ai) == pi:
+                count = int(rng.randint(20, 35))
+            else:
+                count = int(rng.randint(1, 6))
+            for _ in range(count):
+                rows.append({"Actual_Class": actual, "Predicted_Class": predicted})
+    df = pd.DataFrame(rows)
+    df["Index"] = range(len(df))
+    return df.set_index("Index")
+
+
+def _networks(seed, count=5):
+    """A family of scale-free (Barabasi-Albert) graphs of growing size, written
+    into a directory the imagize section iterates. Each carries node/edge
+    attributes the NW- generator maps to size/color/width. Scale-free (rather
+    than the old Erdos-Renyi) gives clear hubs + a long tail, which the layout
+    algorithms render attractively."""
+    graphs = []
+    for i in range(count):
+        n_nodes = 15 + i * 8
+        G = nx.barabasi_albert_graph(n_nodes, 2, seed=seed + i)
+        G.graph["name"] = f"scale-free-{i:02d}"
+        for node in G.nodes():
+            deg = G.degree[node]
+            G.nodes[node]["degree"] = deg
+            G.nodes[node]["group"] = deg % 4
+        for u, v in G.edges():
+            G.edges[u, v]["weight"] = float(G.degree[u] * G.degree[v])
+        graphs.append(G)
+    return graphs
+
+
 def main():
     parser = argparse.ArgumentParser(
-        description="Example YAML-driven simulator which generates random data."
+        description="Example YAML-driven simulator which generates showcase data."
     )
     parser.add_argument("--config", help="Configuration file for simulator.")
-
     args = parser.parse_args()
 
     config = yaml.safe_load(open(args.config, "r"))
-
-    # Generate random 1D data
-    rng = np.random.RandomState()
-    data_1D = rng.normal(loc=0, scale=0.5, size=(50, 5))
-    df1D = pd.DataFrame(data_1D, columns=[f"col{i}" for i in range(0, 5)])
+    rng = np.random.RandomState(_run_seed(config))
+    n = 50
 
     root = pathlib.Path(config["output_root"])
-    root.mkdir(parents=True, exist_ok=True)
-    df1D.to_csv(root / "output1D.csv", index=False)
+    nested = root / "sensors/primary"
+    for d in (root, nested):
+        d.mkdir(parents=True, exist_ok=True)
 
-    # Generate confusion matrix
-    classes = ['Class_0', 'Class_1', 'Class_2', 'Class_3', 'Class_4', 
-               'Class_5', 'Class_6', 'Class_7', 'Class_8', 'Class_9']
+    # signal-trace at root + one nested sensor dir (nested one is what collation
+    # lifts for its multi-source join).
+    trace = _signal_trace(n, rng)
+    trace.to_csv(root / "signal-trace.csv", index=False)
+    trace.to_csv(nested / "signal-trace.csv", index=False)
 
-    confusion_data = []
-    for actual_class in classes:
-        for predicted_class in classes:
-            # Generate higher counts for correct predictions (diagonal)
-            if actual_class == predicted_class:
-                count = np.random.randint(70, 95)
-            else:
-                count = np.random.randint(1, 10)
+    _classification(rng).to_csv(root / "classification.csv")
 
-            # Add rows for each occurrence
-            for _ in range(count):
-                confusion_data.append({
-                    'Actual_Class': actual_class,
-                    'Predicted_Class': predicted_class
-                })
-
-    confusion_df = pd.DataFrame(confusion_data)
-    confusion_df['Index'] = range(len(confusion_df))
-    confusion_df = confusion_df.set_index("Index")
-    confusion_df.to_csv(root / "confusion-matrix.csv")
-
-    # Generate graphs
-    graph_dir = root / 'erdos_renyi'
-    graph_dir.mkdir(exist_ok=True)
-
-    start_nodes = 5  # Starting number of nodes
-    num_graphs = 10  # Number of graphs to generate
-    edge_probability = 0.3  # Probability of edge creation in random graph
-
-    for i in range(num_graphs):
-        num_nodes = start_nodes + i
-
-        # Generate a random graph (Erdős-Rényi model)
-        #
-        # Other generator options:
-        # G = nx.barabasi_albert_graph(num_nodes, 2)  # Scale-free network
-        # G = nx.watts_strogatz_graph(num_nodes, 4, 0.3)  # Small-world network
-        G = nx.erdos_renyi_graph(num_nodes, edge_probability)
-
-        # Add some metadata to the graph
-        G.graph['num_nodes'] = num_nodes
-        G.graph['num_edges'] = G.number_of_edges()
-        G.graph['graph_id'] = i
-
-        # Add node attributes (optional)
-        for node in G.nodes():
-            G.nodes[node]['degree'] = G.degree(node)
-
-        # Write to GraphML file with numeric name
-        filename = f'{graph_dir}/erdos_renyi_{i:03d}.graphml'
-        nx.write_graphml(G, filename)
+    # Directory of graphs for the imagize network plots.
+    netdir = root / "networks"
+    netdir.mkdir(exist_ok=True)
+    for i, G in enumerate(_networks(_run_seed(config))):
+        nx.write_graphml(G, f"{netdir}/network_{i:03d}.graphml")
 
 
 if __name__ == "__main__":

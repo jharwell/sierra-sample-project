@@ -28,13 +28,13 @@ def to_dict(scenario: str) -> tp.Dict[str, tp.Any]:
 
 
 def to_generator_name(scenario: str) -> str:
-    res = re.search('scenario1|scenario2', scenario)
+    res = re.search('cleanroom|fieldtest', scenario)
     assert res is not None, f"Bad scenario name in {scenario}"
     scenario = res.group(0)
 
     mapping = {
-        'scenario1': 'generate_pewpew1',
-        'scenario2': 'generate_pewpew2'
+        'cleanroom': 'generate_pewpew1',
+        'fieldtest': 'generate_pewpew2'
     }
     return mapping[scenario]
 
@@ -44,9 +44,9 @@ def for_all_pewpew(spec: spec.ExperimentSpec,
                    cmdopts: types.Cmdopts,
                    expdef_template_fpath: pathlib.Path) -> definition.BaseExpDef:
     exp_def = engine.for_all_exp(spec,
-                                   controller,
-                                   cmdopts,
-                                   expdef_template_fpath)
+                                 controller,
+                                 cmdopts,
+                                 expdef_template_fpath)
 
     return exp_def
 

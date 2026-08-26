@@ -26,42 +26,37 @@ def build(
     cmdline = PluginCmdline(parents, stages)
     cmdline.multistage.add_argument(
         "--scenario",
+        choices=["cleanroom", "fieldtest"],
         help="""
              Which scenario the controller specified via ``--controller`` should
              be run in.
 
              Valid scenarios:
 
-                 - ``scenario1``
+                 - ``cleanroom`` - Testing in a laboratory setting.
 
-                 - ``scenario2``
+                 - ``fieldtest`` - Testing in the messy real world.
              """
-        + cmdline.stage_usage_doc([1, 2, 3, 4]),
+        + cmdline.stage_usage_doc([1, 2, 3, 4, 5]),
     )
 
     cmdline.multistage.add_argument(
         "--controller",
-        choices=["default.default", "default.default2"],
+        choices=["signal.kalman", "signal.lowpass", "signal.bandpass", "signal.bandstop"],
         help="""
              Which controller should be used.
 
              Valid controllers:
 
-                 - ``default.default``
+                 - ``signal.kalman`` - Kalman filter based filtering.
 
-                 - ``default.default2``
-             """
-        + cmdline.stage_usage_doc([1, 2, 3, 4]),
-    )
+                 - ``sigmal.lowpass`` - Low-pass filtering.
 
-    cmdline.stage2.add_argument(
-        "--gen-dist",
-        choices=["gaussian", "binomial"],
-        default="gaussian",
-        help="""
-             The distribution that generated data should conform to.
+                 - ``sigmal.bandpass`` - Band-pass filtering.
+
+                 - ``sigmal.bandstop`` - Band-stop filtering.
              """
-        + cmdline.stage_usage_doc([2]),
+        + cmdline.stage_usage_doc([1, 2, 3, 4, 5]),
     )
 
     return cmdline
@@ -71,5 +66,4 @@ def to_cmdopts(args: argparse.Namespace) -> types.Cmdopts:
     return {
         "scenario": args.scenario,
         "controller": args.controller,
-        "gen_dist": args.gen_dist,
     }

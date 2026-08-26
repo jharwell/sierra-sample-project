@@ -55,7 +55,6 @@ class ExpRunShellCmdsGenerator(bindings.IExpRunShellCmdsGenerator):
         n_agents: tp.Optional[int],
     ) -> None:
         self.executable_path = cmdopts["jsonsim_path"]
-        self.gen_dist = cmdopts["gen_dist"]
 
         pass
 
@@ -67,7 +66,7 @@ class ExpRunShellCmdsGenerator(bindings.IExpRunShellCmdsGenerator):
     def exec_run_cmds(
         self, host: str, input_fpath: pathlib.Path, run_num: int
     ) -> list[types.ShellCmdSpec]:
-        cmd = f"python3 {self.executable_path} --config {input_fpath}.json --distribution={self.gen_dist}"
+        cmd = f"python3 {self.executable_path} --config {input_fpath}.json"
         return [
             types.ShellCmdSpec(
                 cmd=cmd,

@@ -1,7 +1,8 @@
-- file: 'output1D.csv'
+# yamlsim collation targets (flat list; intra-experiment only).
+- file: 'signal-trace.csv'
   cols:
-    - 'col1'
-    - 'col2'
-- file: 'subdir1/subdir2/output1D.csv'
+    - 'measured'
+    - 'drift'
+- file: 'sensors/primary/signal-trace.csv'
   cols:
-    - 'col1'
+    - 'measured'

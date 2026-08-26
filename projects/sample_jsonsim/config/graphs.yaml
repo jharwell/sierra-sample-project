@@ -1,143 +1,275 @@
-inter-exp:
-  LN_default:
-    - src: output1D
-      dest: random-noise-col1
-      cols:
-        - col1
-      title: 'Random noise col1'
-      xlabel: 'Time'
-      type: 'stacked_line'
+# jsonsim graph configuration.
+#
+# Category names carry a suffix that selects WHEN they render:
+#   *_default  -> univariate batch criteria
+#   *_bivar    -> bivariate batch criteria (2D experiment cross-product)
+# SIERRA renders the categories whose suffix matches the batch-criteria arity.
+#
+# Graph output files are prefixed by type by the generators:
+#   SLN- stacked_line   SM- summary_line   HM- heatmap
+#   SP- scatterplot     HG- histogram      NW- network   CM- confusion
 
-    - src: subdir1/subdir2/output1D
-      dest: random-noise2-col2
-      cols:
-        - col2
-      title: 'Random noise col2'
-      xlabel: 'Time'
-      type: 'stacked_line'
-
-    - src: subdir3/output1D
-      dest: random-noise3-col2
-      col: col2
-      title: 'Random noise col2'
-      xlabel: 'Time'
-      ylabel: "Noisiness"
-      type: 'summary_line'
-
-  HM_bivar:
-    - src: output1D
-      dest: bivar-random-noise-col1
-      title: 'Random noise col1'
-      xlabel: 'Time'
-      type: 'heatmap'
-
-    - src: subdir1/subdir2/output1D
-      dest: bivar-random-noise2-col2
-      title: 'Random noise col2'
-      xlabel: 'Time'
-      type: 'heatmap'
-
-    - src: subdir3/output1D
-      dest: bivar-random-noise3-col2
-      title: 'Random noise col2'
-      xlabel: 'Time'
-      ylabel: "Noisiness"
-      type: 'heatmap'
-
-  SP_default:
-    - src: subdir3/output1D
-      dest: random-noise
-      xcol: col1
-      ycol: col2
-      title: 'Noise vs. noise'
-      type: 'scatterplot'
-      show_best_fit: true
-      best_fit_kind: linear
-
+# ===========================================================================
+# INTRA-EXPERIMENT graphs (per experiment)
+# ===========================================================================
 intra-exp:
+  # --- Time-series line graphs (deterministic reference + noisy channels,
+  #     with conf95/bw/iqr spread bands and an optional model overlay) --------
   LN_default:
-    - src: output1D
-      dest: random-noise
+    - src: signal-trace
+      dest: signal-intra
       cols:
-        - col1
-        - col2
-      title: 'Random noise'
+        - reference
+        - measured
+      title: 'Signal: reference vs measured'
       legend:
-        - 'One column'
-        - 'Two column'
-
+        - 'Reference (ideal)'
+        - 'Measured (noisy)'
       xlabel: 'Time'
-      ylabel: 'Fizziness'
+      ylabel: 'Amplitude'
+      type: 'stacked_line'
+
+    - src: sensors/primary/signal-trace
+      dest: sensor-primary-intra
+      title: 'Primary sensor trace'
+      xlabel: 'Time'
+      ylabel: 'Amplitude'
+      type: 'stacked_line'
+
+    - src: sensors/backup/signal-trace
+      dest: sensor-backup-intra
+      cols:
+        - reference
+        - drift
+      title: 'Backup sensor: reference vs drift'
+      legend:
+        - 'Reference (ideal)'
+        - 'Drift (biased)'
+      xlabel: 'Time'
+      ylabel: 'Amplitude'
       logy: true
       type: 'stacked_line'
 
-    - src: subdir1/subdir2/output1D
-      dest: random-noise2
-      title: 'Random noise'
-      xlabel: 'Time'
-      ylabel: 'Fizziness'
-      type: 'stacked_line'
-
-    - src: subdir3/output1D
-      dest: random-noise3
-      cols:
-        - col1
-        - col2
-      title: 'Random noise'
-      legend:
-        - 'One column'
-        - 'Two column'
-
-      xlabel: 'Time'
-      ylabel: 'Fizziness'
-      type: 'stacked_line'
-
-    - dest: combined-noise
+    # Multi-source: assemble one graph from columns pulled across sensor dirs.
+    - dest: sensor-combined
       sources:
-        - file: subdir3/output1D
+        - file: sensors/backup/signal-trace
           cols:
-            - name: col1
-              as: nested-col1
-        - file: subdir1/subdir2/output1D
+            - name: measured
+              as: backup-measured
+        - file: sensors/primary/signal-trace
           cols:
-            - name: col1
-              as: deep-nested-col1
-      title: 'Combined noise'
+            - name: measured
+              as: primary-measured
+      title: 'Combined sensor measurements'
       legend:
-        - 'One column'
-        - 'Two column'
-
+        - 'Backup'
+        - 'Primary'
       xlabel: 'Time'
-      ylabel: 'Fizziness'
+      ylabel: 'Amplitude'
       type: 'stacked_line'
 
+  # --- 2D field heatmaps (ripple/interference surface) --------------------
   HM_default:
-    - src: output2D
-      dest: output2D-1
-      title: '2D Fizziness'
-      xlabel: 'bubbles'
-      ylabel: 'liquid'
-      zlabel: 'carbonation'
+    - src: field-2d
+      dest: field-heatmap
+      title: '2D field (interference)'
+      xlabel: 'x'
+      ylabel: 'y'
+      zlabel: 'amplitude'
       type: 'heatmap'
 
-    - src: subdir3/output2D
-      dest: output2D-2
-      title: '2D Fizziness'
+    - src: sensors/backup/field-2d
+      dest: field-heatmap-backup
+      title: '2D field (backup sensor)'
       type: 'heatmap'
 
+  # --- Scatterplots -------------------------------------------------------
   SP_default:
-    - src: subdir3/output1D
-      dest: noise-vs-noise
-      xcol: col1
-      ycol: col2
-      title: 'Noise vs. noise'
+    # Signal self-correlation (reference vs measured).
+    - src: signal-trace
+      dest: signal-correlation
+      xcol: reference
+      ycol: measured
+      title: 'Reference vs measured'
       type: 'scatterplot'
 
-    - src: subdir3/output1D
-      dest: noise-vs-noise-fit
-      xcol: col1
-      ycol: col2
-      title: 'Noise vs. noise (with fit)'
+    # Dose-response with a linear best-fit overlay.
+    - src: dose-response
+      dest: dose-response-fit
+      xcol: dose
+      ycol: response
+      title: 'Dose-response (with linear fit)'
       type: 'scatterplot'
       show_best_fit: true
       best_fit_kind: linear
+
+    # Anscombe's quartet: four datasets, identical stats, different shapes.
+    - src: anscombe
+      dest: anscombe-1
+      xcol: x1
+      ycol: y1
+      title: "Anscombe I"
+      type: 'scatterplot'
+      show_best_fit: true
+      best_fit_kind: linear
+
+    - src: anscombe
+      dest: anscombe-2
+      xcol: x2
+      ycol: y2
+      title: "Anscombe II"
+      type: 'scatterplot'
+      show_best_fit: true
+      best_fit_kind: linear
+
+    - src: anscombe
+      dest: anscombe-3
+      xcol: x3
+      ycol: y3
+      title: "Anscombe III"
+      type: 'scatterplot'
+      show_best_fit: true
+      best_fit_kind: linear
+
+    - src: anscombe
+      dest: anscombe-4
+      xcol: x4
+      ycol: y4
+      title: "Anscombe IV"
+      type: 'scatterplot'
+      show_best_fit: true
+      best_fit_kind: linear
+
+  # --- Histograms ---------------------------------------------------------
+  HG_default:
+    - src: lognormal
+      dest: lognormal-dist
+      cols:
+        - samples
+      title: 'Log-normal distribution'
+      xlabel: 'Value'
+      ylabel: 'Count'
+      type: 'histogram'
+
+    - src: bimodal
+      dest: bimodal-dist
+      cols:
+        - samples
+      title: 'Bimodal distribution'
+      xlabel: 'Value'
+      ylabel: 'Count'
+      type: 'histogram'
+
+    # Beta family: one facet per shape (U, bell, J, uniform).
+    - src: beta-family
+      dest: beta-shapes
+      cols:
+        - u_shaped
+        - bell
+        - j_shaped
+        - uniform
+      title: 'Beta distribution shapes'
+      legend:
+        - 'U-shaped (0.5, 0.5)'
+        - 'Bell (5, 5)'
+        - 'J-shaped (2, 5)'
+        - 'Uniform (1, 1)'
+      xlabel: 'Value'
+      ylabel: 'Count'
+      type: 'histogram'
+
+# ===========================================================================
+# INTER-EXPERIMENT graphs (across the batch)
+# ===========================================================================
+inter-exp:
+  # --- Univariate summaries: one datapoint per experiment -----------------
+  LN_default:
+    - src: signal-trace
+      dest: signal-summary
+      cols:
+        - measured
+      title: 'Signal summary across batch'
+      xlabel: 'Experiment'
+      type: 'stacked_line'
+
+    - src: sensors/primary/signal-trace
+      dest: sensor-primary-summary
+      cols:
+        - measured
+      title: 'Primary sensor summary'
+      xlabel: 'Experiment'
+      type: 'stacked_line'
+
+    - src: sensors/backup/signal-trace
+      dest: sensor-backup-summary
+      col: drift
+      title: 'Backup sensor summary'
+      xlabel: 'Experiment'
+      ylabel: 'Amplitude'
+      type: 'summary_line'
+
+  SP_default:
+    # Inter-exp scatter (long-form: one series per experiment).
+    - src: sensors/backup/signal-trace
+      dest: signal-scatter-summary
+      xcol: reference
+      ycol: measured
+      title: 'Reference vs measured (per experiment)'
+      type: 'scatterplot'
+      show_best_fit: true
+      best_fit_kind: linear
+
+  # --- Bivariate surfaces: heatmap over the 2D criteria grid --------------
+  HM_bivar:
+    - src: signal-trace
+      dest: signal-surface
+      title: 'Signal surface (2D criteria)'
+      xlabel: 'Criterion 1'
+      ylabel: 'Criterion 2'
+      type: 'heatmap'
+      z: 'measured'
+
+    - src: sensors/primary/signal-trace
+      dest: sensor-primary-surface
+      title: 'Primary sensor surface'
+      xlabel: 'Criterion 1'
+      ylabel: 'Criterion 2'
+      type: 'heatmap'
+      z: 'measured'
+
+    - src: sensors/backup/signal-trace
+      dest: sensor-backup-surface
+      title: 'Backup sensor surface'
+      xlabel: 'Criterion 1'
+      ylabel: 'Criterion 2'
+      type: 'heatmap'
+      z: 'drift'
+
+# ===========================================================================
+# STAGE-5 COMPARISONS (inter-controller / inter-scenario)
+# ===========================================================================
+# These generate cc-*/sc-* collated CSVs and comparison graphs. 'src' names an
+# inter-exp graph dest (above); the comparison collates that measure across the
+# things being compared (the signal.* controllers for cc, the
+# cleanroom/fieldtest scenarios for sc).
+
+inter-controller:
+  # Primary signal measure, collated across controllers.
+  - src: signal-summary
+    dest: cc-signal-summary
+    type: 'comparison_line'
+    title: 'Signal summary (kalman vs lowpass)'
+    label: 'Filter comparison'
+    include_exp: '0:'
+    legend: ["Kalman Filter", "Low-Pass Filter"]
+
+inter-scenario:
+  # Primary signal measure, collated across scenarios.
+  - src: signal-summary
+    dest: sc-signal-summary
+    type: 'comparison_line'
+    title: 'Signal summary (cleanroom vs fieldtest)'
+    label: 'Environment comparison'
+    include_exp: '0:'
+    legend: ["Cleanroom", "Field-Test"]

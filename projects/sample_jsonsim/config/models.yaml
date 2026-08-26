@@ -1,13 +1,18 @@
+# Model configuration. Models generate predicted curves that get overlaid on the
+# corresponding line graphs (intra: stacked_line; inter: summary_line). The
+# 'targets' name the graph outputs a model attaches to; the plugin names
+# (noise.*) are code references, unchanged.
+
 intra-exp:
   - name: noise.NoisyModel
     targets:
-      - output1D
+      - signal-trace
     legend:
       - A very noisy model
 
 inter-exp:
   - name: noise.LessNoisyModel
     targets:
-      - random-noise3-col2
+      - signal-summary
     legend:
       - A less noisy model
