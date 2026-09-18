@@ -71,6 +71,22 @@ intra-exp:
       logy: true
       type: 'stacked_line'
 
+  # t-SNE
+  TSNE_default:
+    - src: alg-behavior
+      dest: alg-behavior
+      vcols:
+        - throughput
+        - latency
+        - energy
+        - path_eff
+        - collisions
+        - coverage
+        - convergence
+        - load_balance
+      labelcol: controller
+      type: tsne
+
   # Confusion matrix (categorical showcase).
   CM_default:
     - src: classification
@@ -83,7 +99,7 @@ intra-exp:
 
   # Histograms of the measured channel, in all three kinds.
   HG_default:
-    - src: signal-trace
+    - src: sensors/primary/signal-trace
       dest: signal-hist-overlay
       cols:
         - measured
@@ -101,7 +117,7 @@ intra-exp:
       type: 'histogram'
       kind: steps
 
-    - src: signal-trace
+    - src: sensors/primary/signal-trace
       dest: signal-hist-facet
       cols:
         - measured

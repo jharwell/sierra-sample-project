@@ -16,6 +16,7 @@ default:
         - HM_default
         - CM_default
         - HG_default
+        - TSNE_default
 
     - name: default2
       # This key has a list of keys in the intra/inter experiment graph YAML
@@ -25,3 +26,4 @@ default:
         - HM_default
         - CM_default
         - HM_bivar
+        - TSNE_default

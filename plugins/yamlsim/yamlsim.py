@@ -40,8 +40,8 @@ def _run_seed(config: dict) -> int:
 def _signal_trace(n, rng):
     clock = np.arange(n)
     t = clock / max(n - 1, 1) * 2.0 * np.pi
-    reference = np.sin(t)                                      # deterministic
-    baseline = np.cos(t)                                      # deterministic
+    reference = np.sin(t)  # deterministic
+    baseline = np.cos(t)  # deterministic
     measured = reference + rng.normal(0.0, 0.25, size=n)
     drift = reference + np.linspace(0.0, 0.8, n) + rng.normal(0.0, 0.10, size=n)
     raw = reference + rng.standard_t(df=3, size=n) * 0.20
@@ -99,6 +99,52 @@ def _networks(seed, count=5):
     return graphs
 
 
+def _tsne(rng, n_per_class=40):
+    """High-dimensional points with latent cluster structure, for the t-SNE
+    (SP-) graph. Several well-separated classes live in an 8-D feature space;
+    each class is a gaussian blob around a distinct centroid with a little
+    overlap, so the embedding recovers clean-but-not-trivial clusters (the
+    classic t-SNE showcase). Seeded per run, so runs differ while the set is
+    reproducible."""
+    cols = [
+        "throughput",
+        "latency",
+        "energy",
+        "path_eff",
+        "collisions",
+        "coverage",
+        "convergence",
+        "load_balance",
+    ]
+    # one centroid per class in the 8-D feature space
+    centroids = {
+        "greedy": [85, 120, 4.2, 0.55, 8.5, 72, 40, 0.45],
+        "stigmergy": [62, 210, 2.1, 0.82, 1.2, 91, 130, 0.88],
+        "flocking": [74, 160, 3.0, 0.71, 3.4, 85, 75, 0.79],
+        "auction": [90, 95, 5.6, 0.63, 6.1, 78, 55, 0.61],
+        "random": [30, 340, 6.8, 0.31, 9.9, 48, 200, 0.22],
+    }
+    spread = np.array([9, 28, 0.7, 0.06, 1.3, 6, 22, 0.08])
+
+    frames = []
+    for label, mu in centroids.items():
+        pts = rng.normal(
+            np.asarray(mu, dtype=float), spread, size=(n_per_class, len(cols))
+        )
+        pts[:, 3] = np.clip(pts[:, 3], 0.0, 1.0)  # path_eff
+        pts[:, 5] = np.clip(pts[:, 5], 0.0, 100.0)  # coverage
+        pts[:, 7] = np.clip(pts[:, 7], 0.0, 1.0)  # load_balance
+        pts = np.maximum(pts, 0.0)
+        sub = pd.DataFrame(pts, columns=cols)
+        sub["controller"] = label
+        frames.append(sub)
+
+    df = pd.concat(frames, ignore_index=True)
+    df = df.round(3)
+    df["Index"] = range(len(df))
+    return df.set_index("Index")
+
+
 def main():
     parser = argparse.ArgumentParser(
         description="Example YAML-driven simulator which generates showcase data."
@@ -122,6 +168,7 @@ def main():
     trace.to_csv(nested / "signal-trace.csv", index=False)
 
     _classification(rng).to_csv(root / "classification.csv")
+    _tsne(rng).to_csv(root / "alg-behavior.csv")
 
     # Directory of graphs for the imagize network plots.
     netdir = root / "networks"
